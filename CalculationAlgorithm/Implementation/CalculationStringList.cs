@@ -21,6 +21,7 @@ namespace CalculationAlgorithm
 
             for (var i = 0; i < inputStringWithoutBlanks.Length; i++)
             {
+                var operatorDto = GetOperatorInfo(_operatorList, inputStringWithoutBlanks, index: i);
                 var currentChar = inputStringWithoutBlanks[i];
                 var currentString = $"{currentChar}";
 
@@ -33,10 +34,7 @@ namespace CalculationAlgorithm
                         inputStringList.Add(numberString);
                     }
                 }
-
-                var operatorDto = GetOperatorInfo(_operatorList, inputStringWithoutBlanks, index: i);
-
-                if (operatorDto.IsOperator)
+                else if (operatorDto.IsOperator)
                 {
                     if (numberString.Length > 0)
                     {
@@ -46,17 +44,8 @@ namespace CalculationAlgorithm
                     inputStringList.Add(operatorDto.OperatorString);
                     i += operatorDto.OperatorString.Length - 1;
                 }
-                else if(IsBracket(currentChar))
-                {
-                    if (numberString.Length > 0)
-                    {
-                        inputStringList.Add(numberString);
-                        numberString = "";
-                    }
-
-                    inputStringList.Add(currentString);
-                }
-                else if(IsComma(currentChar))
+                else if(IsBracket(currentChar) ||
+                        IsComma(currentChar))
                 {
                     if (numberString.Length > 0)
                     {
