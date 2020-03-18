@@ -56,7 +56,7 @@ namespace CalculationAlgorithm
             }
         }
 
-        public static void AddNewBranchWithCurrentOperatorAtCorrectPosition(
+        internal static void AddNewBranchWithCurrentOperatorAtCorrectPosition(
             string currentCalcString,
             ICalcTreeElementFactory calcTreeElementFactory,
             RuleSet ruleSet,
@@ -119,21 +119,15 @@ namespace CalculationAlgorithm
             calcTreeElementCurrent = calcTreeBranch;
         }
 
-        internal static void NavigateToBranchWithOpenBracket(
-            ref ICalcTreeElement calcTreeElementCurrent,
-            bool resetOpenBracketFlag)
+        internal static void NavigateUpToNextBranchWithBrackets(
+            ref ICalcTreeElement calcTreeElementCurrent)
         {
             do
             {
                 calcTreeElementCurrent = calcTreeElementCurrent.GetParent();
             }
-            while (!calcTreeElementCurrent.GetBranchAccess().IsOpenBracket() &&
+            while (!calcTreeElementCurrent.GetBranchAccess().HasBrackets() &&
                            (calcTreeElementCurrent.GetParent() != null));
-
-            if(resetOpenBracketFlag)
-            {
-                calcTreeElementCurrent.GetBranchAccess().SetOpenBracket(isOpenBracket: true);
-            }
         }
 
         private static void AddBranchBetweenCurrentPositionAndItsParentWithOperatorString(
@@ -147,6 +141,7 @@ namespace CalculationAlgorithm
 
             var calcTreeBranch = calcTreeElementFactory.CreateCalcTreeBranch(
                 parent: parent, operatorString: currentOperatorString, ruleSet: ruleSet);
+
             calcTreeBranch.AddElement(calcTreeElementCurrent);
 
             calcTreeElementCurrent.SetParent(calcTreeBranch);

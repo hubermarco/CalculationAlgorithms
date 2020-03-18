@@ -12,8 +12,6 @@
 
         string GetOperator();
 
-        bool IsOpenBracket();
-
-        void SetOpenBracket(bool isOpenBracket);
+        bool HasBrackets();
     }
 }

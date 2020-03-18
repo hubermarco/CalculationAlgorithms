@@ -77,18 +77,11 @@ namespace CalculationAlgorithm
                        ref calcTreeElementCurrentPosition);
                 }
 
-                else if(InputStringHelper.IsCloseBracket(currentCalcString))
+                else if(InputStringHelper.IsCloseBracket(currentCalcString) ||
+                        InputStringHelper.IsComma(currentCalcString))
                 {
-                    CalcTreeHelper.NavigateToBranchWithOpenBracket(
-                        ref calcTreeElementCurrentPosition,
-                        resetOpenBracketFlag:true);
-                }
-
-                else if (InputStringHelper.IsComma(currentCalcString))
-                {
-                    CalcTreeHelper.NavigateToBranchWithOpenBracket(
-                       ref calcTreeElementCurrentPosition,
-                       resetOpenBracketFlag: false);
+                    CalcTreeHelper.NavigateUpToNextBranchWithBrackets(
+                        ref calcTreeElementCurrentPosition);
                 }
             }
 

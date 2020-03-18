@@ -7,7 +7,7 @@ namespace CalculationAlgorithm
     {
         private ICalcTreeBranch _parent;
         private readonly RuleSet _ruleSet;
-        private bool _isOpenBracket;
+        private bool _hasBrackets;
         private readonly IList<ICalcTreeElement> _calcTreeElements;
         private string _operatorString;
 
@@ -16,7 +16,7 @@ namespace CalculationAlgorithm
             _parent = parent;
             _operatorString = operatorString;
             _ruleSet = ruleSet;
-            this._isOpenBracket = isOpenBracket;
+            _hasBrackets = isOpenBracket;
             _calcTreeElements = new List<ICalcTreeElement>();
         }
 
@@ -98,19 +98,14 @@ namespace CalculationAlgorithm
             return lastChild;
         }
 
-        public bool IsOpenBracket()
+        public bool HasBrackets()
         {
-            return _isOpenBracket;
-        }
-
-        public void SetOpenBracket(bool isOpenBracket)
-        {
-            _isOpenBracket = isOpenBracket;
+            return _hasBrackets;
         }
 
         public void SetValue(double value)
         {
-
+            throw new System.Exception("CalcTreeBranch.SetValue() not allowed");
         }
     }
 }
