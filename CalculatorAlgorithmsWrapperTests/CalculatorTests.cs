@@ -56,5 +56,29 @@ namespace CalculatorAlgorithmsWrapperTests
 
             Assert.AreEqual(0, result);
         }
+
+        [Test]
+        public void When_double_2_fix_is_called_with_nested_fix_2_double_then_input_value_is_returned()
+        {
+            var result = _calculator.Calculate("Double2Fix(Fix2Double(27,5,2),5,2)");
+
+            Assert.AreEqual(27, result);
+        }
+
+        [Test]
+        public void When_fix_2_double_is_called_with_nested_doulbe_2_fix_then_input_value_is_returned()
+        {
+            var result = _calculator.Calculate("Fix2Double(Double2Fix(-1.25,5,2),5,2)");
+
+            Assert.AreEqual(-1.25, result);
+        }
+
+        [Test]
+        public void When_double_2_fix_is_called_then_correct_value_is_returned()
+        {
+            var result = _calculator.Calculate("Double2Fix(-1.25,5,2)");
+
+            Assert.AreEqual(27, result);
+        }
     }
 }

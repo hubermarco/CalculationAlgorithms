@@ -15,21 +15,21 @@ namespace CalculationAlgorithm
         {
             var inputStringList = new List<string>();
 
-            var inputStringWithoutBlanks = inputString.Replace(" ", "");
+            var preparedInputString = PrepareInputString(inputString);
 
             var numberString = "";
 
-            for (var i = 0; i < inputStringWithoutBlanks.Length; i++)
+            for (var i = 0; i < preparedInputString.Length; i++)
             {
-                var operatorDto = GetOperatorInfo(_operatorList, inputStringWithoutBlanks, index: i);
-                var currentChar = inputStringWithoutBlanks[i];
+                var operatorDto = GetOperatorInfo(_operatorList, preparedInputString, index: i);
+                var currentChar = preparedInputString[i];
                 var currentString = $"{currentChar}";
 
                 if (IsNumber(currentChar))
                 {
                     numberString += currentString;
 
-                    if (i == inputStringWithoutBlanks.Length - 1)
+                    if (i == preparedInputString.Length - 1)
                     {
                         inputStringList.Add(numberString);
                     }
@@ -57,6 +57,20 @@ namespace CalculationAlgorithm
                 }
             }
             return inputStringList;
+        }
+
+        private string PrepareInputString(string inputString)
+        {
+            var inputStringWithoutBlanks = inputString.Replace(" ", "");
+      
+            if (inputStringWithoutBlanks[0] == '-')
+            {
+                inputStringWithoutBlanks = inputStringWithoutBlanks.Insert(0, "0");
+            }
+
+            var inputStringWithoutLeadingMinus = inputStringWithoutBlanks.Replace("(-", "(0-");
+
+            return inputStringWithoutLeadingMinus;
         }
 
         private static bool IsNumber(char currentChar)

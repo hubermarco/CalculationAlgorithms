@@ -43,5 +43,48 @@ namespace CalculatorAlgorithmsWrapper
 
             return valVz * shiftVal1 + fixDec * shiftVal2;
         }
+
+        internal static uint Double2Fix(double value, int nBits, int nFrac)
+        {
+            ulong registerValue = 0;
+
+            var absValue = Math.Abs(value);
+
+            for (var i = 0; i < nBits; i++)
+            {
+                var divisor = Math.Pow(2.0, nBits-i-nFrac-1);
+                var result = (int)(absValue / divisor);
+
+                if (result == 1)
+                {
+                    var mask = (ulong)(1 << nBits-i-1);
+                    registerValue |= mask;
+                    absValue -= divisor;
+                }
+            }
+
+            if(value < 0)
+            {
+                // invert bits (2 complement)
+                for (var i = 0; i < nBits; i++)
+                {
+                    var mask = (ulong)(1 << i);
+
+                    if( (registerValue & mask) == 0)
+                    {
+                        registerValue += (ulong)Math.Pow(2,i);
+                    }
+                    else
+                    {
+                        registerValue -= (ulong)Math.Pow(2, i);
+                    }
+                }
+
+                registerValue += 1;
+            }
+            
+
+            return (uint)registerValue;
+        }
     }
 }

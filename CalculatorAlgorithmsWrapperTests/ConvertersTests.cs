@@ -20,5 +20,19 @@ namespace CalculatorAlgorithmsWrapperTests
             var result = Converters.Fix2Double(27, 6, 0);
             Assert.AreEqual(27, result);
         }
+
+        [Test]
+        public void When_double_2_fix_was_called_then_corresponding_result_is_returned()
+        {
+            var result = Converters.Double2Fix(27, 6, 0);
+            Assert.AreEqual(27, result);
+        }
+
+        [Test]
+        public void When_double_2_fix_was_called_then_corresponding_result_is_returned_2()
+        {
+            var result = Converters.Double2Fix(-1.25, 5, 2);
+            Assert.AreEqual(27, result);
+        }
     }
 }
