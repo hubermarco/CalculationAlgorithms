@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="CalculationStringWrapperTests.cs" />
     <Compile Include="CalculatorTests.cs" />
+    <Compile Include="ConvertersTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
