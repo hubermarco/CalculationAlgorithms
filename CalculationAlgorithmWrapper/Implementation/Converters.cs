@@ -107,7 +107,8 @@ namespace CalculatorAlgorithmsWrapper
         internal static uint Bool2Fix(uint boolValue)
         {
             uint fixValue = 0;
-            var nBits = GetNumberOfBits(boolValue);
+            var stringValue = boolValue.ToString();
+            var nBits = stringValue.Length;
 
             for (var i = nBits - 1; i >= 0; i--)
             {
@@ -133,23 +134,13 @@ namespace CalculatorAlgorithmsWrapper
             return boolValue;
         }
 
-        internal static double Bool2Double(uint boolValue, int nFrac)
+        internal static double Bool2Double(uint boolValue, int nBits, int nFrac)
         {
-            var nBits = GetNumberOfBits(boolValue);
-
             var fixValue = Bool2Fix(boolValue);
 
             var doubleValue = Fix2Double(fixValue, nBits, nFrac);
 
             return doubleValue;
-        }
-
-        private static int GetNumberOfBits(uint boolValue)
-        {
-            var stringValue = boolValue.ToString();
-            var nBits = stringValue.Length;
-
-            return nBits;
         }
     }
 }

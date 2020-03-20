@@ -103,9 +103,6 @@ namespace CalculatorAlgorithmsWrapperTests
             inputString = _calculationStringWrapper.SetKey("+");
             Assert.AreEqual("", inputString);
 
-            inputString = _calculationStringWrapper.SetKey("-");
-            Assert.AreEqual("", inputString);
-
             inputString = _calculationStringWrapper.SetKey("(");
             Assert.AreEqual("(", inputString);
         }

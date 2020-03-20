@@ -66,14 +66,14 @@ namespace CalculatorAlgorithmsWrapperTests
         [Test]
         public void When_bool_2_double_was_called_then_corresponding_result_is_returned()
         {
-            var result = Converters.Bool2Double(111, 0);
+            var result = Converters.Bool2Double(111, 4, 0);
             Assert.AreEqual(7, result);
         }
 
         [Test]
         public void When_bool_2_double_was_called_then_corresponding_result_is_returned_2()
         {
-            var result = Converters.Bool2Double(1111, 1);
+            var result = Converters.Bool2Double(1111, 4, 1);
             Assert.AreEqual(-0.5, result);
         }
     }
