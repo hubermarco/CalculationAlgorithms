@@ -83,8 +83,73 @@ namespace CalculatorAlgorithmsWrapper
                 registerValue += 1;
             }
             
-
             return (uint)registerValue;
+        }
+
+        internal static uint Fix2Bool(uint registerValue, int nBits)
+        {
+            uint boolValue = 0;
+
+            // invert bits (2 complement)
+            for (var i = 0; i < nBits; i++)
+            {
+                var mask = (ulong)(1 << i);
+
+                if ((registerValue & mask) > 0)
+                {
+                    boolValue += (uint)Math.Pow(10, i);
+                }
+            }
+
+            return boolValue;
+        }
+
+        internal static uint Bool2Fix(uint boolValue)
+        {
+            uint fixValue = 0;
+            var nBits = GetNumberOfBits(boolValue);
+
+            for (var i = nBits - 1; i >= 0; i--)
+            {
+                var divisor = Math.Pow(10.0, i);
+                var result = (int)(boolValue / divisor);
+
+                if (result == 1)
+                {
+                    fixValue += (uint)Math.Pow(2, i);
+                    boolValue -= (uint)divisor;
+                }
+            }
+
+            return fixValue;
+        }
+
+        internal static uint Double2Bool(double value, int nBits, int nFrac)
+        {
+            var registerValue = Double2Fix(value, nBits, nFrac);
+
+            var boolValue = Fix2Bool(registerValue, nBits);
+
+            return boolValue;
+        }
+
+        internal static double Bool2Double(uint boolValue, int nFrac)
+        {
+            var nBits = GetNumberOfBits(boolValue);
+
+            var fixValue = Bool2Fix(boolValue);
+
+            var doubleValue = Fix2Double(fixValue, nBits, nFrac);
+
+            return doubleValue;
+        }
+
+        private static int GetNumberOfBits(uint boolValue)
+        {
+            var stringValue = boolValue.ToString();
+            var nBits = stringValue.Length;
+
+            return nBits;
         }
     }
 }

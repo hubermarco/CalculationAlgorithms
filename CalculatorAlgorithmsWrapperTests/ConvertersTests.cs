@@ -34,5 +34,47 @@ namespace CalculatorAlgorithmsWrapperTests
             var result = Converters.Double2Fix(-1.25, 5, 2);
             Assert.AreEqual(27, result);
         }
+
+        [Test]
+        public void When_double_2_bool_was_called_then_corresponding_result_is_returned()
+        {
+            var result = Converters.Double2Bool(3, 5, 0);
+            Assert.AreEqual(11, result);
+        }
+
+        [Test]
+        public void When_double_2_bool_was_called_then_corresponding_result_is_returned_2()
+        {
+            var result = Converters.Double2Bool(7, 5, 0);
+            Assert.AreEqual(111, result);
+        }
+
+        [Test]
+        public void When_double_2_bool_was_called_then_corresponding_result_is_returned_3()
+        {
+            var result = Converters.Double2Bool(-1, 6, 0);
+            Assert.AreEqual(111111, result);
+        }
+
+        [Test]
+        public void When_bool_2_fix_was_called_then_corresponding_result_is_returned()
+        {
+            var result = Converters.Bool2Fix(111);
+            Assert.AreEqual(7, result);
+        }
+
+        [Test]
+        public void When_bool_2_double_was_called_then_corresponding_result_is_returned()
+        {
+            var result = Converters.Bool2Double(111, 0);
+            Assert.AreEqual(7, result);
+        }
+
+        [Test]
+        public void When_bool_2_double_was_called_then_corresponding_result_is_returned_2()
+        {
+            var result = Converters.Bool2Double(1111, 1);
+            Assert.AreEqual(-0.5, result);
+        }
     }
 }
