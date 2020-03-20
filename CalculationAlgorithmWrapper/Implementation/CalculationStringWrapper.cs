@@ -187,7 +187,7 @@ namespace CalculatorAlgorithmsWrapper
         {
             var notAllowedCharField = new List<IList<string>>();
 
-            var charList1 = new List<string> {"+", "-", "*", "/", ".", ")", "^"};
+            var charList1 = new List<string> {"+", "*", "/", ".", ")", "^"};
             notAllowedCharField.Add(charList1);
 
             var charList2 = new List<string> {"("};
@@ -201,7 +201,7 @@ namespace CalculatorAlgorithmsWrapper
 
         private static IEnumerable<string> CreateNotAllowedCharListForFirstKey()
         {
-            var charList1 = new List<string> {"+", "-", "*", "/", ".", ")", "^"};
+            var charList1 = new List<string> {"+", "*", "/", ".", ")", "^"};
 
             return charList1;
         }

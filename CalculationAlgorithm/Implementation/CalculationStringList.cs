@@ -63,14 +63,18 @@ namespace CalculationAlgorithm
         {
             var inputStringWithoutBlanks = inputString.Replace(" ", "");
       
-            if (inputStringWithoutBlanks[0] == '-')
+            if ((inputStringWithoutBlanks.Length > 0) && (inputStringWithoutBlanks[0] == '-'))
             {
                 inputStringWithoutBlanks = inputStringWithoutBlanks.Insert(0, "0");
             }
 
-            var inputStringWithoutLeadingMinus = inputStringWithoutBlanks.Replace("(-", "(0-");
+            if( inputStringWithoutBlanks != "0")
+            {
+                inputStringWithoutBlanks = inputStringWithoutBlanks.Replace("(-", "(0-");
+            }
+            
 
-            return inputStringWithoutLeadingMinus;
+            return inputStringWithoutBlanks;
         }
 
         private static bool IsNumber(char currentChar)
