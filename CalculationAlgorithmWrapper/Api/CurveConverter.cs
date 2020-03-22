@@ -9,7 +9,16 @@ namespace CalculationAlgorithmWrapper
             ref string matlabCurveString,
             ref string cSharpCurveString)
         {
-            var outputString = "curve = [";
+            var outputStringMatlab = ConvertDebuggerStringToMatlabCurveString(debuggerString);
+            var outputStringCsharp = ConvertMatlabCurveStringToCSharpCurveString(outputStringMatlab);
+
+            matlabCurveString = outputStringMatlab;
+            cSharpCurveString = outputStringCsharp;
+        }
+
+        private static string ConvertDebuggerStringToMatlabCurveString(string debuggerString)
+        {
+            var outputStringMatlab = "curve = [";
 
             var debuggerLines = debuggerString.Split('\n');
 
@@ -24,14 +33,27 @@ namespace CalculationAlgorithmWrapper
 
                 if (double.TryParse(number, out num))
                 {
-                    outputString += number + " ";
+                    outputStringMatlab += number + " ";
                 }
             }
 
-            outputString += "];";
+            // remove last blank
+            if(outputStringMatlab[outputStringMatlab.Length - 1] == ' ')
+            {
+                outputStringMatlab = outputStringMatlab.Remove(outputStringMatlab.Length - 1);
+            }
+            
+            outputStringMatlab += "];";
 
-            matlabCurveString = outputString;
-            cSharpCurveString = outputString;
+            return outputStringMatlab;
+        }
+
+        private static string ConvertMatlabCurveStringToCSharpCurveString(string matlabCurveString)
+        {
+            var outputStringCsharp = matlabCurveString.Replace(" ", ", ").Replace("curve,", "var curve").Replace("=,", "=")
+                .Replace("[", "new List<double> {").Replace("]", "}").Replace(", }", "}");
+
+            return outputStringCsharp;
         }
     }
 }
