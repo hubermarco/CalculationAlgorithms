@@ -5,16 +5,19 @@ namespace CalculationAlgorithmWrapper
 {
     public class CurveConverter
     {
-         public static void ConvertDebuggerString(
+         public static int ConvertDebuggerString(
             string debuggerString, 
             ref string matlabCurveString,
             ref string cSharpCurveString)
         {
-            var outputStringMatlab = ConvertDebuggerStringToMatlabCurveString(debuggerString);
+            var outputStringMatlab = string.Empty;
+            var valueCount = ConvertDebuggerStringToMatlabCurveString(debuggerString, ref outputStringMatlab);
             var outputStringCsharp = ConvertMatlabCurveStringToCSharpCurveString(outputStringMatlab);
 
             matlabCurveString = outputStringMatlab;
             cSharpCurveString = outputStringCsharp;
+
+            return valueCount;
         }
 
         public static string GetFrequencyCurveString()
@@ -25,9 +28,12 @@ namespace CalculationAlgorithmWrapper
             return freqs;
         }
 
-        private static string ConvertDebuggerStringToMatlabCurveString(string debuggerString)
+        private static int ConvertDebuggerStringToMatlabCurveString(
+            string debuggerString, 
+            ref string outputStringMatlab)
         {
-            var outputStringMatlab = "curve = [";
+            var valueCount = 0;
+            outputStringMatlab = "curve = [";
 
             var debuggerLines = debuggerString.Split('\n');
 
@@ -58,6 +64,7 @@ namespace CalculationAlgorithmWrapper
                 if (double.TryParse(numberSubString, out _))
                 {
                     outputStringMatlab += numberSubString + " ";
+                    valueCount++;
                 }
             }
 
@@ -69,7 +76,7 @@ namespace CalculationAlgorithmWrapper
             
             outputStringMatlab += "];";
 
-            return outputStringMatlab;
+            return valueCount;
         }
 
         private static string ConvertMatlabCurveStringToCSharpCurveString(string matlabCurveString)
