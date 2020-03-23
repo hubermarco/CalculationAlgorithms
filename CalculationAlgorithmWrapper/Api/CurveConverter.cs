@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace CalculationAlgorithmWrapper
 {
@@ -33,21 +34,35 @@ namespace CalculationAlgorithmWrapper
             var debuggerLinesFiltered = debuggerLines.
                 Where(x => (x != "\r") && (x != "") && (x != "\t\t\r")).ToArray();
 
-            foreach (var debuggerLine in debuggerLinesFiltered)
+            foreach (var fileLine in debuggerLinesFiltered)
             {
-                var columns = debuggerLine.Split('\t');
+                var columns = fileLine.Split('\t');
 
-                var number = (columns.Length >= 3) ? columns[3] : "";
-                var num = 0.0;
+                var numberString = columns[3];
+                string numberSubString;
 
-                if (double.TryParse(number, out num))
+                var index = numberString.IndexOf("Y", StringComparison.Ordinal);
+
+                if (index >= 0)
                 {
-                    outputStringMatlab += number + " ";
+                    var startIndex = index + 2;
+                    var length = numberString.Length - startIndex - 1;
+
+                    numberSubString = numberString.Substring(startIndex, length);
+                }
+                else
+                {
+                    numberSubString = numberString;
+                }
+
+                if (double.TryParse(numberSubString, out _))
+                {
+                    outputStringMatlab += numberSubString + " ";
                 }
             }
 
             // remove last blank
-            if(outputStringMatlab[outputStringMatlab.Length - 1] == ' ')
+            if (outputStringMatlab[outputStringMatlab.Length - 1] == ' ')
             {
                 outputStringMatlab = outputStringMatlab.Remove(outputStringMatlab.Length - 1);
             }
