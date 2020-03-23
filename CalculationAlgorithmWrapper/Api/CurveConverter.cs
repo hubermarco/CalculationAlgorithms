@@ -38,7 +38,7 @@ namespace CalculationAlgorithmWrapper
             {
                 var columns = fileLine.Split('\t');
 
-                var numberString = (columns.Length >= 3) ? columns[3] : string.Empty;
+                var numberString = (columns.Length >= 4) ? columns[3] : string.Empty;
                 string numberSubString;
 
                 var index = numberString.IndexOf("Y", StringComparison.Ordinal);
