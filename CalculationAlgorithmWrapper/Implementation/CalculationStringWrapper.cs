@@ -61,7 +61,7 @@ namespace CalculatorAlgorithmsWrapper
 
         public bool IsCalculationValid(string calculationString)
         {
-            var isStringValid = true;
+            var isStringValid = _calculationStringList.Create(calculationString).Count > 0;
 
             for (var i = 0; i < calculationString.Length - 1; i++)
             {
