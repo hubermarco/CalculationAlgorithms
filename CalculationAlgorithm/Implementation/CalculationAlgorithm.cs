@@ -22,7 +22,9 @@
 
         public ICalcTreeResult CreateCalcTreeResult(string input)
         {
-            var calculationStringList = _calculationStringList.Create(input);
+            var preparedInput = InputStringHelper.PrepareInputString(input);
+
+            var calculationStringList = _calculationStringList.Create(preparedInput);
 
             var calcTreeResult = _calcTree.Create(calculationStringList);
 

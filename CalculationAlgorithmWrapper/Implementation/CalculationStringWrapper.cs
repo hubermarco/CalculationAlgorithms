@@ -17,13 +17,7 @@ namespace CalculatorAlgorithmsWrapper
 
         public string SetCalculationString(string calculationString)
         {
-            if (calculationString == "0")
-            {
-            }
-            else if (calculationString.Contains("="))
-            {
-            }
-            else
+            if ( (calculationString != "0") && !calculationString.Contains("=") )
             {
                 _calculationString = calculationString;
             }
