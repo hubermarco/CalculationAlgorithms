@@ -53,6 +53,11 @@ namespace CalculationAlgorithm
 
                     inputStringList.Add(currentString);
                 }
+                else // if inputString contains unknown letters then inputStringList is cleared and returned
+                {
+                    inputStringList.Clear();
+                    break;
+                }
             }
             return inputStringList;
         }

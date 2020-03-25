@@ -96,5 +96,13 @@ namespace CalculatorAlgorithmsWrapperTests
 
             Assert.AreEqual(-0.5, result);
         }
+
+        [Test]
+        public void When_calculcate_string_has_unknown_letters_then_0_is_returned()
+        {
+            var result = _calculator.Calculate("5+oo-7");
+
+            Assert.AreEqual(0, result);
+        }
     }
 }
