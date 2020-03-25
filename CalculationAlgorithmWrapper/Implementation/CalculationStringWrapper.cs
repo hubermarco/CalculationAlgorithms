@@ -170,7 +170,7 @@ namespace CalculatorAlgorithmsWrapper
         {
             var lastCharField = new List<IList<string>>();
 
-            var charList1 = new List<string> {"+", "-", "*", "/", ".", "(", "^"};
+            var charList1 = new List<string> {"+", "-", "*", "/", ".", "^"};
 
             lastCharField.Add(charList1);
 
@@ -180,6 +180,9 @@ namespace CalculatorAlgorithmsWrapper
             var charList3 = new List<string> {")"};
             lastCharField.Add(charList3);
 
+            var charList4 = new List<string> { "(" };
+            lastCharField.Add(charList4);
+
             return lastCharField;
         }
 
@@ -187,7 +190,7 @@ namespace CalculatorAlgorithmsWrapper
         {
             var notAllowedCharField = new List<IList<string>>();
 
-            var charList1 = new List<string> {"+", "*", "/", ".", ")", "^"};
+            var charList1 = new List<string> {"+", "-", "*", "/", ".", ")", "^"};
             notAllowedCharField.Add(charList1);
 
             var charList2 = new List<string> {"("};
@@ -195,6 +198,9 @@ namespace CalculatorAlgorithmsWrapper
 
             var charList3 = new List<string> {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "(", "."};
             notAllowedCharField.Add(charList3);
+
+            var charList4 = new List<string> { "+", "*", "/", ".", ")", "^" };
+            notAllowedCharField.Add(charList4);
 
             return notAllowedCharField;
         }
