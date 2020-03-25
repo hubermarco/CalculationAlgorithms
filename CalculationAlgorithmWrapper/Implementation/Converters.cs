@@ -97,7 +97,7 @@ namespace CalculatorAlgorithmsWrapper
 
                 if ((registerValue & mask) > 0)
                 {
-                    boolValue += (uint)Math.Pow(10, i);
+                    boolValue += (ulong)Math.Pow(10, i);
                 }
             }
 
