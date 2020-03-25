@@ -98,6 +98,14 @@ namespace CalculatorAlgorithmsWrapperTests
         }
 
         [Test]
+        public void When_bool_2_double_is_called_for_a_number_with_16_digits_then_correct_value_is_returned()
+        {
+            var result = _calculator.Calculate("Bool2Double(1111 1111 1111 1111, 16, 0)");
+
+            Assert.AreEqual(-1, result);
+        }
+
+        [Test]
         public void When_calculcate_string_has_unknown_letters_then_0_is_returned()
         {
             var result = _calculator.Calculate("5+oo-7");

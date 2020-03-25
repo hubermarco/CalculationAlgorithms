@@ -29,7 +29,7 @@ namespace CalculatorAlgorithmsWrapper
         // Examples:
         // double_1 = fix2double(27, 5, 2) // Treat as signed fix<5,2> -> -1.25
         // double_2 = fix2double(27, 6, 0) // Treat as unsigned integer ufix<5, 0> -> 27
-        internal static double Fix2Double(uint fixpoint, int nBits, int nFrac)
+        internal static double Fix2Double(ulong fixpoint, int nBits, int nFrac)
         {
             var shiftVal1 = -Math.Pow(2.0, nBits - nFrac - 1);
             var shiftVal2 = Math.Pow(2.0, -nFrac);
@@ -44,7 +44,7 @@ namespace CalculatorAlgorithmsWrapper
             return valVz * shiftVal1 + fixDec * shiftVal2;
         }
 
-        internal static uint Double2Fix(double value, int nBits, int nFrac)
+        internal static ulong Double2Fix(double value, int nBits, int nFrac)
         {
             ulong registerValue = 0;
 
@@ -83,12 +83,12 @@ namespace CalculatorAlgorithmsWrapper
                 registerValue += 1;
             }
             
-            return (uint)registerValue;
+            return registerValue;
         }
 
-        internal static uint Fix2Bool(uint registerValue, int nBits)
+        internal static ulong Fix2Bool(ulong registerValue, int nBits)
         {
-            uint boolValue = 0;
+            ulong boolValue = 0;
 
             // invert bits (2 complement)
             for (var i = 0; i < nBits; i++)
@@ -104,9 +104,9 @@ namespace CalculatorAlgorithmsWrapper
             return boolValue;
         }
 
-        internal static uint Bool2Fix(uint boolValue)
+        internal static ulong Bool2Fix(ulong boolValue)
         {
-            uint fixValue = 0;
+            ulong fixValue = 0;
             var stringValue = boolValue.ToString();
             var nBits = stringValue.Length;
 
@@ -117,15 +117,15 @@ namespace CalculatorAlgorithmsWrapper
 
                 if (result == 1)
                 {
-                    fixValue += (uint)Math.Pow(2, i);
-                    boolValue -= (uint)divisor;
+                    fixValue += (ulong)Math.Pow(2, i);
+                    boolValue -= (ulong)divisor;
                 }
             }
 
             return fixValue;
         }
 
-        internal static uint Double2Bool(double value, int nBits, int nFrac)
+        internal static ulong Double2Bool(double value, int nBits, int nFrac)
         {
             var registerValue = Double2Fix(value, nBits, nFrac);
 
@@ -134,7 +134,7 @@ namespace CalculatorAlgorithmsWrapper
             return boolValue;
         }
 
-        internal static double Bool2Double(uint boolValue, int nBits, int nFrac)
+        internal static double Bool2Double(ulong boolValue, int nBits, int nFrac)
         {
             var fixValue = Bool2Fix(boolValue);
 

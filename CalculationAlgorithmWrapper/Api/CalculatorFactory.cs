@@ -88,7 +88,7 @@ namespace CalculatorAlgorithmsWrapper
             var returnValue = 0.0;
             if (inputList.Count == 3)
             {
-                returnValue = Converters.Bool2Double((uint)inputList[0], (int)inputList[1], (int)inputList[2]);
+                returnValue = Converters.Bool2Double((ulong)inputList[0], (int)inputList[1], (int)inputList[2]);
             }
             return returnValue;
         }
