@@ -24,11 +24,28 @@
         {
             var preparedInput = InputStringHelper.PrepareInputString(input);
 
-            var calculationStringList = _calculationStringList.Create(preparedInput);
+            var preparedInputForLeadingMinus = PrepareStringForLeadingMinus(preparedInput);
+
+            var calculationStringList = _calculationStringList.Create(preparedInputForLeadingMinus);
 
             var calcTreeResult = _calcTree.Create(calculationStringList);
 
             return calcTreeResult;
+        }
+
+        private static string PrepareStringForLeadingMinus(string inputString)
+        {
+            if ((inputString.Length > 0) && (inputString[0] == '-'))
+            {
+                inputString = inputString.Insert(0, "0");
+            }
+
+            if (inputString != "0")
+            {
+                inputString = inputString.Replace("(-", "(0-");
+            }
+
+            return inputString;
         }
     }
 }

@@ -51,11 +51,20 @@ namespace CalculatorAlgorithmsWrapper
 
         public string CalculateAndReturnString(string calculationString)
         {
-            var result = _calculationAlgorithm.Calculate(calculationString);
+            string outputString;
 
-            var resultString = $"{result}";
+            if (_calculationStringWrapper.IsCalculationValid(calculationString) )
+            {
+                var result = _calculationAlgorithm.Calculate(calculationString);
 
-            string outputString = calculationString + "\n= " + resultString;
+                var resultString = $"{result}";
+
+                outputString = calculationString + "\n= " + resultString;
+            }
+            else
+            {
+                outputString = calculationString + "\n" + "INPUT IS NOT VALID";
+            }
 
             _calculationStringWrapper.ClearAll();
 

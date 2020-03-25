@@ -56,17 +56,6 @@ namespace CalculationAlgorithm
         {
             var inputStringWithoutBlanks = inputString.Replace(" ", "").Replace("\n", "").Replace("\r", "");
 
-            if ((inputStringWithoutBlanks.Length > 0) && (inputStringWithoutBlanks[0] == '-'))
-            {
-                inputStringWithoutBlanks = inputStringWithoutBlanks.Insert(0, "0");
-            }
-
-            if (inputStringWithoutBlanks != "0")
-            {
-                inputStringWithoutBlanks = inputStringWithoutBlanks.Replace("(-", "(0-");
-            }
-
-
             return inputStringWithoutBlanks;
         }
     }
