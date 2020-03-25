@@ -17,9 +17,11 @@ namespace CalculatorAlgorithmsWrapper
 
         public string SetCalculationString(string calculationString)
         {
-            if ( (calculationString != "0") && !calculationString.Contains("=") )
+            var calculationStringPrepared = InputStringHelper.PrepareInputString(calculationString);
+
+            if ( (calculationStringPrepared != "0") && !calculationStringPrepared.Contains("=") )
             {
-                _calculationString = calculationString;
+                _calculationString = calculationStringPrepared;
             }
 
             return _calculationString;
