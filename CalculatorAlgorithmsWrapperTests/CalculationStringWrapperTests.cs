@@ -152,5 +152,17 @@ namespace CalculatorAlgorithmsWrapperTests
 
             Assert.AreEqual("3.5+4.", inputString);
         }
+
+        [Test]
+        public void When_input_string_is_valid_then_true_is_returned()
+        {
+            Assert.IsTrue(_calculationStringWrapper.IsCalculationValid("3+4"));
+        }
+
+        [Test]
+        public void When_input_string_is_not_valid_then_false_is_returned()
+        {
+            Assert.IsFalse(_calculationStringWrapper.IsCalculationValid("3--4"));
+        }
     }
 }

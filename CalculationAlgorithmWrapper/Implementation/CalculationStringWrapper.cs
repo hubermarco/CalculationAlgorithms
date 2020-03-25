@@ -29,7 +29,7 @@ namespace CalculatorAlgorithmsWrapper
 
         public string SetKey(string key)
         {
-            if (CanStringBeAppended(key))
+            if (CanStringBeAppended(_calculationString, _calculationStringList, key))
             {
                 _calculationString += key;
             }
@@ -59,15 +59,37 @@ namespace CalculatorAlgorithmsWrapper
             return _calculationString;
         }
 
-        private bool CanStringBeAppended(string key)
+        public bool IsCalculationValid(string calculationString)
+        {
+            var isStringValid = true;
+
+            for (var i = 0; i < calculationString.Length - 1; i++)
+            {
+                var substring = calculationString.Substring(0, i + 1);
+                var key = calculationString[i + 1].ToString();
+                
+                if(!CanStringBeAppended(substring, _calculationStringList, key))
+                {
+                    isStringValid = false;
+                    break;
+                }
+            }
+
+            return isStringValid;
+        }
+
+        private static bool CanStringBeAppended(
+            string calculationString, 
+            ICalculationStringList calculationStringList, 
+            string key)
         {
             var keyChar = key.ElementAt(0);
 
-            var retVal = _calculationString.Length == 0 ? CheckFirstKey(keyChar) : CheckNextKey(keyChar);
+            var retVal = calculationString.Length == 0 ? CheckFirstKey(keyChar) : CheckNextKey(calculationString, keyChar);
 
-            retVal = retVal && CheckIfDotIsAllowed(keyChar);
+            retVal = retVal && CheckIfDotIsAllowed(calculationString, calculationStringList, keyChar);
 
-            retVal = retVal && CheckIfCloseBracketIsAllowed(keyChar);
+            retVal = retVal && CheckIfCloseBracketIsAllowed(calculationString, keyChar);
 
             return retVal;
         }
@@ -92,14 +114,14 @@ namespace CalculatorAlgorithmsWrapper
             return retVal;
         }
 
-        private bool CheckNextKey(char keyChar)
+        private static bool CheckNextKey(string calculationString, char keyChar)
         {
             bool retVal = true;
 
             var lastCharField = CreateLastCharField();
             var notAllowedCharField = CreateNotAllowedCharField();
 
-            var lastChar = _calculationString.ElementAt(_calculationString.Length - 1);
+            var lastChar = calculationString.ElementAt(calculationString.Length - 1);
 
             for (var outerIndex = 0; outerIndex < lastCharField.Count; outerIndex++)
             {
@@ -125,13 +147,16 @@ namespace CalculatorAlgorithmsWrapper
             return retVal;
         }
 
-        private bool CheckIfDotIsAllowed(char keyChar)
+        private static bool CheckIfDotIsAllowed(
+            string calculationString, 
+            ICalculationStringList calculationStringList, 
+            char keyChar)
         {
             bool retVal = true;
 
             if (keyChar == '.')
             {
-                var inputStringList = _calculationStringList.Create(_calculationString);
+                var inputStringList = calculationStringList.Create(calculationString);
                 string lastCalculationString = inputStringList.Last();
 
                 if (InputStringHelper.IsNumeric(lastCalculationString) &&
@@ -144,14 +169,14 @@ namespace CalculatorAlgorithmsWrapper
             return retVal;
         }
 
-        private bool CheckIfCloseBracketIsAllowed(char keyChar)
+        private static bool CheckIfCloseBracketIsAllowed(string calculationString, char keyChar)
         {
             bool retVal = true;
 
             if (keyChar == ')')
             {
-                int numberBracketsOpen = GetNumberOfCharOccurenceInString(_calculationString, '(');
-                int numberBracketsClose = GetNumberOfCharOccurenceInString(_calculationString, ')');
+                int numberBracketsOpen = GetNumberOfCharOccurenceInString(calculationString, '(');
+                int numberBracketsClose = GetNumberOfCharOccurenceInString(calculationString, ')');
 
                 if (numberBracketsClose >= numberBracketsOpen)
                 {
