@@ -22,30 +22,32 @@
 
         public ICalcTreeResult CreateCalcTreeResult(string input)
         {
-            var preparedInput = InputStringHelper.PrepareInputString(input);
+            var preparedInput = PrepareString(input);
 
-            var preparedInputForLeadingMinus = PrepareStringForLeadingMinus(preparedInput);
-
-            var calculationStringList = _calculationStringList.Create(preparedInputForLeadingMinus);
+            var calculationStringList = _calculationStringList.Create(preparedInput);
 
             var calcTreeResult = _calcTree.Create(calculationStringList);
 
             return calcTreeResult;
         }
 
-        private static string PrepareStringForLeadingMinus(string inputString)
+        private static string PrepareString(string inputString)
         {
-            if ((inputString.Length > 0) && (inputString[0] == '-'))
+            var preparedInput = InputStringHelper.PrepareInputString(inputString);
+
+            preparedInput = preparedInput.Replace(" ", "");
+
+            if ((preparedInput.Length > 0) && (preparedInput[0] == '-'))
             {
-                inputString = inputString.Insert(0, "0");
+                preparedInput = preparedInput.Insert(0, "0");
             }
 
-            if (inputString != "0")
+            if (preparedInput != "0")
             {
-                inputString = inputString.Replace("(-", "(0-");
+                preparedInput = preparedInput.Replace("(-", "(0-");
             }
 
-            return inputString;
+            return preparedInput;
         }
     }
 }

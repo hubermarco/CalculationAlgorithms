@@ -54,7 +54,7 @@ namespace CalculationAlgorithm
 
         public static string PrepareInputString(string inputString)
         {
-            var inputStringWithoutBlanks = inputString.Replace(" ", "").Replace("\n", "").Replace("\r", "");
+            var inputStringWithoutBlanks = inputString.Replace("\n", "").Replace("\r", "");
 
             return inputStringWithoutBlanks;
         }
