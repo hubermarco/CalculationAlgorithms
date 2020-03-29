@@ -47,6 +47,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\FSharpSdk\.NETFramework\v4.0\4.4.3.0\FSharp.Core.dll</HintPath>
     </Reference>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\..\Externals\mathnet.numerics.4.9\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="MathNet.Numerics.FSharp">
       <HintPath>..\..\Externals\mathnet.numerics.fsharp.4.9.0\MathNet.Numerics.FSharp.dll</HintPath>
     </Reference>
