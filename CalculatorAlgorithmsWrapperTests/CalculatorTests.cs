@@ -122,11 +122,19 @@ namespace CalculatorAlgorithmsWrapperTests
         }
 
         [Test]
-        public void When_xx_then_yy()
+        public void When_calculate_and_return_string_method_is_called_with_string_function_then_corresponding_result_is_returned()
         {
             var stringResult = _calculator.CalculateAndReturnString("Exp(d((x + 4) ^ 2, x)))");
 
             Assert.AreEqual("Exp(d((x + 4) ^ 2, x)))\n= 8 + 2*x", stringResult);
+        }
+
+        [Test]
+        public void When_calculate_and_return_string_method_is_called_with_arithmetric_function_then_corresponding_result_is_returned()
+        {
+            var stringResult = _calculator.CalculateAndReturnString("log(1000)");
+
+            Assert.AreEqual("log(1000)\n= 3", stringResult);
         }
     }
 }
