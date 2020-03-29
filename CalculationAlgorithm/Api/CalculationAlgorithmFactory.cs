@@ -9,15 +9,18 @@ namespace CalculationAlgorithm
         public static ICalculationAlgorithm Create(RuleSet ruleSet)
         {
             var operatorList = ruleSet.GetOperatorList();
-            var calculationStringList = new CalculationStringList(operatorList);
+            var stringOperatorList = ruleSet.GetStringOperatorList();
+            var calculationStringList = new CalculationStringList(operatorList, stringOperatorList);
             var calcTree = new CalcTree(new CalcTreeElementFactory(), ruleSet);
 
             return new CalculationAlgorithm(calcTree, calculationStringList);
         }
 
-        public static ICalculationStringList CreateCalculationStringList(IList<string> operatorList)
+        public static ICalculationStringList CreateCalculationStringList(
+            IList<string> operatorList,
+            IList<string> stringOperatorList = null)
         {
-            return new CalculationStringList(operatorList);
+            return new CalculationStringList(operatorList, stringOperatorList);
         }
     }
 }

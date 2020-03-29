@@ -8,15 +8,18 @@ namespace CalculationAlgorithm
     {
         public RuleSet(IDictionary<string, Tuple<int, Func<double, double, double>>> arithmetricOperators = null,
                        IDictionary<string, Func<IList<double>, double>> arithmetricFunctions = null,
+                       IDictionary<string, Func<IList<string>, string>> stringFunctions = null,
                        IList<string> variableList = null )
         {
             ArithmetricOperators = arithmetricOperators;
             ArithmetricFunctions = arithmetricFunctions;
+            StringFunctions = stringFunctions;
             VariableList = variableList;
         }
 
         public IDictionary<string, Tuple<int, Func<double, double, double>>> ArithmetricOperators { get; }
         public IDictionary<string, Func<IList<double>, double>> ArithmetricFunctions { get; }
+        public IDictionary<string, Func<IList<string>, string>> StringFunctions { get; }
         public IList<string> VariableList { get; }
 
         public IList<string> GetOperatorList()
@@ -43,6 +46,22 @@ namespace CalculationAlgorithm
 
             return operatorList;
         }
+
+        public IList<string> GetStringOperatorList()
+        {
+            var operatorList = new List<string>();
+
+            if (StringFunctions != null)
+            {
+                operatorList = operatorList.Concat(StringFunctions.Keys).ToList();
+            }
+
+            operatorList.Sort();
+            operatorList.Reverse();
+
+            return operatorList;
+        }
+
 
         public bool IsVariable(string operatorString)
         {

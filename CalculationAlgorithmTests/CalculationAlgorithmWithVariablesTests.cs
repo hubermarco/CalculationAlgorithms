@@ -51,6 +51,7 @@ namespace CalculationAlgorithmTests
             var ruleSet = new RuleSet(
                 arithmetricOperators,
                 arithmetricFunctions,
+                null,
                 variableList);
 
             _calculationAlgorithm = CalculationAlgorithmFactory.Create(ruleSet);

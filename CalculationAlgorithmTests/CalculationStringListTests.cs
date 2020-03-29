@@ -12,7 +12,8 @@ namespace CalculatorTests
         public CalculationStringListTests()
         {
             _calculationStringList = CalculationAlgorithmFactory.CreateCalculationStringList(
-                new List<string>  { "+", "-", "*", "/", "^", "log", "sin", "cos", "x", "y" });
+                operatorList: new List<string>  { "+", "-", "*", "/", "^", "log", "sin", "cos", "x", "y" },
+                stringOperatorList: new List<string> { "Differentiate" });
         }
 
         [Test]
@@ -87,6 +88,41 @@ namespace CalculatorTests
             Assert.AreEqual(")", inputList[8]);
             Assert.AreEqual("^", inputList[9]);
             Assert.AreEqual("2", inputList[10]);
+            Assert.AreEqual(11, inputList.Count);
+        }
+
+        [Test]
+        public void When_create_input_string_list_is_called_with_string_operator_list_then_corresponding_string_list_is_created()
+        {
+            var inputList = _calculationStringList.Create("Differentiate((x+1)^9,x)");
+
+            Assert.AreEqual("Differentiate", inputList[0]);
+            Assert.AreEqual("(", inputList[1]);
+            Assert.AreEqual("(x+1)^9", inputList[2]);
+            Assert.AreEqual(",", inputList[3]);
+            Assert.AreEqual("x", inputList[4]);
+            Assert.AreEqual(")", inputList[5]);
+           
+            Assert.AreEqual(6, inputList.Count);
+        }
+
+        [Test]
+        public void When_create_input_string_list_is_called_with_nested_operators_with_string_operator_list_then_corresponding_string_list_is_created()
+        {
+            var inputList = _calculationStringList.Create("Differentiate(Differentiate((x+1)^9,x),x)");
+
+            Assert.AreEqual("Differentiate", inputList[0]);
+            Assert.AreEqual("(", inputList[1]);
+            Assert.AreEqual("Differentiate", inputList[2]);
+            Assert.AreEqual("(", inputList[3]);
+            Assert.AreEqual("(x+1)^9", inputList[4]);
+            Assert.AreEqual(",", inputList[5]);
+            Assert.AreEqual("x", inputList[6]);
+            Assert.AreEqual(")", inputList[7]);
+            Assert.AreEqual(",", inputList[8]);
+            Assert.AreEqual("x", inputList[9]);
+            Assert.AreEqual(")", inputList[10]);
+
             Assert.AreEqual(11, inputList.Count);
         }
     }
