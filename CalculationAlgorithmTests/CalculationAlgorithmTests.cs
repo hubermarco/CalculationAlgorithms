@@ -2,6 +2,8 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using MathNet.Symbolics;
+using Expr = MathNet.Symbolics.SymbolicExpression;
 
 namespace CalculationAlgorithmTests
 {
@@ -48,7 +50,9 @@ namespace CalculationAlgorithmTests
 
             var stringFunctions = new Dictionary<string, Func<IList<string>, string>>
             {
-                 { "StringTest", inputList => "Hallo " + inputList[0] }
+                 { "StringTest", inputList => "Hallo " + inputList[0] },
+                 { "Differentiate", inputList => Expr.Parse(inputList[0]).Differentiate(Expr.Parse(inputList[1])).ToString() }, 
+                 { "Expand", inputList => Expr.Parse(inputList[0]).Expand().ToString() }
             };
 
 
@@ -571,6 +575,30 @@ namespace CalculationAlgorithmTests
             var stringResult = _calculationAlgorithm.CalculateString("StringTest(StringTest(Marco))");
 
             Assert.AreEqual("Hallo Hallo Marco", stringResult);
+        }
+
+        [Test]
+        public void When_differentiate_is_performed_in_a_nested_way_then_corresponding_result_is_returned()
+        {
+            var stringResult = _calculationAlgorithm.CalculateString("Differentiate(x^2,x)");
+
+            Assert.AreEqual("2*x", stringResult);
+        }
+
+        [Test]
+        public void When_differentiate_is_performed_in_a_nested_way_then_corresponding_result_is_returned_2()
+        {
+            var stringResult = _calculationAlgorithm.CalculateString("Differentiate(1/x,x)");
+
+            Assert.AreEqual("-1/x^2", stringResult);
+        }
+
+        [Test]
+        public void When_differentiate_is_performed_in_a_nested_way_then_corresponding_result_is_returned_3()
+        {
+            var stringResult = _calculationAlgorithm.CalculateString("Expand(Differentiate((x+4)^2,x)))");
+
+            Assert.AreEqual("8 + 2*x", stringResult);
         }
     }
 }
