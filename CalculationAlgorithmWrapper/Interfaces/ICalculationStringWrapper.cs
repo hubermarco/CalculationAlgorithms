@@ -2,6 +2,7 @@ namespace CalculatorAlgorithmsWrapper
 {
     internal interface ICalculationStringWrapper
     {
+        bool IsStringInput(string inputString);
         bool IsCalculationValid(string calculationString);
         string SetCalculationString(string calculationString);
         string SetKey(string key);

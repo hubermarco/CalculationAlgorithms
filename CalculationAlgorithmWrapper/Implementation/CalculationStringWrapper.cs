@@ -15,6 +15,12 @@ namespace CalculatorAlgorithmsWrapper
             _calculationString = "";
         }
 
+        public bool IsStringInput(string inputString)
+        {
+            var isStringInput = _calculationStringList.IsStringInput(inputString);
+            return isStringInput;
+        }
+
         public string SetCalculationString(string calculationString)
         {
             var calculationStringPrepared = InputStringHelper.PrepareInputString(calculationString);
@@ -65,15 +71,18 @@ namespace CalculatorAlgorithmsWrapper
 
             var isStringValid = _calculationStringList.Create(calculationString).Count > 0;
 
-            for (var i = 0; i < calculationString.Length - 1; i++)
+            if(!_calculationStringList.IsStringInput(calculationString))
             {
-                var substring = calculationString.Substring(0, i + 1);
-                var key = calculationString[i + 1].ToString();
-                
-                if(!CanStringBeAppended(substring, _calculationStringList, key))
+                for (var i = 0; i < calculationString.Length - 1; i++)
                 {
-                    isStringValid = false;
-                    break;
+                    var substring = calculationString.Substring(0, i + 1);
+                    var key = calculationString[i + 1].ToString();
+
+                    if (!CanStringBeAppended(substring, _calculationStringList, key))
+                    {
+                        isStringValid = false;
+                        break;
+                    }
                 }
             }
 

@@ -14,8 +14,10 @@ namespace CalculatorAlgorithmsWrapper
 
             var calculationAlgorithm = CalculationAlgorithmFactory.Create(ruleSet);
             var operatorList = ruleSet.GetOperatorList();
+            var stringOperatorList = ruleSet.GetStringOperatorList();
             var calculationStringList = CalculationAlgorithmFactory.CreateCalculationStringList(
-                operatorList);
+                operatorList,
+                stringOperatorList);
 
             return new Calculator(
                 calculationAlgorithm,

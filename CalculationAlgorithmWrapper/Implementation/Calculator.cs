@@ -61,11 +61,20 @@ namespace CalculatorAlgorithmsWrapper
 
             if (_calculationStringWrapper.IsCalculationValid(calculationString) )
             {
-                var result = _calculationAlgorithm.Calculate(calculationString);
+                if(_calculationStringWrapper.IsStringInput(calculationString))
+                {
+                    var resultString = _calculationAlgorithm.CalculateString(calculationString);
 
-                var resultString = $"{result}";
+                    outputString = calculationString + "\n= " + resultString;
+                }
+                else
+                {
+                    var result = _calculationAlgorithm.Calculate(calculationString);
 
-                outputString = calculationString + "\n= " + resultString;
+                    var resultString = $"{result}";
+
+                    outputString = calculationString + "\n= " + resultString;
+                }
             }
             else
             {
