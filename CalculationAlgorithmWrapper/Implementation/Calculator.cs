@@ -49,6 +49,12 @@ namespace CalculatorAlgorithmsWrapper
             return result;
         }
 
+        public string CalculateString(string calculationString)
+        {
+            var resultString = _calculationAlgorithm.CalculateString(calculationString);
+            return resultString;
+        }
+
         public string CalculateAndReturnString(string calculationString)
         {
             string outputString;

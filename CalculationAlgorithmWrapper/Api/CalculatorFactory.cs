@@ -1,7 +1,8 @@
-
 using CalculationAlgorithm;
 using System;
 using System.Collections.Generic;
+
+using Expr = MathNet.Symbolics.SymbolicExpression;
 
 namespace CalculatorAlgorithmsWrapper
 {
@@ -46,9 +47,16 @@ namespace CalculatorAlgorithmsWrapper
                 { "log", inputList => Math.Log10(inputList[0]) },
             };
 
+            var stringFunctions = new Dictionary<string, Func<IList<string>, string>>
+            {
+                 { "d", inputList => Expr.Parse(inputList[0]).Differentiate(Expr.Parse(inputList[1])).ToString() },
+                 { "Exp", inputList => Expr.Parse(inputList[0]).Expand().ToString() }
+            };
+
             var ruleSet = new RuleSet(
                 arithmetricOperators,
-                arithmetricFunctions);
+                arithmetricFunctions,
+                stringFunctions);
 
             return ruleSet;
         }

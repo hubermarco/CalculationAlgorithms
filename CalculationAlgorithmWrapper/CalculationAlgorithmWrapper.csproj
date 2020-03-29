@@ -31,6 +31,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FParsec">
+      <HintPath>..\..\Externals\fparsec.1.1.1\FParsec.dll</HintPath>
+    </Reference>
+    <Reference Include="FParsecCS">
+      <HintPath>..\..\Externals\fparsec.1.1.1\FParsecCS.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\FSharpSdk\.NETFramework\v4.0\4.4.3.0\FSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics.FSharp">
+      <HintPath>..\..\Externals\mathnet.numerics.fsharp.4.9.0\MathNet.Numerics.FSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Symbolics">
+      <HintPath>..\..\Externals\mathnet.symbolics.0.20.0\MathNet.Symbolics.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

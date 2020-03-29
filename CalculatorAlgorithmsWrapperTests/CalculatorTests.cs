@@ -112,5 +112,13 @@ namespace CalculatorAlgorithmsWrapperTests
 
             Assert.AreEqual(0, result);
         }
+
+         [Test]
+        public void When_differentiate_is_performed_in_a_nested_way_then_corresponding_result_is_returned_3()
+        {
+            var stringResult = _calculator.CalculateString("Exp(d((x+4)^2,x)))");
+
+            Assert.AreEqual("8 + 2*x", stringResult);
+        }
     }
 }
