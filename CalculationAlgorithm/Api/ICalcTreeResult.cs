@@ -11,5 +11,7 @@ namespace CalculationAlgorithm
         IList<string> GetVariableList();
 
         double GetResult();
+
+        string GetResultString();
     }
 }

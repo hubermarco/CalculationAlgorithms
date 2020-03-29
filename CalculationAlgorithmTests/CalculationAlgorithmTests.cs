@@ -46,11 +46,16 @@ namespace CalculationAlgorithmTests
                 { "plusplus", inputList => inputList[0] + inputList[1] + inputList[2]}
             };
 
+            var stringFunctions = new Dictionary<string, Func<IList<string>, string>>
+            {
+                 { "StringTest", inputList => "Hallo " + inputList[0] }
+            };
+
 
             var ruleSet = new RuleSet(
                 arithmetricOperators,
-                arithmetricFunctions
-                );
+                arithmetricFunctions,
+                stringFunctions);
 
             _calculationAlgorithm = CalculationAlgorithmFactory.Create(ruleSet);
         }
@@ -550,6 +555,22 @@ namespace CalculationAlgorithmTests
             var result = _calculationAlgorithm.Calculate("sum(4,5,6,7)");
 
             Assert.AreEqual(22, result, _delta);
+        }
+
+        [Test]
+        public void When_string_method_is_performed_then_corresponding_result_is_returned()
+        {
+            var stringResult = _calculationAlgorithm.CalculateString("StringTest(Marco)");
+
+            Assert.AreEqual("Hallo Marco", stringResult);
+        }
+
+        [Test]
+        public void When_string_method_is_performed_in_a_nested_way_then_corresponding_result_is_returned()
+        {
+            var stringResult = _calculationAlgorithm.CalculateString("StringTest(StringTest(Marco))");
+
+            Assert.AreEqual("Hallo Hallo Marco", stringResult);
         }
     }
 }

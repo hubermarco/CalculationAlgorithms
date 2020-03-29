@@ -2,8 +2,12 @@
 {
     internal interface ICalcTreeElementFactory
     {
-        ICalcTreeElement CreateCalcTreeElement(double value, string variableString, ICalcTreeBranch parent);
+        ICalcTreeElement CreateCalcTreeElement(ICalcTreeBranch parent, double value, string stringValue, string variableString);
 
-        ICalcTreeBranch CreateCalcTreeBranch(ICalcTreeBranch parent, string operatorString, RuleSet ruleSet, bool isOpenBracket = false);
+        ICalcTreeBranch CreateCalcTreeBranch(
+            ICalcTreeBranch parent, 
+            string operatorString, 
+            RuleSet ruleSet, 
+            bool isOpenBracket = false);
     }
 }

@@ -16,6 +16,7 @@ namespace CalculationAlgorithm
 
         internal static void AddNewCalcTreeElementWithCurrentValueAtCurrentPosition(
             string currentCalcString,
+            RuleSet ruleSet,
             ICalcTreeElementFactory calcTreeElementFactory,
             ref ICalcTreeElement calcTreeElementCurrent)
         {
@@ -25,16 +26,27 @@ namespace CalculationAlgorithm
                 var number = double.Parse(currentCalcString, System.Globalization.CultureInfo.InvariantCulture);
 
                 calcTreeElement = calcTreeElementFactory.CreateCalcTreeElement(
-                    number, 
-                    variableString: "", 
-                    parent: calcTreeElementCurrent.GetBranchAccess());
+                    parent: calcTreeElementCurrent.GetBranchAccess(),
+                    value: number, 
+                    stringValue: "",
+                    variableString: "");
             }
-            else // currentCalcString is variable
+            else if(ruleSet.IsVariable(currentCalcString))
             {
                 calcTreeElement = calcTreeElementFactory.CreateCalcTreeElement(
-                    0,
-                    variableString: currentCalcString,
-                    parent: calcTreeElementCurrent.GetBranchAccess());
+                    parent: calcTreeElementCurrent.GetBranchAccess(),
+                    value: 0,
+                    stringValue: "",
+                    variableString: currentCalcString);
+            }
+            else // currentCalcString is a parameter string
+            {
+                calcTreeElement = calcTreeElementFactory.CreateCalcTreeElement(
+                   parent: calcTreeElementCurrent.GetBranchAccess(),
+                   value: 0,
+                   stringValue: currentCalcString,
+                   variableString: ""
+                   );
             }
             
             calcTreeElementCurrent.GetBranchAccess().AddElement(calcTreeElement);

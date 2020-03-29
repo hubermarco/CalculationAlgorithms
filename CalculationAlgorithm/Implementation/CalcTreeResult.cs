@@ -37,5 +37,12 @@ namespace CalculationAlgorithm
 
             return result;
         }
+
+        public string GetResultString()
+        {
+            var result = _root.GetResultString();
+
+            return result;
+        }
     }
 }

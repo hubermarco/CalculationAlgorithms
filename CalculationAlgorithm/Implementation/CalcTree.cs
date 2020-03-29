@@ -27,7 +27,8 @@ namespace CalculationAlgorithm
                 if (InputStringHelper.IsNumeric(currentCalcString))
                 {
                     CalcTreeHelper.AddNewCalcTreeElementWithCurrentValueAtCurrentPosition(
-                        currentCalcString, 
+                        currentCalcString,
+                        _ruleSet,
                         _calcTreeElementFactory, 
                         ref calcTreeElementCurrentPosition);
                 }
@@ -36,6 +37,7 @@ namespace CalculationAlgorithm
                 {
                     CalcTreeHelper.AddNewCalcTreeElementWithCurrentValueAtCurrentPosition(
                         currentCalcString,
+                        _ruleSet,
                         _calcTreeElementFactory,
                         ref calcTreeElementCurrentPosition);
 
@@ -81,6 +83,14 @@ namespace CalculationAlgorithm
                         InputStringHelper.IsComma(currentCalcString))
                 {
                     CalcTreeHelper.NavigateUpToNextBranchWithBrackets(
+                        ref calcTreeElementCurrentPosition);
+                }
+                else
+                {
+                    CalcTreeHelper.AddNewCalcTreeElementWithCurrentValueAtCurrentPosition(
+                        currentCalcString,
+                        _ruleSet,
+                        _calcTreeElementFactory,
                         ref calcTreeElementCurrentPosition);
                 }
             }

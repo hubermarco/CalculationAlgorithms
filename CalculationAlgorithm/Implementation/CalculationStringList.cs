@@ -14,6 +14,13 @@ namespace CalculationAlgorithm
             _stringOperatorList = stringOperatorList;
         }
 
+        public bool IsStringInput(string inputString)
+        {
+            var isStringInput = IsOperatorOfListInInputString(inputString, _stringOperatorList);
+
+            return isStringInput;
+        }
+
         public IList<string> Create(string inputString)
         {
             var inputStringList = new List<string>();

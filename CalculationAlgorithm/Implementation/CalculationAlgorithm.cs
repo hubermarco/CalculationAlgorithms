@@ -11,11 +11,26 @@
             _calculationStringList = calculationStringList;
         }
 
+        public bool IsStringInput(string input)
+        {
+            var isStringInput = _calculationStringList.IsStringInput(input);
+            return isStringInput;
+        }
+
         public double Calculate(string input)
         {
             var calcTreeResult = CreateCalcTreeResult(input);
 
             var result = calcTreeResult.GetResult();
+
+            return result;
+        }
+
+        public string CalculateString(string input)
+        {
+            var calcTreeResult = CreateCalcTreeResult(input);
+
+            var result = calcTreeResult.GetResultString();
 
             return result;
         }

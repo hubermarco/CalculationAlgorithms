@@ -62,7 +62,6 @@ namespace CalculationAlgorithm
             return operatorList;
         }
 
-
         public bool IsVariable(string operatorString)
         {
             var ruleCategory = GetRuleCategory(operatorString);
@@ -82,7 +81,16 @@ namespace CalculationAlgorithm
         public bool IsFunction(string operatorString)
         {
             var ruleCategory = GetRuleCategory(operatorString);
-            var isFunction = (ruleCategory == RuleCategory.ArithmetricFunction);
+            var isFunction = (ruleCategory == RuleCategory.ArithmetricFunction) ||
+                              (ruleCategory == RuleCategory.StringFunction);
+
+            return isFunction;
+        }
+
+        public bool IsStringFunction(string operatorString)
+        {
+            var ruleCategory = GetRuleCategory(operatorString);
+            var isFunction = (ruleCategory == RuleCategory.StringFunction);
 
             return isFunction;
         }
@@ -120,6 +128,10 @@ namespace CalculationAlgorithm
             else if ((ArithmetricFunctions != null) && ArithmetricFunctions.Keys.Contains(operatorString))
             {
                 ruleCategory = RuleCategory.ArithmetricFunction;
+            }
+            else if ((StringFunctions != null) && StringFunctions.Keys.Contains(operatorString))
+            {
+                ruleCategory = RuleCategory.StringFunction;
             }
             else if ((VariableList != null) && VariableList.Contains(operatorString))
             {

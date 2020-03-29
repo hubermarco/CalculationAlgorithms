@@ -5,6 +5,7 @@
         Undefined,
         ArithmetricOperant,
         ArithmetricFunction,
+        StringFunction,
         Variable
     }
 }

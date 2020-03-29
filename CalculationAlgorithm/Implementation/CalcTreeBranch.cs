@@ -88,8 +88,32 @@ namespace CalculationAlgorithm
 
                 result = operation(inputList);
             }
+            
 
             return result;
+        }
+
+        public string GetResultString()
+        {
+            string resultString = string.Empty;
+
+            if (string.IsNullOrEmpty(_operatorString))
+            {
+                if (_calcTreeElements.Count > 0)
+                {
+                    resultString = _calcTreeElements.First().GetResultString();
+                }
+            }
+            else
+            {
+                var operation = _ruleSet.StringFunctions[_operatorString];
+
+                var inputList = _calcTreeElements.Select(x => x.GetResultString()).ToList();
+
+                resultString = operation(inputList);
+            }
+
+            return resultString;
         }
 
         public ICalcTreeElement GetLastChild()

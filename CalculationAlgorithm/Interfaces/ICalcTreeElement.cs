@@ -10,6 +10,8 @@
 
         double GetResult();
 
+        string GetResultString();
+
         void SetValue(double value);
     }
 }
