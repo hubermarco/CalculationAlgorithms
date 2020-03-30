@@ -53,7 +53,8 @@ namespace CalculationAlgorithmWrapper
             {
                  { "d", inputList => Expr.Parse(inputList[0]).Differentiate(Expr.Parse(inputList[1])).ToString() },
                  { "exp", inputList => Expr.Parse(inputList[0]).Expand().ToString() },
-                 { "taylor", inputList => StringFunctions.Taylor(inputList) }
+                 { "taylor", inputList => StringFunctions.Taylor(inputList) },
+                 { "eval", inputList => Expr.Parse(inputList[0]).ToString() }
             };
 
             var ruleSet = new RuleSet(

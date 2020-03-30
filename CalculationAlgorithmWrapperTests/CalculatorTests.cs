@@ -138,6 +138,14 @@ namespace CalculationAlgorithmWrapperTests
         }
 
         [Test]
+        public void When_eval_string_function_is_calculated_then_corresponding_result_is_returned()
+        {
+            var stringResult = _calculator.CalculateAndReturnString("eval(x+2+5)");
+
+            Assert.AreEqual("eval(x+2+5)\n= 7 + x", stringResult);
+        }
+
+        [Test]
         public void When_calculate_and_return_string_method_is_called_with_arithmetric_function_then_corresponding_result_is_returned()
         {
             var stringResult = _calculator.CalculateAndReturnString("log(1000)");
