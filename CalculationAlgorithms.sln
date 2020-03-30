@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculationAlgorithmTests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculationAlgorithmWrapper", "CalculationAlgorithmWrapper\CalculationAlgorithmWrapper.csproj", "{061A95EB-0B0B-473D-AD0B-3B2ECD849386}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorAlgorithmsWrapperTests", "CalculatorAlgorithmsWrapperTests\CalculatorAlgorithmsWrapperTests.csproj", "{88FD47EC-679A-4F4C-BA5C-9DDC00F2D5B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculationAlgorithmWrapperTests", "CalculatorAlgorithmsWrapperTests\CalculationAlgorithmWrapperTests.csproj", "{88FD47EC-679A-4F4C-BA5C-9DDC00F2D5B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
