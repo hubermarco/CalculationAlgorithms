@@ -1,4 +1,4 @@
-namespace CalculatorAlgorithmsWrapper
+namespace CalculationAlgorithmWrapper
 {
     public interface ICalculator
     {

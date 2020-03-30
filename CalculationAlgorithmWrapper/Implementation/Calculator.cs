@@ -1,6 +1,6 @@
 using CalculationAlgorithm;
 
-namespace CalculatorAlgorithmsWrapper
+namespace CalculationAlgorithmWrapper
 {
     internal class Calculator : ICalculator
     {

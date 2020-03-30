@@ -1,7 +1,7 @@
-﻿using CalculatorAlgorithmsWrapper;
+﻿using CalculationAlgorithmWrapper;
 using NUnit.Framework;
 
-namespace CalculatorAlgorithmsWrapperTests
+namespace CalculationAlgorithmWrapperTests
 {
     [TestFixture]
     public class CalculatorTests

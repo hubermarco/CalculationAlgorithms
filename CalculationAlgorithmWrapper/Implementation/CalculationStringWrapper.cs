@@ -2,7 +2,7 @@ using CalculationAlgorithm;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CalculatorAlgorithmsWrapper
+namespace CalculationAlgorithmWrapper
 {
     internal class CalculationStringWrapper : ICalculationStringWrapper
     {

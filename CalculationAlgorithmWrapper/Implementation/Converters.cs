@@ -5,7 +5,7 @@
 
 using System;
 
-namespace CalculatorAlgorithmsWrapper
+namespace CalculationAlgorithmWrapper
 {
     internal class Converters
     {

@@ -1,4 +1,4 @@
-namespace CalculatorAlgorithmsWrapper
+namespace CalculationAlgorithmWrapper
 {
     internal interface ICalculationStringWrapper
     {

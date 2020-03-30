@@ -1,10 +1,10 @@
 
 using CalculationAlgorithm;
-using CalculatorAlgorithmsWrapper;
+using CalculationAlgorithmWrapper;
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace CalculatorAlgorithmsWrapperTests
+namespace CalculationAlgorithmWrapperTests
 {
     [TestFixture]
     public class CalculationStringWrapperTests

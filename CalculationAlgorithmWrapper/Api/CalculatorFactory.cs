@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using Expr = MathNet.Symbolics.SymbolicExpression;
 
-namespace CalculatorAlgorithmsWrapper
+namespace CalculationAlgorithmWrapper
 {
     public class CalculatorFactory
     {
@@ -39,11 +39,11 @@ namespace CalculatorAlgorithmsWrapper
 
             var arithmetricFunctions = new Dictionary<string, Func<IList<double>, double>>
             {
-                { "Fix2Double", Fix2Double },
-                { "Double2Fix", Double2Fix },
-                { "Double2Bool", Double2Bool },
-                { "Bool2Double", Bool2Double },
-                { "sum", Sum },
+                { "Fix2Double", ArithmetricFunctions.Fix2Double },
+                { "Double2Fix", ArithmetricFunctions.Double2Fix },
+                { "Double2Bool", ArithmetricFunctions.Double2Bool },
+                { "Bool2Double", ArithmetricFunctions.Bool2Double },
+                { "sum", ArithmetricFunctions.Sum },
                 { "sin", inputList => Math.Sin(inputList[0]) },
                 { "cos", inputList => Math.Cos(inputList[0]) },
                 { "log", inputList => Math.Log10(inputList[0]) },
@@ -61,56 +61,6 @@ namespace CalculatorAlgorithmsWrapper
                 stringFunctions);
 
             return ruleSet;
-        }
-
-        private static double Fix2Double(IList<double> inputList)
-        {
-            var returnValue = 0.0;
-            if (inputList.Count == 3)
-            {
-                returnValue = Converters.Fix2Double((uint)inputList[0], (int)inputList[1], (int)inputList[2]);
-            }
-            return returnValue;
-        }
-
-        private static double Double2Fix(IList<double> inputList)
-        {
-            var returnValue = 0.0;
-            if (inputList.Count == 3)
-            {
-                returnValue = Converters.Double2Fix(inputList[0], (int)inputList[1], (int)inputList[2]);
-            }
-            return returnValue;
-        }
-
-        private static double Double2Bool(IList<double> inputList)
-        {
-            var returnValue = 0.0;
-            if (inputList.Count == 3)
-            {
-                returnValue = Converters.Double2Bool(inputList[0], (int)inputList[1], (int)inputList[2]);
-            }
-            return returnValue;
-        }
-
-        private static double Bool2Double(IList<double> inputList)
-        {
-            var returnValue = 0.0;
-            if (inputList.Count == 3)
-            {
-                returnValue = Converters.Bool2Double((ulong)inputList[0], (int)inputList[1], (int)inputList[2]);
-            }
-            return returnValue;
-        }
-
-        private static double Sum(IList<double> inputList)
-        {
-            var sum = 0.0;
-            foreach (var input in inputList)
-            {
-                sum += input;
-            }
-            return sum;
         }
     }
 }
