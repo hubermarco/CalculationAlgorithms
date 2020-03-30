@@ -2,7 +2,7 @@
 {
     internal class CalcTreeElementFactory : ICalcTreeElementFactory
     {
-        public ICalcTreeElement CreateCalcTreeElement(ICalcTreeBranch parent,double value, string stringValue, string variableString)
+        public ICalcTreeElement CreateCalcTreeElement(ICalcTreeBranch parent, double value, string stringValue, string variableString)
         {
             return new CalcTreeElement(parent, value, stringValue, variableString);
         }

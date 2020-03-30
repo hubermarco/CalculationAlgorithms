@@ -52,7 +52,8 @@ namespace CalculationAlgorithmWrapper
             var stringFunctions = new Dictionary<string, Func<IList<string>, string>>
             {
                  { "d", inputList => Expr.Parse(inputList[0]).Differentiate(Expr.Parse(inputList[1])).ToString() },
-                 { "Exp", inputList => Expr.Parse(inputList[0]).Expand().ToString() }
+                 { "exp", inputList => Expr.Parse(inputList[0]).Expand().ToString() },
+                 { "taylor", inputList => StringFunctions.Taylor(inputList) }
             };
 
             var ruleSet = new RuleSet(

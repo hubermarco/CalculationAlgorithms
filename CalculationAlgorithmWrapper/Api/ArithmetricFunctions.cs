@@ -2,9 +2,9 @@
 
 namespace CalculationAlgorithmWrapper
 {
-    public class ArithmetricFunctions
+    internal class ArithmetricFunctions
     {
-        public static double Fix2Double(IList<double> inputList)
+        internal static double Fix2Double(IList<double> inputList)
         {
             var returnValue = 0.0;
             if (inputList.Count == 3)
@@ -14,7 +14,7 @@ namespace CalculationAlgorithmWrapper
             return returnValue;
         }
 
-        public static double Double2Fix(IList<double> inputList)
+        internal static double Double2Fix(IList<double> inputList)
         {
             var returnValue = 0.0;
             if (inputList.Count == 3)
@@ -24,7 +24,7 @@ namespace CalculationAlgorithmWrapper
             return returnValue;
         }
 
-        public static double Double2Bool(IList<double> inputList)
+        internal static double Double2Bool(IList<double> inputList)
         {
             var returnValue = 0.0;
             if (inputList.Count == 3)
@@ -34,7 +34,7 @@ namespace CalculationAlgorithmWrapper
             return returnValue;
         }
 
-        public static double Bool2Double(IList<double> inputList)
+        internal static double Bool2Double(IList<double> inputList)
         {
             var returnValue = 0.0;
             if (inputList.Count == 3)
@@ -44,7 +44,7 @@ namespace CalculationAlgorithmWrapper
             return returnValue;
         }
 
-        public static double Sum(IList<double> inputList)
+        internal static double Sum(IList<double> inputList)
         {
             var sum = 0.0;
             foreach (var input in inputList)

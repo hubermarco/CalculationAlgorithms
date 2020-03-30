@@ -60,6 +60,7 @@
     <Compile Include="Api\CalculatorFactory.cs" />
     <Compile Include="Api\CurveConverter.cs" />
     <Compile Include="Api\ICalculator.cs" />
+    <Compile Include="Api\StringFunctions.cs" />
     <Compile Include="Implementation\CalculationStringWrapper.cs" />
     <Compile Include="Implementation\Calculator.cs" />
     <Compile Include="Implementation\Converters.cs" />

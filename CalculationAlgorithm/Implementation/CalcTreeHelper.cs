@@ -28,7 +28,7 @@ namespace CalculationAlgorithm
                 calcTreeElement = calcTreeElementFactory.CreateCalcTreeElement(
                     parent: calcTreeElementCurrent.GetBranchAccess(),
                     value: number, 
-                    stringValue: "",
+                    stringValue: currentCalcString,
                     variableString: "");
             }
             else if(ruleSet.IsVariable(currentCalcString))
@@ -36,7 +36,7 @@ namespace CalculationAlgorithm
                 calcTreeElement = calcTreeElementFactory.CreateCalcTreeElement(
                     parent: calcTreeElementCurrent.GetBranchAccess(),
                     value: 0,
-                    stringValue: "",
+                    stringValue: currentCalcString,
                     variableString: currentCalcString);
             }
             else // currentCalcString is a parameter string
