@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CalculationAlgorithms")]
+[assembly: AssemblyTitle("CurveChartImageCreator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CalculationAlgorithms")]
+[assembly: AssemblyProduct("CurveChartImageCreator")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d00ab055-9e20-47f1-b6aa-013b2de887b0")]
+[assembly: Guid("f5507c43-4f6d-4a31-b940-6e90cc01675a")]
 
 // Version information for an assembly consists of the following four values:
 //

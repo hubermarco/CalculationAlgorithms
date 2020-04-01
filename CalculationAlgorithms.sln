@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculationAlgorithmWrapper
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculationAlgorithmWrapperTests", "CalculationAlgorithmWrapperTests\CalculationAlgorithmWrapperTests.csproj", "{88FD47EC-679A-4F4C-BA5C-9DDC00F2D5B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurveChartImageCreator", "CurveChartImageCreator\CurveChartImageCreator.csproj", "{F5507C43-4F6D-4A31-B940-6E90CC01675A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurveChartImageCreatorTests", "CurveChartImageCreatorTests\CurveChartImageCreatorTests.csproj", "{92195F54-1153-4662-8571-FD3C775B3318}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{88FD47EC-679A-4F4C-BA5C-9DDC00F2D5B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88FD47EC-679A-4F4C-BA5C-9DDC00F2D5B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88FD47EC-679A-4F4C-BA5C-9DDC00F2D5B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5507C43-4F6D-4A31-B940-6E90CC01675A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5507C43-4F6D-4A31-B940-6E90CC01675A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5507C43-4F6D-4A31-B940-6E90CC01675A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5507C43-4F6D-4A31-B940-6E90CC01675A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92195F54-1153-4662-8571-FD3C775B3318}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92195F54-1153-4662-8571-FD3C775B3318}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92195F54-1153-4662-8571-FD3C775B3318}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92195F54-1153-4662-8571-FD3C775B3318}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
