@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CalculationAlgorithmWrapper
@@ -8,10 +9,14 @@ namespace CalculationAlgorithmWrapper
          public static int ConvertDebuggerString(
             string debuggerString, 
             ref string matlabCurveString,
-            ref string cSharpCurveString)
+            ref string cSharpCurveString,
+            ref List<double> curve)
         {
             var outputStringMatlab = string.Empty;
-            var valueCount = ConvertDebuggerStringToMatlabCurveString(debuggerString, ref outputStringMatlab);
+            var valueCount = ConvertDebuggerStringToMatlabCurveString(
+                debuggerString, 
+                ref outputStringMatlab,
+                ref curve);
             var outputStringCsharp = ConvertMatlabCurveStringToCSharpCurveString(outputStringMatlab);
 
             matlabCurveString = outputStringMatlab;
@@ -30,10 +35,12 @@ namespace CalculationAlgorithmWrapper
 
         private static int ConvertDebuggerStringToMatlabCurveString(
             string debuggerString, 
-            ref string outputStringMatlab)
+            ref string outputStringMatlab,
+            ref List<double> curve)
         {
             var valueCount = 0;
             outputStringMatlab = "curve = [";
+            curve.Clear();
 
             var debuggerLines = debuggerString.Split('\n');
 
@@ -65,6 +72,8 @@ namespace CalculationAlgorithmWrapper
                 {
                     outputStringMatlab += numberSubString + " ";
                     valueCount++;
+
+                    curve.Add(double.Parse(numberSubString));
                 }
             }
 
