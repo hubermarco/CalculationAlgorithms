@@ -50,10 +50,17 @@ namespace CurveChartImageCreator
             GraphicCurve.HeaderCaption = headerCaption;
             GraphicCurve.LinearFreqAxis = linearFreqAxis;
 
+            var fileStream = new FileStream(filePath, FileMode.Create);
+
             GraphicCurve.WriteFile(
                 targetCurves,
                 simCurves,
-                new FileStream(filePath, FileMode.Create), imageWidth, imageHeight);
+                fileStream,
+                imageWidth, 
+                imageHeight);
+
+            fileStream.Close();
+            fileStream.Dispose();
         }
     }
 }
