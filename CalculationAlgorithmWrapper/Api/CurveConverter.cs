@@ -73,7 +73,8 @@ namespace CalculationAlgorithmWrapper
                     outputStringMatlab += numberSubString + " ";
                     valueCount++;
 
-                    curve.Add(double.Parse(numberSubString));
+                    var numberStringToParse = numberSubString.Replace(".", ",");
+                    curve.Add(double.Parse(numberStringToParse));
                 }
             }
 
