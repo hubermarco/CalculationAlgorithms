@@ -399,15 +399,19 @@ namespace CurveChartImageCreator
         //helper functions for graphic
         private static double Value2PixelX(double dValue, double dBorder, double dXScale, double dXMin)
         {
-            double dPixelPos;
+            double dPixelPos = 0;
 
             if (LinearFreqAxis)
             {
                 dPixelPos = dBorder + dXScale * (dValue - dXMin);   //linear x axis
             }
             else
-            {
-                dPixelPos = dBorder + dXScale * Math.Log10(dValue / dXMin);   //logarithmic x axis
+            {   
+                if(dXMin != 0)
+                {
+                    dPixelPos = dBorder + dXScale * Math.Log10(dValue / dXMin);   //logarithmic x axis
+                }
+                
             }
             return dPixelPos;
         }
