@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CalculationAlgorithmTests.cs" />
+    <Compile Include="CalculationAlgorithmWithStringFunctionsTests.cs" />
     <Compile Include="CalculationAlgorithmWithVariablesTests.cs" />
     <Compile Include="CalculationStringListTests.cs" />
     <Compile Include="RuleSetTests.cs" />

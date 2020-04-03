@@ -51,7 +51,7 @@ namespace CalculationAlgorithmTests
             var arithmetricStringFunctions = new Dictionary<string, Func<IList<string>, string>>
             {
                  { "StringTest", inputList => "Hallo " + inputList[0] },
-                 { "d", inputList => Expr.Parse(inputList[0]).Differentiate(Expr.Parse(inputList[1])).ToString() }, 
+                 { "d", inputList => Expr.Parse(inputList[0]).Differentiate(Expr.Parse(inputList[1])).ToString() },
                  { "Expand", inputList => Expr.Parse(inputList[0]).Expand().ToString() }
             };
 
@@ -62,14 +62,14 @@ namespace CalculationAlgorithmTests
                      {
                          var list = new List<int> {36, 37, 38, 39};
                          return list[int.Parse(inputList[0])].ToString();
-                     } 
+                     }
                  },
 
                 { "HouseNumber", inputList =>
                      {
                          var list = new List<int> {2, 9, 13, 23};
                          return list[int.Parse(inputList[0])].ToString();
-                     } 
+                     }
                 }
             };
 
@@ -653,34 +653,6 @@ namespace CalculationAlgorithmTests
             var stringResult = _calculationAlgorithm.CalculateString("5 * 6");
 
             Assert.AreEqual("30", stringResult);
-        }
-
-        [Test]
-        public void When_calculation_string_contains_logic_rules_then_corresponding_result_is_calculated()
-        {
-            var calcTreeResult = _calculationAlgorithm.CreateCalcTreeResult("(CalenderWeek(x) == 37) -> (HouseNumber(x) == 9)");
-
-            calcTreeResult.SetVariable("x", 0);
-
-            Assert.AreEqual("1", calcTreeResult.GetResultString());
-
-            calcTreeResult.SetVariable("x", 1);
-
-            Assert.AreEqual("1", calcTreeResult.GetResultString());
-        }
-
-        [Test]
-        public void When_calculation_string_contains_logic_rules_then_corresponding_result_is_calculated_2()
-        {
-            var calcTreeResult = _calculationAlgorithm.CreateCalcTreeResult("(CalenderWeek(x) == 36) -> (HouseNumber(x) == 9)");
-
-            calcTreeResult.SetVariable("x", 0);
-
-            Assert.AreEqual("0", calcTreeResult.GetResultString());
-
-            calcTreeResult.SetVariable("x", 1);
-
-            Assert.AreEqual("1", calcTreeResult.GetResultString());
         }
     }
 }
