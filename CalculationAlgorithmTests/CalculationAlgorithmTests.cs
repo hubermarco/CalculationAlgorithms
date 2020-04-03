@@ -60,12 +60,17 @@ namespace CalculationAlgorithmTests
                  { "HelloString", inputList => "Hallo " + inputList[0] },
             };
 
+            var stringOperators = new Dictionary<string, Tuple<int, Func<string, string, string>>>
+            {
+                { "+", new Tuple<int, Func<string, string, string>>(0, (x, y) => x + y) },
+            };
 
             var ruleSet = new RuleSet(
                 arithmetricOperators,
                 arithmetricFunctions,
                 arithmetricStringFunctions,
-                stringFunctions);
+                stringFunctions,
+                stringOperators);
 
             _calculationAlgorithm = CalculationAlgorithmFactory.Create(ruleSet);
         }
@@ -613,6 +618,14 @@ namespace CalculationAlgorithmTests
             var stringResult = _calculationAlgorithm.CalculateString("HelloString(HelloString(Marco))");
 
             Assert.AreEqual("Hallo Hallo Marco", stringResult);
+        }
+
+        [Test]
+        public void When_calculation_string_contains_string_operants_then_they_are_performed_correctly()
+        {
+            var stringResult = _calculationAlgorithm.CalculateString("Marco + Huber");
+
+            Assert.AreEqual("MarcoHuber", stringResult);
         }
     }
 }

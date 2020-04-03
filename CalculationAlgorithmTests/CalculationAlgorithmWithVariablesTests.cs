@@ -53,6 +53,7 @@ namespace CalculationAlgorithmTests
                 arithmetricFunctions,
                 null,
                 null,
+                null,
                 variableList);
 
             _calculationAlgorithm = CalculationAlgorithmFactory.Create(ruleSet);

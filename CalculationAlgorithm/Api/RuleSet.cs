@@ -10,12 +10,14 @@ namespace CalculationAlgorithm
                        IDictionary<string, Func<IList<double>, double>> arithmetricFunctions = null,
                        IDictionary<string, Func<IList<string>, string>> arithmetricStringFunctions = null,
                        IDictionary<string, Func<IList<string>, string>> stringFunctions = null,
+                       IDictionary<string, Tuple<int, Func<string, string, string>>> stringOperators = null,
                        IList<string> variableList = null )
         {
             ArithmetricOperators = arithmetricOperators;
             ArithmetricFunctions = arithmetricFunctions;
             ArithmetricStringFunctions = arithmetricStringFunctions;
             StringFunctions = stringFunctions;
+            StringOperators = stringOperators;
             VariableList = variableList;
         }
 
@@ -23,6 +25,7 @@ namespace CalculationAlgorithm
         public IDictionary<string, Func<IList<double>, double>> ArithmetricFunctions { get; }
         public IDictionary<string, Func<IList<string>, string>> ArithmetricStringFunctions { get; }
         public IDictionary<string, Func<IList<string>, string>> StringFunctions { get; }
+        public IDictionary<string, Tuple<int, Func<string, string, string>>> StringOperators { get; }
         public IList<string> VariableList { get; }
 
         public IList<string> GetOperatorList()
@@ -42,6 +45,11 @@ namespace CalculationAlgorithm
             if (StringFunctions != null)
             {
                 operatorList = operatorList.Concat(StringFunctions.Keys).ToList();
+            }
+
+            if (StringOperators != null)
+            {
+                operatorList = operatorList.Concat(StringOperators.Keys).ToList();
             }
 
             if (VariableList != null)
@@ -81,7 +89,8 @@ namespace CalculationAlgorithm
         public bool IsOperator(string operatorString)
         {
             var ruleCategory = GetRuleCategory(operatorString);
-            var isOperator = (ruleCategory == RuleCategory.ArithmetricOperant);
+            var isOperator = (ruleCategory == RuleCategory.ArithmetricOperant) ||
+                             (ruleCategory == RuleCategory.StringOperant);
 
             return isOperator;
         }
@@ -122,6 +131,10 @@ namespace CalculationAlgorithm
                 case RuleCategory.ArithmetricOperant:
                     operatorHierarchyLevel = ArithmetricOperators.Where(x => x.Key == operatorString).Select(x => x.Value.Item1).First();
                     break;
+
+                case RuleCategory.StringOperant:
+                    operatorHierarchyLevel = StringOperators.Where(x => x.Key == operatorString).Select(x => x.Value.Item1).First();
+                    break;
             }
 
             return operatorHierarchyLevel;
@@ -153,6 +166,10 @@ namespace CalculationAlgorithm
             else if ((StringFunctions != null) && StringFunctions.Keys.Contains(operatorString))
             {
                 ruleCategory = RuleCategory.StringFunction;
+            }
+            else if ((StringOperators != null) && StringOperators.Keys.Contains(operatorString))
+            {
+                ruleCategory = RuleCategory.StringOperant;
             }
             else if ((VariableList != null) && VariableList.Contains(operatorString))
             {

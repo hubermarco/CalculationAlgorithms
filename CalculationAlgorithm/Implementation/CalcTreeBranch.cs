@@ -74,11 +74,14 @@ namespace CalculationAlgorithm
             }
             else if (_ruleSet.IsOperator(_operatorString))
             {
-                var operation = _ruleSet.ArithmetricOperators[_operatorString].Item2;
-                var value1 = _calcTreeElements.First().GetResult();
-                var value2 = _calcTreeElements.Last().GetResult();
+                if ((_ruleSet.ArithmetricOperators != null) && _ruleSet.ArithmetricOperators.ContainsKey(_operatorString))
+                {
+                    var operation = _ruleSet.ArithmetricOperators[_operatorString].Item2;
+                    var value1 = _calcTreeElements.First().GetResult();
+                    var value2 = _calcTreeElements.Last().GetResult();
 
-                result = operation(value1, value2);
+                    result = operation(value1, value2);
+                }
             }
             else if (_ruleSet.IsFunction(_operatorString))
             {
@@ -119,6 +122,17 @@ namespace CalculationAlgorithm
                 var inputList = _calcTreeElements.Select(x => x.GetResultString()).ToList();
 
                 resultString = operation(inputList);
+            }
+            else if (_ruleSet.IsOperator(_operatorString))
+            {
+                if( (_ruleSet.StringOperators != null) && _ruleSet.StringOperators.ContainsKey(_operatorString) )
+                {
+                    var operation = _ruleSet.StringOperators[_operatorString].Item2;
+                    var value1 = _calcTreeElements.First().GetResultString();
+                    var value2 = _calcTreeElements.Last().GetResultString();
+
+                    resultString = operation(value1, value2);
+                }
             }
 
             return resultString;
