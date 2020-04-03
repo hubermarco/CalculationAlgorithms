@@ -3,7 +3,7 @@ using Expr = MathNet.Symbolics.SymbolicExpression;
 
 namespace CalculationAlgorithmWrapper
 {
-    internal class StringFunctions
+    internal class ArithmetricStringFunctions
     {
         internal static string Taylor(IList<string> inputList)
         {

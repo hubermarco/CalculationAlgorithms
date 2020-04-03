@@ -48,7 +48,7 @@ namespace CalculationAlgorithmTests
                 { "plusplus", inputList => inputList[0] + inputList[1] + inputList[2]}
             };
 
-            var stringFunctions = new Dictionary<string, Func<IList<string>, string>>
+            var arithmetricStringFunctions = new Dictionary<string, Func<IList<string>, string>>
             {
                  { "StringTest", inputList => "Hallo " + inputList[0] },
                  { "d", inputList => Expr.Parse(inputList[0]).Differentiate(Expr.Parse(inputList[1])).ToString() }, 
@@ -59,7 +59,7 @@ namespace CalculationAlgorithmTests
             var ruleSet = new RuleSet(
                 arithmetricOperators,
                 arithmetricFunctions,
-                stringFunctions);
+                arithmetricStringFunctions);
 
             _calculationAlgorithm = CalculationAlgorithmFactory.Create(ruleSet);
         }

@@ -106,7 +106,7 @@ namespace CalculationAlgorithm
             }
             else
             {
-                var operation = _ruleSet.StringFunctions[_operatorString];
+                var operation = _ruleSet.ArithmetricStringFunctions[_operatorString];
 
                 var inputList = _calcTreeElements.Select(x => x.GetResultString()).ToList();
 

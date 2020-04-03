@@ -6,28 +6,28 @@ namespace CalculationAlgorithm
     internal class CalculationStringList : ICalculationStringList
     {
         private readonly IList<string> _operatorList;
-        private readonly IList<string> _stringOperatorList;
+        private readonly IList<string> _arithmetricStringOperatorList;
 
-        internal CalculationStringList(IList<string> operatorList, IList<string> stringOperatorList)
+        internal CalculationStringList(IList<string> operatorList, IList<string> arithmetricStringOperatorList)
         {
             _operatorList = operatorList;
-            _stringOperatorList = stringOperatorList;
+            _arithmetricStringOperatorList = arithmetricStringOperatorList;
         }
 
         public bool IsStringInput(string inputString)
         {
-            var isStringInput = IsOperatorOfListInInputString(inputString, _stringOperatorList);
+            var isStringInput = IsOperatorOfListInInputString(inputString, _arithmetricStringOperatorList);
 
             return isStringInput;
         }
 
         public IList<string> Create(string inputString)
         {
-            var inputStringList = new List<string>();
+            List<string> inputStringList;
 
-            if(IsOperatorOfListInInputString(inputString, _stringOperatorList) )
+            if (IsOperatorOfListInInputString(inputString, _arithmetricStringOperatorList))
             {
-                inputStringList = CreateFromStringOperatorList(inputString, _stringOperatorList);
+                inputStringList = CreateFromArithmetricStringOperatorList(inputString, _arithmetricStringOperatorList);
             }
             else
             {
@@ -90,9 +90,9 @@ namespace CalculationAlgorithm
             return inputStringList;
         }
 
-        private static List<string> CreateFromStringOperatorList(
+        private static List<string> CreateFromArithmetricStringOperatorList(
            string inputString,
-           IList<string> stringOperatorList)
+           IList<string> arithmetricStringOperatorList)
         {
             var inputStringList = new List<string>();
             var bracketLevel = 0;
@@ -102,7 +102,7 @@ namespace CalculationAlgorithm
 
             for (var i = 0; i < inputString.Length; i++)
             {
-                var operatorDto = GetOperatorInfo(null, stringOperatorList, inputString, index: i);
+                var operatorDto = GetOperatorInfo(null, arithmetricStringOperatorList, inputString, index: i);
                 var currentChar = inputString[i];
                 var currentString = $"{currentChar}";
 

@@ -14,10 +14,10 @@ namespace CalculationAlgorithmWrapper
 
             var calculationAlgorithm = CalculationAlgorithmFactory.Create(ruleSet);
             var operatorList = ruleSet.GetOperatorList();
-            var stringOperatorList = ruleSet.GetStringOperatorList();
+            var arithmetricStringOperatorList = ruleSet.GetArithmetricStringOperatorList();
             var calculationStringList = CalculationAlgorithmFactory.CreateCalculationStringList(
                 operatorList,
-                stringOperatorList);
+                arithmetricStringOperatorList);
 
             return new Calculator(
                 calculationAlgorithm,
@@ -49,18 +49,18 @@ namespace CalculationAlgorithmWrapper
                 { "log", inputList => Math.Log10(inputList[0]) },
             };
 
-            var stringFunctions = new Dictionary<string, Func<IList<string>, string>>
+            var arithmetricStringFunctions = new Dictionary<string, Func<IList<string>, string>>
             {
                  { "d", inputList => Expr.Parse(inputList[0]).Differentiate(Expr.Parse(inputList[1])).ToString() },
                  { "exp", inputList => Expr.Parse(inputList[0]).Expand().ToString() },
-                 { "taylor", inputList => StringFunctions.Taylor(inputList) },
+                 { "taylor", inputList => ArithmetricStringFunctions.Taylor(inputList) },
                  { "eval", inputList => Expr.Parse(inputList[0]).ToString() }
             };
 
             var ruleSet = new RuleSet(
                 arithmetricOperators,
                 arithmetricFunctions,
-                stringFunctions);
+                arithmetricStringFunctions);
 
             return ruleSet;
         }

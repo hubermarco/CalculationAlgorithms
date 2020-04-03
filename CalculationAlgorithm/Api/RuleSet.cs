@@ -8,18 +8,18 @@ namespace CalculationAlgorithm
     {
         public RuleSet(IDictionary<string, Tuple<int, Func<double, double, double>>> arithmetricOperators = null,
                        IDictionary<string, Func<IList<double>, double>> arithmetricFunctions = null,
-                       IDictionary<string, Func<IList<string>, string>> stringFunctions = null,
+                       IDictionary<string, Func<IList<string>, string>> arithmetricStringFunctions = null,
                        IList<string> variableList = null )
         {
             ArithmetricOperators = arithmetricOperators;
             ArithmetricFunctions = arithmetricFunctions;
-            StringFunctions = stringFunctions;
+            ArithmetricStringFunctions = arithmetricStringFunctions;
             VariableList = variableList;
         }
 
         public IDictionary<string, Tuple<int, Func<double, double, double>>> ArithmetricOperators { get; }
         public IDictionary<string, Func<IList<double>, double>> ArithmetricFunctions { get; }
-        public IDictionary<string, Func<IList<string>, string>> StringFunctions { get; }
+        public IDictionary<string, Func<IList<string>, string>> ArithmetricStringFunctions { get; }
         public IList<string> VariableList { get; }
 
         public IList<string> GetOperatorList()
@@ -47,13 +47,13 @@ namespace CalculationAlgorithm
             return operatorList;
         }
 
-        public IList<string> GetStringOperatorList()
+        public IList<string> GetArithmetricStringOperatorList()
         {
             var operatorList = new List<string>();
 
-            if (StringFunctions != null)
+            if (ArithmetricStringFunctions != null)
             {
-                operatorList = operatorList.Concat(StringFunctions.Keys).ToList();
+                operatorList = operatorList.Concat(ArithmetricStringFunctions.Keys).ToList();
             }
 
             operatorList.Sort();
@@ -129,7 +129,7 @@ namespace CalculationAlgorithm
             {
                 ruleCategory = RuleCategory.ArithmetricFunction;
             }
-            else if ((StringFunctions != null) && StringFunctions.Keys.Contains(operatorString))
+            else if ((ArithmetricStringFunctions != null) && ArithmetricStringFunctions.Keys.Contains(operatorString))
             {
                 ruleCategory = RuleCategory.StringFunction;
             }

@@ -13,7 +13,7 @@ namespace CalculatorTests
         {
             _calculationStringList = CalculationAlgorithmFactory.CreateCalculationStringList(
                 operatorList: new List<string>  { "+", "-", "*", "/", "^", "log", "sin", "cos", "x", "y" },
-                stringOperatorList: new List<string> { "Differentiate" });
+                arithmetricStringOperatorList: new List<string> { "Differentiate" });
         }
 
         [Test]
