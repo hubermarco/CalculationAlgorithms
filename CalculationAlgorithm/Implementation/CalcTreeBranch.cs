@@ -104,9 +104,17 @@ namespace CalculationAlgorithm
                     resultString = _calcTreeElements.First().GetResultString();
                 }
             }
-            else
+            else if (_ruleSet.IsArithmetricStringFunction(_operatorString))
             {
                 var operation = _ruleSet.ArithmetricStringFunctions[_operatorString];
+
+                var inputList = _calcTreeElements.Select(x => x.GetResultString()).ToList();
+
+                resultString = operation(inputList);
+            }
+            else if (_ruleSet.IsStringFunction(_operatorString))
+            {
+                var operation = _ruleSet.StringFunctions[_operatorString];
 
                 var inputList = _calcTreeElements.Select(x => x.GetResultString()).ToList();
 

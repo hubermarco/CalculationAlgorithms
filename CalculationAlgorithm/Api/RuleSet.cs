@@ -9,17 +9,20 @@ namespace CalculationAlgorithm
         public RuleSet(IDictionary<string, Tuple<int, Func<double, double, double>>> arithmetricOperators = null,
                        IDictionary<string, Func<IList<double>, double>> arithmetricFunctions = null,
                        IDictionary<string, Func<IList<string>, string>> arithmetricStringFunctions = null,
+                       IDictionary<string, Func<IList<string>, string>> stringFunctions = null,
                        IList<string> variableList = null )
         {
             ArithmetricOperators = arithmetricOperators;
             ArithmetricFunctions = arithmetricFunctions;
             ArithmetricStringFunctions = arithmetricStringFunctions;
+            StringFunctions = stringFunctions;
             VariableList = variableList;
         }
 
         public IDictionary<string, Tuple<int, Func<double, double, double>>> ArithmetricOperators { get; }
         public IDictionary<string, Func<IList<double>, double>> ArithmetricFunctions { get; }
         public IDictionary<string, Func<IList<string>, string>> ArithmetricStringFunctions { get; }
+        public IDictionary<string, Func<IList<string>, string>> StringFunctions { get; }
         public IList<string> VariableList { get; }
 
         public IList<string> GetOperatorList()
@@ -36,7 +39,12 @@ namespace CalculationAlgorithm
                 operatorList = operatorList.Concat(ArithmetricFunctions.Keys).ToList();
             }
 
-            if(VariableList != null)
+            if (StringFunctions != null)
+            {
+                operatorList = operatorList.Concat(StringFunctions.Keys).ToList();
+            }
+
+            if (VariableList != null)
             {
                 operatorList = operatorList.Concat(VariableList).ToList();
             }
@@ -82,7 +90,16 @@ namespace CalculationAlgorithm
         {
             var ruleCategory = GetRuleCategory(operatorString);
             var isFunction = (ruleCategory == RuleCategory.ArithmetricFunction) ||
-                              (ruleCategory == RuleCategory.StringFunction);
+                             (ruleCategory == RuleCategory.ArithmetricStringFunction) ||
+                             (ruleCategory == RuleCategory.StringFunction);
+
+            return isFunction;
+        }
+
+        public bool IsArithmetricStringFunction(string operatorString)
+        {
+            var ruleCategory = GetRuleCategory(operatorString);
+            var isFunction = (ruleCategory == RuleCategory.ArithmetricStringFunction);
 
             return isFunction;
         }
@@ -130,6 +147,10 @@ namespace CalculationAlgorithm
                 ruleCategory = RuleCategory.ArithmetricFunction;
             }
             else if ((ArithmetricStringFunctions != null) && ArithmetricStringFunctions.Keys.Contains(operatorString))
+            {
+                ruleCategory = RuleCategory.ArithmetricStringFunction;
+            }
+            else if ((StringFunctions != null) && StringFunctions.Keys.Contains(operatorString))
             {
                 ruleCategory = RuleCategory.StringFunction;
             }
