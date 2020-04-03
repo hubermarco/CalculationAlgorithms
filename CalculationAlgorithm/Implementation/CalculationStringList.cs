@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CalculationAlgorithm
@@ -325,9 +326,33 @@ namespace CalculationAlgorithm
 
         private static bool IsOperatorOfListInInputString(string inputString, IList<string> operatorList)
         {
-            var isOperatorInInputString = operatorList?.Any(operatorString => inputString.Contains(operatorString));
+            var isOperatorOfListInInputString = false;
 
-            return (isOperatorInInputString.HasValue && isOperatorInInputString.Value);
+            if(operatorList != null)
+            {
+                foreach (var operatorString in operatorList)
+                {
+                    if (inputString.Contains(operatorString))
+                    {
+                        var findIndex = inputString.IndexOf(operatorString);
+
+                        if (findIndex >= 0)
+                        {
+                            var isCharBeforeALetter = (findIndex > 0) && char.IsLetter(inputString[findIndex - 1]);
+                            var isCharAfterALetter = (findIndex + operatorString.Length) < (inputString.Length - 1) &&
+                                            char.IsLetter(inputString[findIndex + operatorString.Length]);
+
+                            if (!isCharBeforeALetter && !isCharAfterALetter)
+                            {
+                                isOperatorOfListInInputString = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return isOperatorOfListInInputString;
         }
     }
 }

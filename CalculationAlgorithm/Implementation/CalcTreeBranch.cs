@@ -153,5 +153,10 @@ namespace CalculationAlgorithm
         {
             throw new System.Exception("CalcTreeBranch.SetValue() not allowed");
         }
+
+        public void SetStringValue(string stringValue)
+        {
+            throw new System.Exception("CalcTreeBranch.SetStringValue() not allowed");
+        }
     }
 }

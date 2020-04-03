@@ -5,7 +5,7 @@ namespace CalculationAlgorithm
     {
         private ICalcTreeBranch _parent;
         private double _value;
-        private readonly string _stringValue;
+        private string _stringValue;
         private readonly string _variableString;
 
         internal CalcTreeElement(ICalcTreeBranch parent, double value, string stringValue = "", string variableString = "")
@@ -44,6 +44,11 @@ namespace CalculationAlgorithm
         public void SetValue(double value)
         {
             _value = value;
+        }
+
+        public void SetStringValue(string stringValue)
+        {
+            _stringValue = stringValue;
         }
     }
 }

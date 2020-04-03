@@ -21,6 +21,7 @@ namespace CalculationAlgorithm
             foreach (var calcTreeElement in variableList)
             {
                 calcTreeElement.SetValue(value);
+                calcTreeElement.SetStringValue(value.ToString());
             }
         }
 

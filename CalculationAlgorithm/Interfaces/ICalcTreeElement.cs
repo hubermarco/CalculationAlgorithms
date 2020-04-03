@@ -13,5 +13,7 @@
         string GetResultString();
 
         void SetValue(double value);
+
+        void SetStringValue(string stringValue);
     }
 }
