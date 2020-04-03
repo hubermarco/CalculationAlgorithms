@@ -166,9 +166,9 @@ namespace CalculationAlgorithmWrapperTests
         }
 
         [Test]
-        public void When_input_string_is_not_valid_because_of_unknown_string_then_false_is_returned()
+        public void When_input_string_contains_unknown_string_then_it_is_valid()
         {
-            Assert.IsFalse(_calculationStringWrapper.IsCalculationValid("3-cc-4"));
+            Assert.IsTrue(_calculationStringWrapper.IsCalculationValid("3-cc-4"));
         }
     }
 }

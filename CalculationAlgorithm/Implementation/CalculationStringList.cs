@@ -44,6 +44,7 @@ namespace CalculationAlgorithm
             var inputStringList = new List<string>();
 
             var numberString = "";
+            var valueString = "";
 
             for (var i = 0; i < inputString.Length; i++)
             {
@@ -58,6 +59,13 @@ namespace CalculationAlgorithm
                         inputStringList.Add(numberString);
                         numberString = "";
                     }
+
+                    if (valueString.Length > 0)
+                    {
+                        inputStringList.Add(valueString);
+                        valueString = "";
+                    }
+
                     inputStringList.Add(operatorDto.OperatorString);
                     i += operatorDto.OperatorString.Length - 1;
                 }
@@ -79,12 +87,22 @@ namespace CalculationAlgorithm
                         numberString = "";
                     }
 
+                    if (valueString.Length > 0)
+                    {
+                        inputStringList.Add(valueString);
+                        valueString = "";
+                    }
+
                     inputStringList.Add(currentString);
                 }
-                else // if inputString contains unknown letters then inputStringList is cleared and returned
+                else // if inputString contains unknown letters then they are added to valueString
                 {
-                    inputStringList.Clear();
-                    break;
+                    valueString += currentString;
+
+                    if (i == inputString.Length - 1)
+                    {
+                        inputStringList.Add(valueString);
+                    }
                 }
             }
             return inputStringList;
