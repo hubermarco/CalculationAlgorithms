@@ -332,23 +332,28 @@ namespace CalculationAlgorithm
             {
                 foreach (var operatorString in operatorList)
                 {
-                    if (inputString.Contains(operatorString))
+                    if (InputStringHelper.DoesStringContainOperator(inputString, operatorString))
                     {
-                        var findIndex = inputString.IndexOf(operatorString);
-
-                        if (findIndex >= 0)
-                        {
-                            var isCharBeforeALetter = (findIndex > 0) && char.IsLetter(inputString[findIndex - 1]);
-                            var isCharAfterALetter = (findIndex + operatorString.Length) < (inputString.Length - 1) &&
-                                            char.IsLetter(inputString[findIndex + operatorString.Length]);
-
-                            if (!isCharBeforeALetter && !isCharAfterALetter)
-                            {
-                                isOperatorOfListInInputString = true;
-                                break;
-                            }
-                        }
+                        isOperatorOfListInInputString = true;
+                        break;
                     }
+                    //if (inputString.Contains(operatorString))
+                    //{
+                    //    var findIndex = inputString.IndexOf(operatorString);
+
+                    //    if (findIndex >= 0)
+                    //    {
+                    //        var isCharBeforeALetter = (findIndex > 0) && char.IsLetter(inputString[findIndex - 1]);
+                    //        var isCharAfterALetter = (findIndex + operatorString.Length) < (inputString.Length - 1) &&
+                    //                        char.IsLetter(inputString[findIndex + operatorString.Length]);
+
+                    //        if (!isCharBeforeALetter && !isCharAfterALetter)
+                    //        {
+                    //            isOperatorOfListInInputString = true;
+                    //            break;
+                    //        }
+                    //    }
+                    //}
                 }
             }
 
