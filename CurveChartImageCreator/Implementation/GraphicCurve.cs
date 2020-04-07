@@ -268,6 +268,28 @@ namespace CurveChartImageCreator
 
                 if (stream != null)
                     mGraph.Save(stream, ImageFormat.Png);
+
+                mGraph.Dispose();
+       
+                font.Dispose();
+                graph.Dispose();
+
+                brushBlk.Dispose();
+                brushRed.Dispose();
+                brushLGrn.Dispose();
+                brushGry.Dispose();
+                brushYellow.Dispose();
+                brushOrange.Dispose();
+                brushBlue.Dispose();
+                brushDarkBlue.Dispose();
+                penBlk.Dispose();
+                penRed.Dispose();
+                penLGrn.Dispose();
+                penGry.Dispose();
+                penYellow.Dispose();
+                penOrange.Dispose();
+                penBlue.Dispose();
+                penDarkBlue.Dispose();
             }
             catch (Exception exc)
             {
@@ -336,6 +358,22 @@ namespace CurveChartImageCreator
 
                 if (stream != null)
                     mGraph.Save(stream, ImageFormat.Png);
+
+                mGraph.Dispose();
+                font.Dispose();
+                graph.Dispose();
+                brushBlk.Dispose();
+                brushRed.Dispose();
+                brushLGrn.Dispose();
+                brushGry.Dispose();
+                brushYellow.Dispose();
+                brushOrange.Dispose();
+                penBlk.Dispose();
+                penRed.Dispose();
+                penLGrn.Dispose();
+                penGry.Dispose();
+                penYellow.Dispose();
+                penOrange.Dispose();
             }
             catch (Exception exc)
             {
