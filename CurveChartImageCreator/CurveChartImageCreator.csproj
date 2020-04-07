@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\TestCurveChartImageApi.cs" />
+    <Compile Include="Api\CurveChartImageApi.cs" />
     <Compile Include="Implementation\CurveTypeID.cs" />
     <Compile Include="Implementation\Deviation.cs" />
     <Compile Include="Implementation\FreqCrv.cs" />

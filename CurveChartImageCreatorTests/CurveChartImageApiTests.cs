@@ -8,7 +8,7 @@ using System.Linq;
 namespace CurveChartImageCreatorTests
 {
     [TestFixture]
-    public class TestCurveChartImageApiTests
+    public class CurveChartImageApiTests
     {
         [Test]
         public void When_curve_chart_image_is_created_then_corresponding_file_is_stored()
