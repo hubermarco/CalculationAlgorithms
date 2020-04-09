@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace CalculationAlgorithmWrapper
@@ -73,8 +74,7 @@ namespace CalculationAlgorithmWrapper
                     outputStringMatlab += numberSubString + " ";
                     valueCount++;
 
-                    var numberStringToParse = numberSubString.Replace(".", ",");
-                    curve.Add(double.Parse(numberStringToParse));
+                    curve.Add(double.Parse(numberSubString, CultureInfo.InvariantCulture));
                 }
             }
 
