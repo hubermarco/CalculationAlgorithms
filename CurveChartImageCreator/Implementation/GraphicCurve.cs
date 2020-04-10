@@ -33,70 +33,14 @@ namespace CurveChartImageCreator
                     return;
                 }
 
-                var dXMin = targetCurves[0][0].X;
-                var dXMax = dXMin;
-                var dYMin = targetCurves[0][0].Y;
-                var dYMax = dYMin;
-
-                foreach (var crv in targetCurves)
-                {
-                    foreach (var pt in crv)
-                    {
-                        if (pt.X < dXMin)
-                        {
-                            dXMin = pt.X;
-                        }
-                        if (pt.X > dXMax)
-                        {
-                            dXMax = pt.X;
-                        }
-                        if (pt.Y < dYMin)
-                        {
-                            dYMin = pt.Y;
-                        }
-                        if (pt.Y > dYMax)
-                        {
-                            dYMax = pt.Y;
-                        }
-                    }
-                }
-
-                foreach (var crv in simCurves)
-                {
-                    foreach (var pt in crv)
-                    {
-                        if (pt.X < dXMin)
-                        {
-                            dXMin = pt.X;
-                        }
-                        if (pt.X > dXMax)
-                        {
-                            dXMax = pt.X;
-                        }
-                        if (pt.Y < dYMin)
-                        {
-                            dYMin = pt.Y;
-                        }
-                        if (pt.Y > dYMax)
-                        {
-                            dYMax = pt.Y;
-                        }
-                    }
-                }
-
-#pragma warning disable 612
-
-                if (YMax4Graph <= YMin4Graph) //autoscale
-                {
-                    dYMin = 10.0*Math.Floor( dYMin/10.0 );
-                    dYMax = 10.0*Math.Ceiling( dYMax/10.0 );
-                }
-                else
-                {
-                    dYMin = YMin4Graph;
-                    dYMax = YMax4Graph;
-                }
-#pragma warning restore 612
+                double dXMin = 0; double dXMax = 0; double dYMin = 0; double dYMax = 0; 
+                CalculateXandYRange(
+                    targetCurves, 
+                    simCurves, 
+                    ref dXMin, 
+                    ref dXMax, 
+                    ref dYMin, 
+                    ref dYMax);
 
                 var dXScale = (dWidth - 2.0 * dBorder) / Math.Log10(dXMax / dXMin);   //logarithmic x axis
                 if (LinearFreqAxis)
@@ -296,6 +240,78 @@ namespace CurveChartImageCreator
                 if (LastError != null) LastError += "\n";
                 LastError += exc.Message;
                 if (exc.InnerException != null) LastError += exc.InnerException.Message;
+            }
+        }
+
+        internal static void CalculateXandYRange(
+            IList<FreqCrv> targetCurves, 
+            IList<FreqCrv> simCurves,
+            ref double dXMin,
+            ref double dXMax,
+            ref double dYMin,
+            ref double dYMax
+            )
+        {
+            dXMin = targetCurves[0][0].X;
+            dXMax = dXMin;
+            dYMin = targetCurves[0][0].Y;
+            dYMax = dYMin;
+
+            foreach (var crv in targetCurves)
+            {
+                foreach (var pt in crv)
+                {
+                    if (pt.X < dXMin)
+                    {
+                        dXMin = pt.X;
+                    }
+                    if (pt.X > dXMax)
+                    {
+                        dXMax = pt.X;
+                    }
+                    if (pt.Y < dYMin)
+                    {
+                        dYMin = pt.Y;
+                    }
+                    if (pt.Y > dYMax)
+                    {
+                        dYMax = pt.Y;
+                    }
+                }
+            }
+
+            foreach (var crv in simCurves)
+            {
+                foreach (var pt in crv)
+                {
+                    if (pt.X < dXMin)
+                    {
+                        dXMin = pt.X;
+                    }
+                    if (pt.X > dXMax)
+                    {
+                        dXMax = pt.X;
+                    }
+                    if (pt.Y < dYMin)
+                    {
+                        dYMin = pt.Y;
+                    }
+                    if (pt.Y > dYMax)
+                    {
+                        dYMax = pt.Y;
+                    }
+                }
+
+                if (YMax4Graph <= YMin4Graph) //autoscale
+                {
+                    dYMin = 10.0 * Math.Floor(dYMin / 10.0);
+                    dYMax = 10.0 * Math.Ceiling(dYMax / 10.0);
+                }
+                else
+                {
+                    dYMin = YMin4Graph;
+                    dYMax = YMax4Graph;
+                }
             }
         }
 
