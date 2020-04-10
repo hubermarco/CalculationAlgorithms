@@ -66,6 +66,7 @@
     <Compile Include="CalculationStringWrapperTests.cs" />
     <Compile Include="CalculatorTests.cs" />
     <Compile Include="ConvertersTests.cs" />
+    <Compile Include="CurveConverterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -79,6 +80,9 @@
       <Project>{C0DBEB1B-F81E-46CB-BC1E-580C0AA4A798}</Project>
       <Name>CalculationAlgorithm</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CurveConverterInput.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
