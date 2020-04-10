@@ -51,6 +51,7 @@
     <Compile Include="Implementation\IDBase.cs" />
     <Compile Include="Implementation\IFrequencyCurve.cs" />
     <Compile Include="Implementation\IFrequencyPoint.cs" />
+    <Compile Include="Implementation\Resources.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Implementation\TCurveType.cs" />
     <Compile Include="Implementation\TestCurveChartImage.cs" />
