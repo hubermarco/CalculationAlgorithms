@@ -17,20 +17,28 @@ namespace CurveChartImageCreator
             uint imageWidth = 600,
             uint imageHeight = 400)
         {
-            var freqCurveList1 = new List<FreqCrv>();
-            foreach(var curve in curveList1)
+            var freqCurveList1 = (curveList1 != null) ? new List<FreqCrv>() : null;
+
+            if(curveList1 != null)
             {
-                var freqCrv = new FreqCrv(TCurveType.None);
-                xGrid.Select((x, index) => new FreqPt(x, curve[index])).ToList().ForEach(freqPt => freqCrv.Add(freqPt));
-                freqCurveList1.Add(freqCrv);
+                foreach (var curve in curveList1)
+                {
+                    var freqCrv = new FreqCrv(TCurveType.None);
+                    xGrid.Select((x, index) => new FreqPt(x, curve[index])).ToList().ForEach(freqPt => freqCrv.Add(freqPt));
+                    freqCurveList1.Add(freqCrv);
+                }
             }
 
-            var freqCurveList2 = new List<FreqCrv>();
-            foreach (var curve in curveList2)
+            var freqCurveList2 = (curveList2 != null) ? new List<FreqCrv>() : null;
+
+            if(curveList2 != null)
             {
-                var freqCrv = new FreqCrv(TCurveType.None);
-                xGrid.Select((x, index) => new FreqPt(x, curve[index])).ToList().ForEach(freqPt => freqCrv.Add(freqPt));
-                freqCurveList2.Add(freqCrv);
+                foreach (var curve in curveList2)
+                {
+                    var freqCrv = new FreqCrv(TCurveType.None);
+                    xGrid.Select((x, index) => new FreqPt(x, curve[index])).ToList().ForEach(freqPt => freqCrv.Add(freqPt));
+                    freqCurveList2.Add(freqCrv);
+                }
             }
 
             TestCurveChartImage.Create(

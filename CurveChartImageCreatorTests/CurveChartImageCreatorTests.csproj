@@ -41,16 +41,24 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateCurveChartImageOutOfDebuggerStringTests.cs" />
     <Compile Include="CurveChartImageApiTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CalculationAlgorithmWrapper\CalculationAlgorithmWrapper.csproj">
+      <Project>{061A95EB-0B0B-473D-AD0B-3B2ECD849386}</Project>
+      <Name>CalculationAlgorithmWrapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CurveChartImageCreator\CurveChartImageCreator.csproj">
       <Project>{f5507c43-4f6d-4a31-b940-6e90cc01675a}</Project>
       <Name>CurveChartImageCreator</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CurveConverterInput.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

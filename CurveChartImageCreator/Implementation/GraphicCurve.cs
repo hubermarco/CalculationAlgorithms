@@ -16,7 +16,6 @@ namespace CurveChartImageCreator
         public static string LastError;
         public static double YMin4Graph = 1.0;
         public static double YMax4Graph = -1.0;
-        private static double graphicCurveResourcesdHeight;
 
         //draw curves to bitmap file
 
@@ -30,10 +29,10 @@ namespace CurveChartImageCreator
                 const double dFontSize = 10.0; // px
                 const float fLineWidth = 1.6f; // px
 
-                if (!(targetCurves.Count > 0 && targetCurves[0].Count >= 1 && simCurves.Count > 0 && simCurves[0].Count > 1))
-                {
-                    return;
-                }
+                //if (!(targetCurves.Count > 0 && targetCurves[0].Count >= 1 && simCurves.Count > 0 && simCurves[0].Count > 1))
+                //{
+                //    return;
+                //}
 
                 double dXMin = 0; double dXMax = 0; double dYMin = 0; double dYMax = 0; 
                 CalculateXandYRange(targetCurves, simCurves, ref dXMin, ref dXMax, ref dYMin, ref dYMax);
@@ -88,66 +87,81 @@ namespace CurveChartImageCreator
             ref double dYMax
             )
         {
-            dXMin = targetCurves[0][0].X;
-            dXMax = dXMin;
-            dYMin = targetCurves[0][0].Y;
-            dYMax = dYMin;
+            dXMin = 0;
+            dXMax = 0;
+            dYMin = 0;
+            dYMax = 0;
 
-            foreach (var crv in targetCurves)
+            if((targetCurves != null) && (targetCurves.Count > 0))
             {
-                foreach (var pt in crv)
+                dXMin = targetCurves[0][0].X;
+                dXMax = dXMin;
+                dYMin = targetCurves[0][0].Y;
+                dYMax = dYMin;
+
+                foreach (var crv in targetCurves)
                 {
-                    if (pt.X < dXMin)
+                    foreach (var pt in crv)
                     {
-                        dXMin = pt.X;
+                        if (pt.X < dXMin)
+                        {
+                            dXMin = pt.X;
+                        }
+                        if (pt.X > dXMax)
+                        {
+                            dXMax = pt.X;
+                        }
+                        if (pt.Y < dYMin)
+                        {
+                            dYMin = pt.Y;
+                        }
+                        if (pt.Y > dYMax)
+                        {
+                            dYMax = pt.Y;
+                        }
                     }
-                    if (pt.X > dXMax)
+                }
+            }
+            if( (simCurves != null) && (simCurves.Count > 0) )
+            {
+                dXMin = simCurves[0][0].X;
+                dXMax = dXMin;
+                dYMin = simCurves[0][0].Y;
+                dYMax = dYMin;
+
+                foreach (var crv in simCurves)
+                {
+                    foreach (var pt in crv)
                     {
-                        dXMax = pt.X;
-                    }
-                    if (pt.Y < dYMin)
-                    {
-                        dYMin = pt.Y;
-                    }
-                    if (pt.Y > dYMax)
-                    {
-                        dYMax = pt.Y;
+                        if (pt.X < dXMin)
+                        {
+                            dXMin = pt.X;
+                        }
+                        if (pt.X > dXMax)
+                        {
+                            dXMax = pt.X;
+                        }
+                        if (pt.Y < dYMin)
+                        {
+                            dYMin = pt.Y;
+                        }
+                        if (pt.Y > dYMax)
+                        {
+                            dYMax = pt.Y;
+                        }
                     }
                 }
             }
 
-            foreach (var crv in simCurves)
+            if (YMax4Graph <= YMin4Graph) //autoscale
             {
-                foreach (var pt in crv)
-                {
-                    if (pt.X < dXMin)
-                    {
-                        dXMin = pt.X;
-                    }
-                    if (pt.X > dXMax)
-                    {
-                        dXMax = pt.X;
-                    }
-                    if (pt.Y < dYMin)
-                    {
-                        dYMin = pt.Y;
-                    }
-                    if (pt.Y > dYMax)
-                    {
-                        dYMax = pt.Y;
-                    }
-                }
-
-                if (YMax4Graph <= YMin4Graph) //autoscale
-                {
-                    dYMin = 10.0 * Math.Floor(dYMin / 10.0);
-                    dYMax = 10.0 * Math.Ceiling(dYMax / 10.0);
-                }
-                else
-                {
-                    dYMin = YMin4Graph;
-                    dYMax = YMax4Graph;
-                }
+                dYMin = 10.0 * Math.Floor(dYMin / 10.0);
+                dYMax = 10.0 * Math.Ceiling(dYMax / 10.0);
+            }
+            else
+            {
+                dYMin = YMin4Graph;
+                dYMax = YMax4Graph;
             }
         }
 
@@ -280,15 +294,18 @@ namespace CurveChartImageCreator
             double dBorder,
             GraphicCurveResources graphicCurveResources)
         {
-            //targets
-            foreach (var crv in targetCurves)
+            if(targetCurves != null)
             {
-                if ((crv.CurveType != null) && (crv.CurveType == TCurveType.MPO_Target))
-                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenYellow, graphicCurveResources.Graph, 
-                        crv, dYScale, dXScale, dBorder);
-                else
-                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenRed, graphicCurveResources.Graph, 
-                        crv, dYScale, dXScale, dBorder);
+                //targets
+                foreach (var crv in targetCurves)
+                {
+                    if ((crv.CurveType != null) && (crv.CurveType == TCurveType.MPO_Target))
+                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenYellow, graphicCurveResources.Graph,
+                            crv, dYScale, dXScale, dBorder);
+                    else
+                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenRed, graphicCurveResources.Graph,
+                            crv, dYScale, dXScale, dBorder);
+                }
             }
         }
 
@@ -301,45 +318,48 @@ namespace CurveChartImageCreator
              double dBorder,
              GraphicCurveResources graphicCurveResources)
         {
-            //sim curves
-            foreach (var crv in simCurves)
+            if(simCurves != null)
             {
-                if (crv.CurveType == TCurveType.Level_Low || crv.CurveType == TCurveType.Level_Medium ||
-                    crv.CurveType == TCurveType.Level_High)
+                //sim curves
+                foreach (var crv in simCurves)
                 {
-                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenBlk, 
-                        graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
-                }
-                else if (crv.CurveType == TCurveType.Fog)
-                {
-                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenOrange, 
-                        graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
-                }
-                else if (crv.CurveType == TCurveType.TinnitusNoiserSimulation ||
-                         crv.CurveType == TCurveType.TinnitusNoiserBroadbandLevel)
-                {
-                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenLGrn, 
-                        graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
-                }
-                else if (crv.CurveType == TCurveType.CgmNoiseBroadbandLevel ||
-                         crv.CurveType == TCurveType.CgmReferenceCurve ||
-                         crv.CurveType == TCurveType.CriticalGain ||
-                         crv.CurveType == TCurveType.CriticalGainFollowUp ||
-                         crv.CurveType == TCurveType.CriticalGainMeasured ||
-                         crv.CurveType == TCurveType.CriticalGainStatistical)
-                {
-                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenBlue, 
-                        graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
-                }
-                else if (crv.CurveType == TCurveType.Effective_MPO)
-                {
-                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenDarkBlue, 
-                        graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
-                }
-                else
-                {
-                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenGry, 
-                        graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
+                    if (crv.CurveType == TCurveType.Level_Low || crv.CurveType == TCurveType.Level_Medium ||
+                        crv.CurveType == TCurveType.Level_High)
+                    {
+                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenBlk, 
+                            graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
+                    }
+                    else if (crv.CurveType == TCurveType.Fog)
+                    {
+                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenOrange, 
+                            graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
+                    }
+                    else if (crv.CurveType == TCurveType.TinnitusNoiserSimulation ||
+                             crv.CurveType == TCurveType.TinnitusNoiserBroadbandLevel)
+                    {
+                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenLGrn, 
+                            graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
+                    }
+                    else if (crv.CurveType == TCurveType.CgmNoiseBroadbandLevel ||
+                             crv.CurveType == TCurveType.CgmReferenceCurve ||
+                             crv.CurveType == TCurveType.CriticalGain ||
+                             crv.CurveType == TCurveType.CriticalGainFollowUp ||
+                             crv.CurveType == TCurveType.CriticalGainMeasured ||
+                             crv.CurveType == TCurveType.CriticalGainStatistical)
+                    {
+                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenBlue, 
+                            graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
+                    }
+                    else if (crv.CurveType == TCurveType.Effective_MPO)
+                    {
+                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenDarkBlue, 
+                            graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
+                    }
+                    else
+                    {
+                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenGry, 
+                            graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
+                    }
                 }
             }
         }
