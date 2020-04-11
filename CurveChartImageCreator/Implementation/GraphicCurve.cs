@@ -38,12 +38,8 @@ namespace CurveChartImageCreator
                 double dXMin = 0; double dXMax = 0; double dYMin = 0; double dYMax = 0; 
                 CalculateXandYRange(targetCurves, simCurves, ref dXMin, ref dXMax, ref dYMin, ref dYMax);
 
-                var dXScale = (dWidth - 2.0 * dBorder) / Math.Log10(dXMax / dXMin);   //logarithmic x axis
-                if (LinearFreqAxis)
-                {
-                    dXScale = (dWidth - 2.0 * dBorder) / (dXMax - dXMin);   //linear x axis
-                }
-                var dYScale = (dHeight - 2.0 * dBorder) / (dYMax - dYMin);
+                double dXScale = 0; double dYScale = 0;
+                CalculateXScaleAndYScale(dWidth, dHeight, dBorder, dXMax, dXMin, dYMax, dYMin, ref dXScale, ref dYScale);
 
                 var graphicCurveResources = GraphicCurveResources.Create(dWidth, dHeight, dFontSize, fLineWidth);
 
@@ -70,6 +66,17 @@ namespace CurveChartImageCreator
                 LastError += exc.Message;
                 if (exc.InnerException != null) LastError += exc.InnerException.Message;
             }
+        }
+
+        private static void CalculateXScaleAndYScale(double dWidth, double dHeight, double dBorder, double dXMax, 
+            double dXMin, double dYMax, double dYMin, ref double dXScale, ref double dYScale)
+        {
+            dXScale = (dWidth - 2.0 * dBorder) / Math.Log10(dXMax / dXMin);   //logarithmic x axis
+            if (LinearFreqAxis)
+            {
+                dXScale = (dWidth - 2.0 * dBorder) / (dXMax - dXMin);   //linear x axis
+            }
+            dYScale = (dHeight - 2.0 * dBorder) / (dYMax - dYMin);
         }
 
         private static void CalculateXandYRange(
