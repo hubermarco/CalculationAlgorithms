@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -15,6 +16,7 @@ namespace CurveChartImageCreator
         public static string LastError;
         public static double YMin4Graph = 1.0;
         public static double YMax4Graph = -1.0;
+        private static double graphicCurveResourcesdHeight;
 
         //draw curves to bitmap file
 
@@ -34,13 +36,7 @@ namespace CurveChartImageCreator
                 }
 
                 double dXMin = 0; double dXMax = 0; double dYMin = 0; double dYMax = 0; 
-                CalculateXandYRange(
-                    targetCurves, 
-                    simCurves, 
-                    ref dXMin, 
-                    ref dXMax, 
-                    ref dYMin, 
-                    ref dYMax);
+                CalculateXandYRange(targetCurves, simCurves, ref dXMin, ref dXMax, ref dYMin, ref dYMax);
 
                 var dXScale = (dWidth - 2.0 * dBorder) / Math.Log10(dXMax / dXMin);   //logarithmic x axis
                 if (LinearFreqAxis)
@@ -49,115 +45,24 @@ namespace CurveChartImageCreator
                 }
                 var dYScale = (dHeight - 2.0 * dBorder) / (dYMax - dYMin);
 
-                //drawing resources
-                var mGraph = new Bitmap((int)dWidth, (int)dHeight, PixelFormat.Format32bppArgb);
-                var font = new Font("Lucida Sans Unicode", (int)dFontSize);
-                var graph = Graphics.FromImage(mGraph);
-                graph.SmoothingMode = SmoothingMode.AntiAlias;
-                var brushBlk = new SolidBrush(Color.Black);
-                var brushRed = new SolidBrush(Color.Red);
-                var brushLGrn = new SolidBrush(Color.DarkGreen);
-                var brushGry = new SolidBrush(Color.DarkGray);
-                var brushYellow = new SolidBrush(Color.FromArgb(255, 255, 230, 0));
-                var brushOrange = new SolidBrush(Color.Orange);
-                var brushBlue = new SolidBrush(Color.Blue);
-                var brushDarkBlue = new SolidBrush(Color.DarkBlue);
-                var penBlk = new Pen(brushBlk, fLineWidth);
-                var penRed = new Pen(brushRed, fLineWidth);
-                var penLGrn = new Pen(brushLGrn, fLineWidth);
-                var penGry = new Pen(brushGry, 1f);
-                var penYellow = new Pen(brushYellow, fLineWidth);
-                var penOrange = new Pen(brushOrange, fLineWidth);
-                var penBlue = new Pen(brushBlue, fLineWidth);
-                var penDarkBlue = new Pen(brushDarkBlue, fLineWidth);
+                var graphicCurveResources = GraphicCurveResources.Create(dWidth, dHeight, dFontSize, fLineWidth);
 
-                graph.FillRectangle(Brushes.White, 0.0f, 0.0f, dWidth, dHeight);
+                DrawAxisFrame(dBorder, dYMin, dYMax, graphicCurveResources);
 
-                DrawAxisFrame(
-                    dBorder,
-                    dWidth,
-                    dHeight,
-                    dYMin,
-                    dYMax,
-                    penGry,
-                    graph,
-                    font,
-                    brushGry);
+                DrawXAxis(dBorder, dXScale, dXMin, graphicCurveResources);
 
-                DrawXAxis(
-                     dBorder,
-                     dHeight,
-                     dXScale,
-                     dXMin,
-                     font,
-                     brushGry,
-                     graph,
-                     penGry);
+                DrawYAxis(dBorder, dYMin, dYMax, dYScale, graphicCurveResources);
 
-                DrawYAxis(
-                    dBorder,
-                    dYMin,
-                    dYMax,
-                    dWidth,
-                    dHeight,
-                    dYScale,
-                    penGry,
-                    graph,
-                    font,
-                    brushGry);
+                DrawTargets(targetCurves, dXMin, dYMin, dXScale, dYScale, dBorder, graphicCurveResources);
 
-                DrawTargets(
-                    targetCurves,
-                    dHeight,
-                    dXMin,
-                    dYMin,
-                    dXScale,
-                    dYScale,
-                    dBorder,
-                    penYellow,
-                    penRed,
-                    graph);
-
-                DrawSimCurves(
-                    simCurves,
-                    dHeight,
-                    dXMin,
-                    dYMin,
-                    dYScale,
-                    dXScale,
-                    dBorder,
-                    penBlk,
-                    penOrange,
-                    penLGrn,
-                    penBlue,
-                    penDarkBlue,
-                    penGry,
-                    graph);
+                DrawSimCurves(simCurves, dXMin, dYMin, dYScale, dXScale, dBorder, graphicCurveResources);
 
                 if (stream != null)
-                    mGraph.Save(stream, ImageFormat.Png);
-
-                mGraph.Dispose();
-       
-                font.Dispose();
-                graph.Dispose();
-
-                brushBlk.Dispose();
-                brushRed.Dispose();
-                brushLGrn.Dispose();
-                brushGry.Dispose();
-                brushYellow.Dispose();
-                brushOrange.Dispose();
-                brushBlue.Dispose();
-                brushDarkBlue.Dispose();
-                penBlk.Dispose();
-                penRed.Dispose();
-                penLGrn.Dispose();
-                penGry.Dispose();
-                penYellow.Dispose();
-                penOrange.Dispose();
-                penBlue.Dispose();
-                penDarkBlue.Dispose();
+                {
+                    graphicCurveResources.MGraph.Save(stream, ImageFormat.Png);
+                }
+                    
+                graphicCurveResources.Dispose(); 
             }
             catch (Exception exc)
             {
@@ -241,104 +146,99 @@ namespace CurveChartImageCreator
 
         private static void DrawAxisFrame(
             double dBorder, 
-            double dWidth,
-            double dHeight,
             double dYMin, 
-            double dYMax,  
-            Pen penGry, 
-            Graphics graph, 
-            Font font, 
-            Brush brushGry)
+            double dYMax,
+            GraphicCurveResources graphicCurveResources)
         {
             var dX1 = dBorder;
             var dY1 = dBorder;
-            var dX2 = dWidth - dBorder;
+            var dX2 = graphicCurveResources.DWidth - dBorder;
             var dY2 = dBorder;
-            DrawLine(dX1, dY1, dX2, dY2, penGry, graph, dHeight);
+            DrawLine(dX1, dY1, dX2, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, graphicCurveResources.DHeight);
             dX1 = dX2;
             dY1 = dY2;
-            dX2 = dWidth - dBorder;
-            dY2 = dHeight - dBorder;
-            DrawLine(dX1, dY1, dX2, dY2, penGry, graph, dHeight);
+            dX2 = graphicCurveResources.DWidth - dBorder;
+            dY2 = graphicCurveResources.DHeight - dBorder;
+            DrawLine(dX1, dY1, dX2, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, graphicCurveResources.DHeight);
             dX1 = dX2;
             dY1 = dY2;
             dX2 = dBorder;
-            dY2 = dHeight - dBorder;
-            DrawLine(dX1, dY1, dX2, dY2, penGry, graph, dHeight);
+            dY2 = graphicCurveResources.DHeight - dBorder;
+            DrawLine(dX1, dY1, dX2, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, graphicCurveResources.DHeight);
             dX1 = dX2;
             dY1 = dY2;
             dX2 = dBorder;
             dY2 = dBorder;
-            DrawLine(dX1, dY1, dX2, dY2, penGry, graph, dHeight);
+            DrawLine(dX1, dY1, dX2, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, graphicCurveResources.DHeight);
             dX1 = 1.5 * dBorder;
-            dY1 = dHeight - 0.5 * dBorder;
-            DrawStringY(HeaderCaption, dX1, dY1, font, brushGry, graph, dHeight);
+            dY1 = graphicCurveResources.DHeight - 0.5 * dBorder;
+            DrawStringY(HeaderCaption, dX1, dY1, graphicCurveResources.Font, graphicCurveResources.BrushGry,
+                graphicCurveResources.Graph, graphicCurveResources.DHeight);
 
             //min y
             dX1 = 0.02 * dBorder;
             dY1 = 1.0 * dBorder;
-            DrawStringY(dYMin.ToString(CultureInfo.InvariantCulture), dX1, dY1, font, brushGry, graph, dHeight);
+            DrawStringY(dYMin.ToString(CultureInfo.InvariantCulture), dX1, dY1, graphicCurveResources.Font, 
+                graphicCurveResources.BrushGry, graphicCurveResources.Graph, graphicCurveResources.DHeight);
 
             //max y
             dX1 = 0.02 * dBorder;
-            dY1 = dHeight - 1.0 * dBorder;
-            DrawStringY(dYMax.ToString(CultureInfo.InvariantCulture), dX1, dY1, font, brushGry, graph, dHeight);
-
+            dY1 = graphicCurveResources.DHeight - 1.0 * dBorder;
+            DrawStringY(dYMax.ToString(CultureInfo.InvariantCulture), dX1, dY1, graphicCurveResources.Font,
+                graphicCurveResources.BrushGry, graphicCurveResources.Graph, graphicCurveResources.DHeight);
         }
 
         private static void DrawXAxis(
             double dBorder, 
-            double dHeight, 
             double dXScale, 
-            double dXMin, 
-            Font font, 
-            Brush brushGry, 
-            Graphics graph, 
-            Pen penGry)
+            double dXMin,
+            GraphicCurveResources graphicCurveResources)
         {
+            var dHeight = graphicCurveResources.DHeight;
+
             //x-axis:  125Hz  250Hz  500Hz  1k  2k  4k  8k
             var dY1 = dBorder;
             var dY2 = dHeight - dBorder;
             var dX1 = Value2PixelX(125.0, dBorder, dXScale, dXMin);
-            DrawStringX("125", dX1, dY1, font, brushGry, graph, dHeight);
-            DrawLine(dX1, dY1, dX1, dY2, penGry, graph, dHeight);
+            DrawStringX("125", dX1, dY1, graphicCurveResources.Font, graphicCurveResources.BrushGry, graphicCurveResources.Graph, dHeight);
+            DrawLine(dX1, dY1, dX1, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, dHeight);
             dX1 = Value2PixelX(250.0, dBorder, dXScale, dXMin);
-            DrawStringX("250", dX1, dY1, font, brushGry, graph, dHeight);
-            DrawLine(dX1, dY1, dX1, dY2, penGry, graph, dHeight);
+            DrawStringX("250", dX1, dY1, graphicCurveResources.Font, graphicCurveResources.BrushGry, graphicCurveResources.Graph, dHeight);
+            DrawLine(dX1, dY1, dX1, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, dHeight);
             dX1 = Value2PixelX(500.0, dBorder, dXScale, dXMin);
-            DrawStringX("500", dX1, dY1, font, brushGry, graph, dHeight);
-            DrawLine(dX1, dY1, dX1, dY2, penGry, graph, dHeight);
+            DrawStringX("500", dX1, dY1, graphicCurveResources.Font, graphicCurveResources.BrushGry, graphicCurveResources.Graph, dHeight);
+            DrawLine(dX1, dY1, dX1, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, dHeight);
             dX1 = Value2PixelX(1000.0, dBorder, dXScale, dXMin);
-            DrawStringX("1k", dX1, dY1, font, brushGry, graph, dHeight);
-            DrawLine(dX1, dY1, dX1, dY2, penGry, graph, dHeight);
+            DrawStringX("1k", dX1, dY1, graphicCurveResources.Font, graphicCurveResources.BrushGry, graphicCurveResources.Graph, dHeight);
+            DrawLine(dX1, dY1, dX1, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, dHeight);
             dX1 = Value2PixelX(2000.0, dBorder, dXScale, dXMin);
-            DrawStringX("2k", dX1, dY1, font, brushGry, graph, dHeight);
-            DrawLine(dX1, dY1, dX1, dY2, penGry, graph, dHeight);
+            DrawStringX("2k", dX1, dY1, graphicCurveResources.Font, graphicCurveResources.BrushGry, graphicCurveResources.Graph, dHeight);
+            DrawLine(dX1, dY1, dX1, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, dHeight);
             dX1 = Value2PixelX(4000.0, dBorder, dXScale, dXMin);
-            DrawStringX("4k", dX1, dY1, font, brushGry, graph, dHeight);
-            DrawLine(dX1, dY1, dX1, dY2, penGry, graph, dHeight);
+            DrawStringX("4k", dX1, dY1, graphicCurveResources.Font, graphicCurveResources.BrushGry, graphicCurveResources.Graph, dHeight);
+            DrawLine(dX1, dY1, dX1, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, dHeight);
             dX1 = Value2PixelX(8000.0, dBorder, dXScale, dXMin);
-            DrawStringX("8k", dX1, dY1, font, brushGry, graph, dHeight);
-            DrawLine(dX1, dY1, dX1, dY2, penGry, graph, dHeight);
+            DrawStringX("8k", dX1, dY1, graphicCurveResources.Font, graphicCurveResources.BrushGry, graphicCurveResources.Graph, dHeight);
+            DrawLine(dX1, dY1, dX1, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, dHeight);
 
             //linear x-axis only:  5k 6k 7k 10k 11k
             if (LinearFreqAxis)
             {
                 dX1 = Value2PixelX(5000.0, dBorder, dXScale, dXMin);
-                DrawStringX("5k", dX1, dY1, font, brushGry, graph, dHeight);
-                DrawLine(dX1, dY1, dX1, dY2, penGry, graph, dHeight);
+                DrawStringX("5k", dX1, dY1, graphicCurveResources.Font, graphicCurveResources.BrushGry, graphicCurveResources.Graph, dHeight);
+                DrawLine(dX1, dY1, dX1, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, dHeight);
                 dX1 = Value2PixelX(6000.0, dBorder, dXScale, dXMin);
-                DrawStringX("6k", dX1, dY1, font, brushGry, graph, dHeight);
-                DrawLine(dX1, dY1, dX1, dY2, penGry, graph, dHeight);
+                DrawStringX("6k", dX1, dY1, graphicCurveResources.Font, graphicCurveResources.BrushGry, graphicCurveResources.Graph, dHeight);
+                DrawLine(dX1, dY1, dX1, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, dHeight);
                 dX1 = Value2PixelX(7000.0, dBorder, dXScale, dXMin);
-                DrawStringX("7k", dX1, dY1, font, brushGry, graph, dHeight);
-                DrawLine(dX1, dY1, dX1, dY2, penGry, graph, dHeight);
+                DrawStringX("7k", dX1, dY1, graphicCurveResources.Font, graphicCurveResources.BrushGry, graphicCurveResources.Graph, dHeight);
+                DrawLine(dX1, dY1, dX1, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, dHeight);
                 dX1 = Value2PixelX(10000.0, dBorder, dXScale, dXMin);
-                DrawStringX("10k", dX1, dY1, font, brushGry, graph, dHeight);
-                DrawLine(dX1, dY1, dX1, dY2, penGry, graph, dHeight);
+                DrawStringX("10k", dX1, dY1, graphicCurveResources.Font, graphicCurveResources.BrushGry, graphicCurveResources.Graph, dHeight);
+                DrawLine(dX1, dY1, dX1, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, dHeight);
                 dX1 = Value2PixelX(11000.0, dBorder, dXScale, dXMin);
-                DrawStringX("11k", dX1, dY1, font, brushGry, graph, dHeight);
-                DrawLine(dX1, dY1, dX1, dY2, penGry, graph, dHeight);
+                DrawStringX("11k", dX1, dY1, graphicCurveResources.Font, graphicCurveResources.BrushGry, graphicCurveResources.Graph, dHeight);
+                DrawLine(dX1, dY1, dX1, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, dHeight);
             }
         }
 
@@ -346,65 +246,53 @@ namespace CurveChartImageCreator
             double dBorder,
             double dYMin,
             double dYMax,
-            double dWidth,
-            double dHeight,
             double dYScale,
-            Pen penGry,
-            Graphics graph,
-            Font font,
-            Brush brushGry
+            GraphicCurveResources graphicCurveResources
             )
         {
             //y-axis:  10db steps
             var dX1 = dBorder;
-            var dX2 = dWidth - dBorder;
+            var dX2 = graphicCurveResources.DWidth - dBorder;
             for (var i = (int)Math.Ceiling(0.1 + dYMin / 10.0); 1.0 + 10.0 * i < dYMax; i++)
             {
                 double dValue = 10.0 * i;
                 var dY1 = dBorder + dYScale * (dValue - dYMin);
                 var dY2 = dY1;
-                DrawLine(dX1, dY1, dX2, dY2, penGry, graph, dHeight);
-                DrawStringY(dValue.ToString(CultureInfo.InvariantCulture), 0.02 * dBorder, dY1, font, brushGry, graph, dHeight);
+                DrawLine(dX1, dY1, dX2, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, graphicCurveResources.DHeight);
+                DrawStringY(dValue.ToString(CultureInfo.InvariantCulture), 0.02 * dBorder, dY1, graphicCurveResources.Font, 
+                    graphicCurveResources.BrushGry, graphicCurveResources.Graph, graphicCurveResources.DHeight);
             }
         }
 
         private static void DrawTargets(
             IList<FreqCrv> targetCurves,
-            double dHeight,
             double dXMin,
             double dYMin,
             double dXScale,
             double dYScale,
             double dBorder,
-            Pen penYellow,
-            Pen penRed,
-            Graphics graph)
+            GraphicCurveResources graphicCurveResources)
         {
             //targets
             foreach (var crv in targetCurves)
             {
                 if ((crv.CurveType != null) && (crv.CurveType == TCurveType.MPO_Target))
-                    DrawCurve(dHeight, dXMin, dYMin, penYellow, graph, crv, dYScale, dXScale, dBorder);
+                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenYellow, graphicCurveResources.Graph, 
+                        crv, dYScale, dXScale, dBorder);
                 else
-                    DrawCurve(dHeight, dXMin, dYMin, penRed, graph, crv, dYScale, dXScale, dBorder);
+                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenRed, graphicCurveResources.Graph, 
+                        crv, dYScale, dXScale, dBorder);
             }
         }
 
         private static void DrawSimCurves(
              IList<FreqCrv> simCurves,
-             double dHeight,
              double dXMin,
              double dYMin,
              double dYScale,
              double dXScale,
              double dBorder,
-             Pen penBlk,
-             Pen penOrange,
-             Pen penLGrn,
-             Pen penBlue,
-             Pen penDarkBlue,
-             Pen penGry,
-             Graphics graph)
+             GraphicCurveResources graphicCurveResources)
         {
             //sim curves
             foreach (var crv in simCurves)
@@ -412,16 +300,19 @@ namespace CurveChartImageCreator
                 if (crv.CurveType == TCurveType.Level_Low || crv.CurveType == TCurveType.Level_Medium ||
                     crv.CurveType == TCurveType.Level_High)
                 {
-                    DrawCurve(dHeight, dXMin, dYMin, penBlk, graph, crv, dYScale, dXScale, dBorder);
+                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenBlk, 
+                        graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
                 }
                 else if (crv.CurveType == TCurveType.Fog)
                 {
-                    DrawCurve(dHeight, dXMin, dYMin, penOrange, graph, crv, dYScale, dXScale, dBorder);
+                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenOrange, 
+                        graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
                 }
                 else if (crv.CurveType == TCurveType.TinnitusNoiserSimulation ||
                          crv.CurveType == TCurveType.TinnitusNoiserBroadbandLevel)
                 {
-                    DrawCurve(dHeight, dXMin, dYMin, penLGrn, graph, crv, dYScale, dXScale, dBorder);
+                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenLGrn, 
+                        graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
                 }
                 else if (crv.CurveType == TCurveType.CgmNoiseBroadbandLevel ||
                          crv.CurveType == TCurveType.CgmReferenceCurve ||
@@ -430,15 +321,18 @@ namespace CurveChartImageCreator
                          crv.CurveType == TCurveType.CriticalGainMeasured ||
                          crv.CurveType == TCurveType.CriticalGainStatistical)
                 {
-                    DrawCurve(dHeight, dXMin, dYMin, penBlue, graph, crv, dYScale, dXScale, dBorder);
+                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenBlue, 
+                        graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
                 }
                 else if (crv.CurveType == TCurveType.Effective_MPO)
                 {
-                    DrawCurve(dHeight, dXMin, dYMin, penDarkBlue, graph, crv, dYScale, dXScale, dBorder);
+                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenDarkBlue, 
+                        graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
                 }
                 else
                 {
-                    DrawCurve(dHeight, dXMin, dYMin, penGry, graph, crv, dYScale, dXScale, dBorder);
+                    DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenGry, 
+                        graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
                 }
             }
         }
