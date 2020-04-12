@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace CurveChartImageCreatorTests
 {
@@ -11,7 +12,7 @@ namespace CurveChartImageCreatorTests
     public class CreateCurveChartImageOutOfDebuggerStringTests
     {
         [Test]
-        public void When_xx_then_yy()
+        public void When_curve_chart_is_created_out_of_curve_converter_input_then_it_is_as_expected()
         {
             var currentDirectory = GetCurrentDirectory();
             var inputPath = currentDirectory + "\\" + "CurveConverterInput.txt";
@@ -28,11 +29,42 @@ namespace CurveChartImageCreatorTests
             var outPutDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory) + "\\Test";
 
             CurveChartImageApi.Create(
-                 fileNameWithoutExtention: "test",
+                 fileNameWithoutExtention: TestContext.CurrentContext.Test.Name,
                  headerCaption: "Header",
                  xGrid: f,
                  curveList1: new List<List<double>> { curve },
                  curveList2: new List<List<double>> { curve },
+                 outputDir: outPutDir,
+                 linearFreqAxis: false,
+                 imageWidth: 900,
+                 imageHeight: 600);
+        }
+
+        [Test]
+        public void When_curve_chart_is_created_out_of_curve_input_then_it_is_as_expected()
+        {
+            var currentDirectory = GetCurrentDirectory();
+            var inputPath = currentDirectory + "\\" + "CurveInput.txt";
+            var debuggerString = File.ReadAllText(inputPath);
+
+            var matlabCurveString = string.Empty;
+            var cSharpCurveString = string.Empty;
+            var curve = new List<double>();
+
+            CurveConverter.ConvertDebuggerString(debuggerString, ref matlabCurveString, ref cSharpCurveString, ref curve);
+
+            var manipulatedCurve = curve.Where((value, index) => (index < 250) ).ToList();
+
+            var xGrid = Enumerable.Range(0, manipulatedCurve.Count).Select((value, index) => (double)index).ToList();
+
+            var outPutDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory) + "\\Test";
+
+            CurveChartImageApi.Create(
+                 fileNameWithoutExtention: TestContext.CurrentContext.Test.Name,
+                 headerCaption: "Header",
+                 xGrid: xGrid,
+                 curveList1: null,
+                 curveList2: new List<List<double>> { manipulatedCurve },
                  outputDir: outPutDir,
                  linearFreqAxis: false,
                  imageWidth: 900,

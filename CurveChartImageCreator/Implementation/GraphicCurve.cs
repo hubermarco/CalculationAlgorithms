@@ -29,11 +29,6 @@ namespace CurveChartImageCreator
                 const double dFontSize = 10.0; // px
                 const float fLineWidth = 1.6f; // px
 
-                //if (!(targetCurves.Count > 0 && targetCurves[0].Count >= 1 && simCurves.Count > 0 && simCurves[0].Count > 1))
-                //{
-                //    return;
-                //}
-
                 double dXMin = 0; double dXMax = 0; double dYMin = 0; double dYMax = 0; 
                 CalculateXandYRange(targetCurves, simCurves, ref dXMin, ref dXMax, ref dYMin, ref dYMax);
 
@@ -70,7 +65,8 @@ namespace CurveChartImageCreator
         private static void CalculateXScaleAndYScale(double dWidth, double dHeight, double dBorder, double dXMax, 
             double dXMin, double dYMax, double dYMin, ref double dXScale, ref double dYScale)
         {
-            dXScale = (dWidth - 2.0 * dBorder) / Math.Log10(dXMax / dXMin);   //logarithmic x axis
+            var tempdXMin = (dXMin != 0) ? dXMin : 1;
+            dXScale = (dWidth - 2.0 * dBorder) / Math.Log10(dXMax / tempdXMin);   //logarithmic x axis
             if (LinearFreqAxis)
             {
                 dXScale = (dWidth - 2.0 * dBorder) / (dXMax - dXMin);   //linear x axis
@@ -92,7 +88,7 @@ namespace CurveChartImageCreator
             dYMin = 0;
             dYMax = 0;
 
-            if((targetCurves != null) && (targetCurves.Count > 0))
+            if((targetCurves != null) && (targetCurves.Count > 0) && (targetCurves[0].Count > 0) )
             {
                 dXMin = targetCurves[0][0].X;
                 dXMax = dXMin;
@@ -122,7 +118,7 @@ namespace CurveChartImageCreator
                     }
                 }
             }
-            if( (simCurves != null) && (simCurves.Count > 0) )
+            if( (simCurves != null) && (simCurves.Count > 0) && (simCurves[0].Count > 0))
             {
                 dXMin = simCurves[0][0].X;
                 dXMax = dXMin;
