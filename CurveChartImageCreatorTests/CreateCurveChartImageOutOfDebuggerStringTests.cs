@@ -55,7 +55,7 @@ namespace CurveChartImageCreatorTests
 
             var manipulatedCurve = curve.Where((value, index) => (index < 250) ).ToList();
 
-            var xGrid = Enumerable.Range(0, manipulatedCurve.Count).Select((value, index) => (double)index).ToList();
+            var xGrid = Enumerable.Range(0, manipulatedCurve.Count).Select((value, index) => (double)(index+1)).ToList();
 
             var outPutDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory) + "\\Test";
 

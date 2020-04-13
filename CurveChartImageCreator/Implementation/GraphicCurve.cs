@@ -65,8 +65,7 @@ namespace CurveChartImageCreator
         private static void CalculateXScaleAndYScale(double dWidth, double dHeight, double dBorder, double dXMax, 
             double dXMin, double dYMax, double dYMin, ref double dXScale, ref double dYScale)
         {
-            var tempdXMin = (dXMin != 0) ? dXMin : 1;
-            dXScale = (dWidth - 2.0 * dBorder) / Math.Log10(dXMax / tempdXMin);   //logarithmic x axis
+            dXScale = (dWidth - 2.0 * dBorder) / Math.Log10(dXMax / dXMin);   //logarithmic x axis
             if (LinearFreqAxis)
             {
                 dXScale = (dWidth - 2.0 * dBorder) / (dXMax - dXMin);   //linear x axis
