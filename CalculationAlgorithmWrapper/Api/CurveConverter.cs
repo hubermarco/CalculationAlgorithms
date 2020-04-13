@@ -8,7 +8,7 @@ namespace CalculationAlgorithmWrapper
     public class CurveConverter
     {
          public static int ConvertDebuggerString(
-            string debuggerString, 
+            string debuggerString,
             ref string matlabCurveString,
             ref string cSharpCurveString,
             ref List<double> curve)
@@ -46,23 +46,22 @@ namespace CalculationAlgorithmWrapper
             var debuggerLines = debuggerString.Split('\n');
 
             var debuggerLinesFiltered = debuggerLines.
-                Where(x => (x != "\r") && (x != "") && (x != "\t\t\r")).ToArray();
+                Where(line => (line != "\r") && (line != "") && (line != "\t\t\r") &&
+                !line.Contains("Count") && !line.Contains("Raw View")).ToArray();
 
             foreach (var fileLine in debuggerLinesFiltered)
             {
                 var columns = fileLine.Split('\t');
 
                 var numberString = (columns.Length >= 4) ? columns[3] : string.Empty;
+
+                var splittedSubStringList = numberString.Split(new[] { ':', ',', '{', '}' }, StringSplitOptions.RemoveEmptyEntries);
+
                 string numberSubString;
 
-                var index = numberString.IndexOf("Y", StringComparison.Ordinal);
-
-                if (index >= 0)
+                if (splittedSubStringList.Length > 1)
                 {
-                    var startIndex = index + 2;
-                    var length = numberString.Length - startIndex - 1;
-
-                    numberSubString = numberString.Substring(startIndex, length);
+                    numberSubString = splittedSubStringList[3];
                 }
                 else
                 {
