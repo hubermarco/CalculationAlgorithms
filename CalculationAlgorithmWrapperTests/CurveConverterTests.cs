@@ -19,14 +19,17 @@ namespace CalculatorAlgorithmsWrapperTests
             var matlabCurveString = string.Empty;
             var cSharpCurveString = string.Empty;
             var curve = new List<double>();
+            var grid = new List<double>();
 
             CurveConverter.ConvertDebuggerString(
                 debuggerString,
                 ref matlabCurveString,
                 ref cSharpCurveString,
-                ref curve);
+                ref curve,
+                ref grid);
 
             Assert.AreEqual(228, curve.Count);
+            Assert.AreEqual(228, grid.Count);
         }
 
         [Test]
@@ -39,14 +42,17 @@ namespace CalculatorAlgorithmsWrapperTests
             var matlabCurveString = string.Empty;
             var cSharpCurveString = string.Empty;
             var curve = new List<double>();
+            var grid = new List<double>();
 
             CurveConverter.ConvertDebuggerString(
                 debuggerString,
                 ref matlabCurveString,
                 ref cSharpCurveString,
-                ref curve);
+                ref curve,
+                ref grid);
 
             Assert.AreEqual(1000, curve.Count);
+            Assert.AreEqual(0, grid.Count);
         }
 
         private string GetCurrentDirectory()

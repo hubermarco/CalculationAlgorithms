@@ -11,13 +11,15 @@ namespace CalculationAlgorithmWrapper
             string debuggerString,
             ref string matlabCurveString,
             ref string cSharpCurveString,
-            ref List<double> curve)
+            ref List<double> curve,
+            ref List<double> grid)
         {
             var outputStringMatlab = string.Empty;
             var valueCount = ConvertDebuggerStringToMatlabCurveString(
                 debuggerString, 
                 ref outputStringMatlab,
-                ref curve);
+                ref curve,
+                ref grid);
             var outputStringCsharp = ConvertMatlabCurveStringToCSharpCurveString(outputStringMatlab);
 
             matlabCurveString = outputStringMatlab;
@@ -37,11 +39,13 @@ namespace CalculationAlgorithmWrapper
         private static int ConvertDebuggerStringToMatlabCurveString(
             string debuggerString, 
             ref string outputStringMatlab,
-            ref List<double> curve)
+            ref List<double> curve,
+            ref List<double> grid)
         {
             var valueCount = 0;
             outputStringMatlab = "curve = [";
             curve.Clear();
+            grid.Clear();
 
             var debuggerLines = debuggerString.Split('\n');
 
@@ -58,13 +62,16 @@ namespace CalculationAlgorithmWrapper
                 var splittedSubStringList = numberString.Split(new[] { ':', ',', '{', '}' }, StringSplitOptions.RemoveEmptyEntries);
 
                 string numberSubString;
+                string gridString;
 
                 if (splittedSubStringList.Length > 1)
                 {
+                    gridString = splittedSubStringList[1];
                     numberSubString = splittedSubStringList[3];
                 }
                 else
                 {
+                    gridString = string.Empty;
                     numberSubString = numberString;
                 }
 
@@ -74,6 +81,11 @@ namespace CalculationAlgorithmWrapper
                     valueCount++;
 
                     curve.Add(double.Parse(numberSubString, CultureInfo.InvariantCulture));
+
+                    if(double.TryParse(gridString, out _))
+                    {
+                        grid.Add(double.Parse(gridString, CultureInfo.InvariantCulture));
+                    }
                 }
             }
 
