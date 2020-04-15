@@ -9,21 +9,25 @@ namespace CalculationAlgorithmWrapper
     {
          public static int ConvertDebuggerString(
             string debuggerString,
+            ref string matlabGridString,
             ref string matlabCurveString,
+            ref string cSharpGridString,
             ref string cSharpCurveString,
             ref List<double> curve,
             ref List<double> grid)
         {
-            var outputStringMatlab = string.Empty;
             var valueCount = ConvertDebuggerStringToMatlabCurveString(
                 debuggerString, 
-                ref outputStringMatlab,
+                ref matlabGridString,
+                ref matlabCurveString,
                 ref curve,
                 ref grid);
-            var outputStringCsharp = ConvertMatlabCurveStringToCSharpCurveString(outputStringMatlab);
 
-            matlabCurveString = outputStringMatlab;
-            cSharpCurveString = outputStringCsharp;
+            var cSharpCurveStringOutput = ConvertMatlabCurveStringToCSharpCurveString(matlabCurveString);
+            var cSharpGridStringOutput = ConvertMatlabGridStringToCSharpGridString(matlabGridString);
+
+            cSharpGridString = cSharpGridStringOutput;
+            cSharpCurveString = cSharpCurveStringOutput;
 
             return valueCount;
         }
@@ -37,12 +41,14 @@ namespace CalculationAlgorithmWrapper
         }
 
         private static int ConvertDebuggerStringToMatlabCurveString(
-            string debuggerString, 
+            string debuggerString,
+            ref string matlabGridString,
             ref string outputStringMatlab,
             ref List<double> curve,
             ref List<double> grid)
         {
             var valueCount = 0;
+            matlabGridString = "x = [";
             outputStringMatlab = "curve = [";
             curve.Clear();
             grid.Clear();
@@ -58,6 +64,7 @@ namespace CalculationAlgorithmWrapper
                 var columns = fileLine.Split('\t');
 
                 var numberString = (columns.Length >= 4) ? columns[3] : string.Empty;
+                numberString = numberString.Replace(" ", "");
 
                 var splittedSubStringList = numberString.Split(new[] { ':', ',', '{', '}', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -89,12 +96,13 @@ namespace CalculationAlgorithmWrapper
 
                     if(double.TryParse(gridString, out _))
                     {
+                        matlabGridString += gridString + " ";
                         grid.Add(double.Parse(gridString, CultureInfo.InvariantCulture));
                     }
                 }
             }
 
-            // remove last blank
+            // remove last blank of outputStringMatlab
             if (outputStringMatlab[outputStringMatlab.Length - 1] == ' ')
             {
                 outputStringMatlab = outputStringMatlab.Remove(outputStringMatlab.Length - 1);
@@ -102,12 +110,28 @@ namespace CalculationAlgorithmWrapper
             
             outputStringMatlab += "];";
 
+            // remove last blank of matlabGridString
+            if (matlabGridString[matlabGridString.Length - 1] == ' ')
+            {
+                matlabGridString = matlabGridString.Remove(matlabGridString.Length - 1);
+            }
+
+            matlabGridString += "];";
+
             return valueCount;
         }
 
         private static string ConvertMatlabCurveStringToCSharpCurveString(string matlabCurveString)
         {
             var outputStringCsharp = matlabCurveString.Replace(" ", ", ").Replace("curve,", "var curve").Replace("=,", "=")
+                .Replace("[", "new List<double> {").Replace("]", "}").Replace(", }", "}");
+
+            return outputStringCsharp;
+        }
+
+        private static string ConvertMatlabGridStringToCSharpGridString(string matlabGridString)
+        {
+            var outputStringCsharp = matlabGridString.Replace(" ", ", ").Replace("x,", "var x").Replace("=,", "=")
                 .Replace("[", "new List<double> {").Replace("]", "}").Replace(", }", "}");
 
             return outputStringCsharp;

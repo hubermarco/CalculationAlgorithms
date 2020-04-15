@@ -16,14 +16,18 @@ namespace CalculatorAlgorithmsWrapperTests
             var inputPath = currentDirectory + "\\" + "CurveConverterInput.txt";
             var debuggerString = File.ReadAllText(inputPath);
 
+            var matlabGridString = string.Empty;
             var matlabCurveString = string.Empty;
+            var cSharpGridString = string.Empty;
             var cSharpCurveString = string.Empty;
             var curve = new List<double>();
             var grid = new List<double>();
 
             CurveConverter.ConvertDebuggerString(
                 debuggerString,
+                ref matlabGridString,
                 ref matlabCurveString,
+                ref cSharpGridString,
                 ref cSharpCurveString,
                 ref curve,
                 ref grid);
@@ -39,14 +43,18 @@ namespace CalculatorAlgorithmsWrapperTests
             var inputPath = currentDirectory + "\\" + "CurveInput.txt";
             var debuggerString = File.ReadAllText(inputPath);
 
+            var matlabGridString = string.Empty;
             var matlabCurveString = string.Empty;
+            var cSharpGridString = string.Empty;
             var cSharpCurveString = string.Empty;
             var curve = new List<double>();
             var grid = new List<double>();
 
             CurveConverter.ConvertDebuggerString(
                 debuggerString,
+                ref matlabGridString,
                 ref matlabCurveString,
+                ref cSharpGridString,
                 ref cSharpCurveString,
                 ref curve,
                 ref grid);
@@ -62,14 +70,18 @@ namespace CalculatorAlgorithmsWrapperTests
             var inputPath = currentDirectory + "\\" + "DictionaryInput.txt";
             var debuggerString = File.ReadAllText(inputPath);
 
+            var matlabGridString = string.Empty;
             var matlabCurveString = string.Empty;
+            var cSharpGridString = string.Empty;
             var cSharpCurveString = string.Empty;
             var curve = new List<double>();
             var grid = new List<double>();
 
             CurveConverter.ConvertDebuggerString(
                 debuggerString,
+                ref matlabGridString,
                 ref matlabCurveString,
+                ref cSharpGridString,
                 ref cSharpCurveString,
                 ref curve,
                 ref grid);
