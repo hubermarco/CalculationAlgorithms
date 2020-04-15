@@ -60,6 +60,7 @@
   <ItemGroup>
     <Content Include="CurveConverterInput.txt" />
     <Content Include="CurveInput.txt" />
+    <Content Include="DictionaryInput.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

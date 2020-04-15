@@ -51,7 +51,7 @@ namespace CalculationAlgorithmWrapper
 
             var debuggerLinesFiltered = debuggerLines.
                 Where(line => (line != "\r") && (line != "") && (line != "\t\t\r") &&
-                !line.Contains("Count") && !line.Contains("Raw View")).ToArray();
+                !line.Contains("Count") && !line.Contains("Raw View") && !line.Contains("double[]") ).ToArray();
 
             foreach (var fileLine in debuggerLinesFiltered)
             {
@@ -59,15 +59,20 @@ namespace CalculationAlgorithmWrapper
 
                 var numberString = (columns.Length >= 4) ? columns[3] : string.Empty;
 
-                var splittedSubStringList = numberString.Split(new[] { ':', ',', '{', '}' }, StringSplitOptions.RemoveEmptyEntries);
+                var splittedSubStringList = numberString.Split(new[] { ':', ',', '{', '}', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
 
                 string numberSubString;
                 string gridString;
 
-                if (splittedSubStringList.Length > 1)
+                if (splittedSubStringList.Length == 4)
                 {
                     gridString = splittedSubStringList[1];
                     numberSubString = splittedSubStringList[3];
+                }
+                else if (splittedSubStringList.Length == 2)
+                {
+                    gridString = splittedSubStringList[0];
+                    numberSubString = splittedSubStringList[1];
                 }
                 else
                 {
