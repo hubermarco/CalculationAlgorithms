@@ -1,19 +1,20 @@
 ﻿using CalculationAlgorithm;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CalculatorTests
 {
     [TestFixture]
     public class CalculationStringListTests
     {
-        private readonly ICalculationStringList _calculationStringList;
+        private ICalculationStringList _calculationStringList;
 
         public CalculationStringListTests()
         {
             _calculationStringList = CalculationAlgorithmFactory.CreateCalculationStringList(
                 operatorList: new List<string>  { "+", "-", "*", "/", "^", "log", "sin", "cos", "x", "y" },
-                arithmetricStringOperatorList: new List<string> { "Differentiate" });
+                arithmetricStringOperatorList: new List<string> { "Differentiate"});
         }
 
         [Test]
@@ -124,6 +125,19 @@ namespace CalculatorTests
             Assert.AreEqual(")", inputList[10]);
 
             Assert.AreEqual(11, inputList.Count);
+        }
+
+        [Test]
+        public void When_string_list_is_created_out_of_logic_solver_rule_then_it_is_as_expected()
+        {
+            _calculationStringList = CalculationAlgorithmFactory.CreateCalculationStringList(
+               operatorList: new List<string> { "Differentiate", "->", "CalenderWeek", "PlotArea", "x", "==" },
+               arithmetricStringOperatorList: null);
+
+            var inputList = _calculationStringList.Create("(CalenderWeek(x) == 38) -> (PlotArea(x) == 600)");
+
+            var indexOfImplication = inputList.ToList().IndexOf("->");
+            var newList = inputList.Where((x, index) => index > indexOfImplication).ToList();
         }
     }
 }
