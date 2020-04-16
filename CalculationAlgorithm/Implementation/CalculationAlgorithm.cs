@@ -37,32 +37,11 @@
 
         public ICalcTreeResult CreateCalcTreeResult(string input)
         {
-            var preparedInput = PrepareString(input);
-
-            var calculationStringList = _calculationStringList.Create(preparedInput);
+            var calculationStringList = _calculationStringList.Create(input);
 
             var calcTreeResult = _calcTree.Create(calculationStringList);
 
             return calcTreeResult;
-        }
-
-        private static string PrepareString(string inputString)
-        {
-            var preparedInput = InputStringHelper.PrepareInputString(inputString);
-
-            preparedInput = preparedInput.Replace(" ", "");
-
-            if ((preparedInput.Length > 0) && (preparedInput[0] == '-'))
-            {
-                preparedInput = preparedInput.Insert(0, "0");
-            }
-
-            if (preparedInput != "0")
-            {
-                preparedInput = preparedInput.Replace("(-", "(0-");
-            }
-
-            return preparedInput;
         }
     }
 }
