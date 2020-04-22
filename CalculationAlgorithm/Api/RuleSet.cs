@@ -20,12 +20,11 @@ namespace CalculationAlgorithm
             StringOperators = stringOperators;
             VariableList = variableList;
         }
-
-        public IDictionary<string, Tuple<int, Func<double, double, double>>> ArithmetricOperators { get; }
-        public IDictionary<string, Func<IList<double>, double>> ArithmetricFunctions { get; }
-        public IDictionary<string, Func<IList<string>, string>> ArithmetricStringFunctions { get; }
-        public IDictionary<string, Func<IList<string>, string>> StringFunctions { get; }
-        public IDictionary<string, Tuple<int, Func<string, string, string>>> StringOperators { get; }
+        public IDictionary<string, Tuple<int, Func<double, double, double>>> ArithmetricOperators { get; set; }
+        public IDictionary<string, Func<IList<double>, double>> ArithmetricFunctions { get; set; }
+        public IDictionary<string, Func<IList<string>, string>> ArithmetricStringFunctions { get; set; }
+        public IDictionary<string, Func<IList<string>, string>> StringFunctions { get; set; }
+        public IDictionary<string, Tuple<int, Func<string, string, string>>> StringOperators { get; set; }
         public IList<string> VariableList { get; }
 
         public IList<string> GetOperatorList()
