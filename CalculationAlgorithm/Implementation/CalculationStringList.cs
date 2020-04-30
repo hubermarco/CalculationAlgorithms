@@ -48,6 +48,7 @@ namespace CalculationAlgorithm
 
             var numberString = "";
             var valueString = "";
+            var isValueString = false;
 
             for (var i = 0; i < inputString.Length; i++)
             {
@@ -55,8 +56,10 @@ namespace CalculationAlgorithm
                 var currentChar = inputString[i];
                 var currentString = $"{currentChar}";
 
-                if (operatorDto.IsOperator)
+                if (operatorDto.IsOperator && !(isValueString && char.IsLetter(currentChar)) )
                 {
+                    isValueString = false;
+
                     if (numberString.Length > 0)
                     {
                         inputStringList.Add(numberString);
@@ -74,6 +77,8 @@ namespace CalculationAlgorithm
                 }
                 else if (IsNumber(currentChar))
                 {
+                    isValueString = false;
+
                     numberString += currentString;
 
                     if (i == inputString.Length - 1)
@@ -84,6 +89,8 @@ namespace CalculationAlgorithm
                 else if (IsBracket(currentChar) ||
                         IsComma(currentChar))
                 {
+                    isValueString = false;
+
                     if (numberString.Length > 0)
                     {
                         inputStringList.Add(numberString);
@@ -100,6 +107,8 @@ namespace CalculationAlgorithm
                 }
                 else // if inputString contains unknown letters then they are added to valueString
                 {
+                    isValueString = true;
+
                     valueString += currentString;
 
                     if (i == inputString.Length - 1)
