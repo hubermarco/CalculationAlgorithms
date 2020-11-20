@@ -29,7 +29,7 @@ namespace CurveChartImageCreator
                 const double dFontSize = 10.0; // px
                 const float fLineWidth = 1.6f; // px
 
-                double dXMin = 0; double dXMax = 0; double dYMin = 0; double dYMax = 0;
+                double dXMin = 0; double dXMax = 0; double dYMin = 0; double dYMax = 0; 
                 CalculateXandYRange(targetCurves, simCurves, ref dXMin, ref dXMax, ref dYMin, ref dYMax);
 
                 double dXScale = 0; double dYScale = 0;
@@ -51,8 +51,8 @@ namespace CurveChartImageCreator
                 {
                     graphicCurveResources.MGraph.Save(stream, ImageFormat.Png);
                 }
-
-                graphicCurveResources.Dispose();
+                    
+                graphicCurveResources.Dispose(); 
             }
             catch (Exception exc)
             {
@@ -62,7 +62,7 @@ namespace CurveChartImageCreator
             }
         }
 
-        private static void CalculateXScaleAndYScale(double dWidth, double dHeight, double dBorder, double dXMax,
+        private static void CalculateXScaleAndYScale(double dWidth, double dHeight, double dBorder, double dXMax, 
             double dXMin, double dYMax, double dYMin, ref double dXScale, ref double dYScale)
         {
             dXScale = (dWidth - 2.0 * dBorder) / Math.Log10(dXMax / dXMin);   //logarithmic x axis
@@ -74,7 +74,7 @@ namespace CurveChartImageCreator
         }
 
         private static void CalculateXandYRange(
-            IList<FreqCrv> targetCurves,
+            IList<FreqCrv> targetCurves, 
             IList<FreqCrv> simCurves,
             ref double dXMin,
             ref double dXMax,
@@ -87,7 +87,7 @@ namespace CurveChartImageCreator
             dYMin = 0;
             dYMax = 0;
 
-            if ((targetCurves != null) && (targetCurves.Count > 0) && (targetCurves[0].Count > 0))
+            if((targetCurves != null) && (targetCurves.Count > 0) && (targetCurves[0].Count > 0) )
             {
                 dXMin = targetCurves[0][0].X;
                 dXMax = dXMin;
@@ -117,8 +117,13 @@ namespace CurveChartImageCreator
                     }
                 }
             }
-            if ((simCurves != null) && (simCurves.Count > 0) && (simCurves[0].Count > 0))
+            if( (simCurves != null) && (simCurves.Count > 0) && (simCurves[0].Count > 0))
             {
+                dXMin = simCurves[0][0].X;
+                dXMax = dXMin;
+                dYMin = simCurves[0][0].Y;
+                dYMax = dYMin;
+
                 foreach (var crv in simCurves)
                 {
                     foreach (var pt in crv)
@@ -156,8 +161,8 @@ namespace CurveChartImageCreator
         }
 
         private static void DrawAxisFrame(
-            double dBorder,
-            double dYMin,
+            double dBorder, 
+            double dYMin, 
             double dYMax,
             GraphicCurveResources graphicCurveResources)
         {
@@ -189,7 +194,7 @@ namespace CurveChartImageCreator
             //min y
             dX1 = 0.02 * dBorder;
             dY1 = 1.0 * dBorder;
-            DrawStringY(dYMin.ToString(CultureInfo.InvariantCulture), dX1, dY1, graphicCurveResources.Font,
+            DrawStringY(dYMin.ToString(CultureInfo.InvariantCulture), dX1, dY1, graphicCurveResources.Font, 
                 graphicCurveResources.BrushGry, graphicCurveResources.Graph, graphicCurveResources.DHeight);
 
             //max y
@@ -200,8 +205,8 @@ namespace CurveChartImageCreator
         }
 
         private static void DrawXAxis(
-            double dBorder,
-            double dXScale,
+            double dBorder, 
+            double dXScale, 
             double dXMin,
             GraphicCurveResources graphicCurveResources)
         {
@@ -270,7 +275,7 @@ namespace CurveChartImageCreator
                 var dY1 = dBorder + dYScale * (dValue - dYMin);
                 var dY2 = dY1;
                 DrawLine(dX1, dY1, dX2, dY2, graphicCurveResources.PenGry, graphicCurveResources.Graph, graphicCurveResources.DHeight);
-                DrawStringY(dValue.ToString(CultureInfo.InvariantCulture), 0.02 * dBorder, dY1, graphicCurveResources.Font,
+                DrawStringY(dValue.ToString(CultureInfo.InvariantCulture), 0.02 * dBorder, dY1, graphicCurveResources.Font, 
                     graphicCurveResources.BrushGry, graphicCurveResources.Graph, graphicCurveResources.DHeight);
             }
         }
@@ -284,7 +289,7 @@ namespace CurveChartImageCreator
             double dBorder,
             GraphicCurveResources graphicCurveResources)
         {
-            if (targetCurves != null)
+            if(targetCurves != null)
             {
                 //targets
                 foreach (var crv in targetCurves)
@@ -308,7 +313,7 @@ namespace CurveChartImageCreator
              double dBorder,
              GraphicCurveResources graphicCurveResources)
         {
-            if (simCurves != null)
+            if(simCurves != null)
             {
                 //sim curves
                 foreach (var crv in simCurves)
@@ -316,18 +321,18 @@ namespace CurveChartImageCreator
                     if (crv.CurveType == TCurveType.Level_Low || crv.CurveType == TCurveType.Level_Medium ||
                         crv.CurveType == TCurveType.Level_High)
                     {
-                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenBlk,
+                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenBlk, 
                             graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
                     }
                     else if (crv.CurveType == TCurveType.Fog)
                     {
-                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenOrange,
+                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenOrange, 
                             graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
                     }
                     else if (crv.CurveType == TCurveType.TinnitusNoiserSimulation ||
                              crv.CurveType == TCurveType.TinnitusNoiserBroadbandLevel)
                     {
-                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenLGrn,
+                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenLGrn, 
                             graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
                     }
                     else if (crv.CurveType == TCurveType.CgmNoiseBroadbandLevel ||
@@ -337,17 +342,17 @@ namespace CurveChartImageCreator
                              crv.CurveType == TCurveType.CriticalGainMeasured ||
                              crv.CurveType == TCurveType.CriticalGainStatistical)
                     {
-                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenBlue,
+                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenBlue, 
                             graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
                     }
                     else if (crv.CurveType == TCurveType.Effective_MPO)
                     {
-                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenDarkBlue,
+                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenDarkBlue, 
                             graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
                     }
                     else
                     {
-                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenGry,
+                        DrawCurve(graphicCurveResources.DHeight, dXMin, dYMin, graphicCurveResources.PenGry, 
                             graphicCurveResources.Graph, crv, dYScale, dXScale, dBorder);
                     }
                 }
@@ -363,7 +368,7 @@ namespace CurveChartImageCreator
                 const double dBorder = 30.0; // px
                 const double dFontSize = 10.0; // px
                 const float fLineWidth = 1.6f; // px
-
+          
                 //drawing resources
                 var mGraph = new Bitmap((int)dWidth, (int)dHeight, PixelFormat.Format32bppArgb);
                 var font = new Font("Lucida Sans Unicode", (int)dFontSize);
@@ -373,7 +378,7 @@ namespace CurveChartImageCreator
                 var brushRed = new SolidBrush(Color.Red);
                 var brushLGrn = new SolidBrush(Color.DarkGreen);
                 var brushGry = new SolidBrush(Color.DarkGray);
-                var brushYellow = new SolidBrush(Color.FromArgb(255, 255, 230, 0));
+                var brushYellow = new SolidBrush(Color.FromArgb( 255, 255, 230, 0 ));
                 var brushOrange = new SolidBrush(Color.Orange);
                 var penBlk = new Pen(brushBlk, fLineWidth);
                 var penRed = new Pen(brushRed, fLineWidth);
@@ -385,10 +390,10 @@ namespace CurveChartImageCreator
                 graph.FillRectangle(Brushes.White, 0.0f, 0.0f, dWidth, dHeight);
 
                 double dX = dBorder;
-                double dX2 = dX + 3 * dBorder;
+                double dX2 = dX + 3*dBorder;
                 double dY = dHeight - dBorder;
 
-                DrawLine(dX, dY, dX2, dY, penYellow, graph, dHeight);
+                DrawLine(dX, dY, dX2, dY, penYellow, graph, dHeight);  
                 DrawStringY("MPO Target", dX2 + dBorder, dY, font, brushYellow, graph, dHeight);
 
                 dY -= dBorder;
@@ -438,8 +443,8 @@ namespace CurveChartImageCreator
             }
         }
 
-        private static void DrawCurve(double dHeight, double dXMin, double dYMin, Pen penRed, Graphics graph,
-                                         FreqCrv crv, double dYScale, double dXScale, double dBorder)
+        private static void DrawCurve( double dHeight, double dXMin, double dYMin, Pen penRed, Graphics graph,
+                                         FreqCrv crv, double dYScale, double dXScale, double dBorder )
         {
             double dX1 = 0;
             double dY1 = 0;
@@ -447,14 +452,14 @@ namespace CurveChartImageCreator
             {
                 if (ii == 0)
                 {
-                    dX1 = Value2PixelX(crv[ii].X, dBorder, dXScale, dXMin);
-                    dY1 = dBorder + dYScale * (crv[ii].Y - dYMin);
+                    dX1 = Value2PixelX( crv[ii].X, dBorder, dXScale, dXMin );
+                    dY1 = dBorder + dYScale*( crv[ii].Y - dYMin );
                 }
                 else
                 {
-                    var dX2 = Value2PixelX(crv[ii].X, dBorder, dXScale, dXMin);
-                    var dY2 = dBorder + dYScale * (crv[ii].Y - dYMin);
-                    DrawLine(dX1, dY1, dX2, dY2, penRed, graph, dHeight);
+                    var dX2 = Value2PixelX( crv[ii].X, dBorder, dXScale, dXMin );
+                    var dY2 = dBorder + dYScale*( crv[ii].Y - dYMin );
+                    DrawLine( dX1, dY1, dX2, dY2, penRed, graph, dHeight );
                     dX1 = dX2;
                     dY1 = dY2;
                 }
@@ -474,7 +479,7 @@ namespace CurveChartImageCreator
             var fX = (float)dX;
             var fY = (float)dY;
             var pt = new PointF(fX, (float)dHeight - fY);
-            var fmt = new StringFormat { Alignment = StringAlignment.Center };
+            var fmt = new StringFormat {Alignment = StringAlignment.Center};
             graph.DrawString(sString, font, brush, pt, fmt);
         }
 
@@ -485,7 +490,7 @@ namespace CurveChartImageCreator
             var fX = (float)dX;
             var fY = (float)dY;
             var pt = new PointF(fX, (float)dHeight - fY);
-            var fmt = new StringFormat { LineAlignment = StringAlignment.Center };
+            var fmt = new StringFormat {LineAlignment = StringAlignment.Center};
             graph.DrawString(sString, font, brush, pt, fmt);
         }
 
@@ -499,12 +504,12 @@ namespace CurveChartImageCreator
                 dPixelPos = dBorder + dXScale * (dValue - dXMin);   //linear x axis
             }
             else
-            {
-                if (dXMin != 0)
+            {   
+                if(dXMin != 0)
                 {
                     dPixelPos = dBorder + dXScale * Math.Log10(dValue / dXMin);   //logarithmic x axis
                 }
-
+                
             }
             return dPixelPos;
         }
