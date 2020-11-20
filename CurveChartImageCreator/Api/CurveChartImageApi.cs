@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,29 +17,8 @@ namespace CurveChartImageCreator
             uint imageWidth = 600,
             uint imageHeight = 400)
         {
-            var freqCurveList1 = (curveList1 != null) ? new List<FreqCrv>() : null;
-
-            if(curveList1 != null)
-            {
-                foreach (var curve in curveList1)
-                {
-                    var freqCrv = new FreqCrv(TCurveType.None);
-                    xGrid.Select((x, index) => new FreqPt(x, curve[index])).ToList().ForEach(freqPt => freqCrv.Add(freqPt));
-                    freqCurveList1.Add(freqCrv);
-                }
-            }
-
-            var freqCurveList2 = (curveList2 != null) ? new List<FreqCrv>() : null;
-
-            if(curveList2 != null)
-            {
-                foreach (var curve in curveList2)
-                {
-                    var freqCrv = new FreqCrv(TCurveType.None);
-                    xGrid.Select((x, index) => new FreqPt(x, curve[index])).ToList().ForEach(freqPt => freqCrv.Add(freqPt));
-                    freqCurveList2.Add(freqCrv);
-                }
-            }
+            var freqCurveList1 = ConvertCurveListToFreqCrv(curveList1, xGrid);
+            var freqCurveList2 = ConvertCurveListToFreqCrv(curveList2, xGrid);
 
             TestCurveChartImage.Create(
                 fileNameWithoutExtention: fileNameWithoutExtention,
@@ -50,7 +29,23 @@ namespace CurveChartImageCreator
                 linearFreqAxis,
                 imageWidth,
                 imageHeight);
+        }
 
+        private static IList<FreqCrv> ConvertCurveListToFreqCrv(IEnumerable<IList<double>> curveList, IList<double> xGrid)
+        {
+            var freqCurveList = (curveList != null) ? new List<FreqCrv>() : null;
+
+            if (curveList != null)
+            {
+                foreach (var curve in curveList)
+                {
+                    var freqCrv = new FreqCrv(TCurveType.None);
+                    xGrid.Select((x, index) => new FreqPt(x, curve[index])).ToList().ForEach(freqPt => freqCrv.Add(freqPt));
+                    freqCurveList.Add(freqCrv);
+                }
+            }
+
+            return freqCurveList;
         }
     }
 }

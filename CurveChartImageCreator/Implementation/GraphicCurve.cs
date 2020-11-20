@@ -89,11 +89,6 @@ namespace CurveChartImageCreator
 
             if((targetCurves != null) && (targetCurves.Count > 0) && (targetCurves[0].Count > 0) )
             {
-                dXMin = targetCurves[0][0].X;
-                dXMax = dXMin;
-                dYMin = targetCurves[0][0].Y;
-                dYMax = dYMin;
-
                 foreach (var crv in targetCurves)
                 {
                     foreach (var pt in crv)
