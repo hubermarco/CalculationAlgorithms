@@ -40,7 +40,7 @@ namespace CalculationAlgorithmWrapper
             return freqs;
         }
 
-        private static int ConvertDebuggerStringToMatlabCurveString(
+        public static int ConvertDebuggerStringToMatlabCurveString(
             string debuggerString,
             ref string matlabGridString,
             ref string outputStringMatlab,
@@ -121,7 +121,7 @@ namespace CalculationAlgorithmWrapper
             return valueCount;
         }
 
-        private static string ConvertMatlabCurveStringToCSharpCurveString(string matlabCurveString)
+        public static string ConvertMatlabCurveStringToCSharpCurveString(string matlabCurveString)
         {
             var outputStringCsharp = matlabCurveString.Replace(" ", ", ").Replace("curve,", "var curve").Replace("=,", "=")
                 .Replace("[", "new List<double> {").Replace("]", "}").Replace(", }", "}");
@@ -129,12 +129,23 @@ namespace CalculationAlgorithmWrapper
             return outputStringCsharp;
         }
 
-        private static string ConvertMatlabGridStringToCSharpGridString(string matlabGridString)
+        public static string ConvertMatlabGridStringToCSharpGridString(string matlabGridString)
         {
             var outputStringCsharp = matlabGridString.Replace(" ", ", ").Replace("x,", "var x").Replace("=,", "=")
                 .Replace("[", "new List<double> {").Replace("]", "}").Replace(", }", "}");
 
             return outputStringCsharp;
+        }
+
+        public static string ConvertCurveToMatlabCurveString(List<double> curve, string curveName)
+        {
+            var deltaCurveString = $"{curveName} = [";
+            curve.ForEach(x => deltaCurveString += $"{x} ");
+            deltaCurveString += "];";
+
+            var deltaCurveStringAdapted = deltaCurveString.Replace(',', '.');
+
+            return deltaCurveStringAdapted;
         }
     }
 }
