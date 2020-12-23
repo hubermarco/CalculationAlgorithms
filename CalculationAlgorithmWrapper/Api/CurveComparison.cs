@@ -75,13 +75,5 @@ namespace CalculationAlgorithmWrapper
             deltaCurveStringCSharp = CurveConverter.ConvertMatlabCurveStringToCSharpCurveString(
                 deltaCurveStringMatlab);
         }
-
-        public static void Test(
-            string strIn,
-            out double xx)
-        {
-            var strOut = "Hallo " + strIn;
-            xx = strOut.Length;
-        }
     }
 }
