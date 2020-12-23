@@ -7,8 +7,46 @@ namespace CalculationAlgorithmWrapper
 {
     public class CurveConverter
     {
-         public static int ConvertDebuggerString(
-            string debuggerString,
+         public static int ConvertInputString(
+            string inputString,
+            bool isInputDebugString,
+            ref string matlabGridString,
+            ref string matlabCurveString,
+            ref string cSharpGridString,
+            ref string cSharpCurveString,
+            ref List<double> curve,
+            ref List<double> grid)
+        {
+            var valueCount = 0;
+
+            if (isInputDebugString)
+            {
+                valueCount = ConvertDebuggerString(
+                    inputString,
+                    ref matlabGridString,
+                    ref matlabCurveString,
+                    ref cSharpGridString,
+                    ref cSharpCurveString,
+                    ref curve,
+                    ref grid);
+            }
+            else
+            {
+                valueCount = ConvertTextString(
+                    inputString,
+                    ref matlabGridString,
+                    ref matlabCurveString,
+                    ref cSharpGridString,
+                    ref cSharpCurveString,
+                    ref curve,
+                    ref grid);
+            }
+            
+            return valueCount;
+        }
+
+        public static int ConvertDebuggerString(
+            string inputString,
             ref string matlabGridString,
             ref string matlabCurveString,
             ref string cSharpGridString,
@@ -17,7 +55,32 @@ namespace CalculationAlgorithmWrapper
             ref List<double> grid)
         {
             var valueCount = ConvertDebuggerStringToMatlabCurveString(
-                debuggerString, 
+                inputString,
+                ref matlabGridString,
+                ref matlabCurveString,
+                ref curve,
+                ref grid);
+
+            var cSharpCurveStringOutput = ConvertMatlabCurveStringToCSharpCurveString(matlabCurveString);
+            var cSharpGridStringOutput = ConvertMatlabGridStringToCSharpGridString(matlabGridString);
+
+            cSharpGridString = cSharpGridStringOutput;
+            cSharpCurveString = cSharpCurveStringOutput;
+
+            return valueCount;
+        }
+
+        public static int ConvertTextString(
+            string inputString,
+            ref string matlabGridString,
+            ref string matlabCurveString,
+            ref string cSharpGridString,
+            ref string cSharpCurveString,
+            ref List<double> curve,
+            ref List<double> grid)
+        {
+            var valueCount = ConvertTextStringToMatlabCurveString(
+                inputString,
                 ref matlabGridString,
                 ref matlabCurveString,
                 ref curve,
@@ -108,6 +171,63 @@ namespace CalculationAlgorithmWrapper
                 outputStringMatlab = outputStringMatlab.Remove(outputStringMatlab.Length - 1);
             }
             
+            outputStringMatlab += "];";
+
+            // remove last blank of matlabGridString
+            if (matlabGridString[matlabGridString.Length - 1] == ' ')
+            {
+                matlabGridString = matlabGridString.Remove(matlabGridString.Length - 1);
+            }
+
+            matlabGridString += "];";
+
+            return valueCount;
+        }
+
+        public static int ConvertTextStringToMatlabCurveString(
+           string textString,
+           ref string matlabGridString,
+           ref string outputStringMatlab,
+           ref List<double> curve,
+           ref List<double> grid)
+        {
+            var valueCount = 0;
+            matlabGridString = "x = [";
+            outputStringMatlab = "curve = [";
+            curve.Clear();
+            grid.Clear();
+
+            var textLines = textString.Split('\n');
+
+            var textLinesFiltered = textLines.
+                Where(line => (line != "\r") && (line != "") && (line != "\t\t\r") ).ToArray();
+
+            var relevantLineString = textLinesFiltered.First(x => x.Contains('['));
+            var startIndex = relevantLineString.IndexOf('[') + 1;
+            var subStringLength = relevantLineString.IndexOf(']') - startIndex;
+
+            var valueStringLine = relevantLineString.Substring(startIndex: startIndex, length: subStringLength);
+
+            var valueStringFiltered = valueStringLine.Replace(",", "");
+
+            var valueStringList = valueStringFiltered.Split(' ');
+
+            outputStringMatlab += valueStringFiltered;
+
+            foreach (var valueString in valueStringList)
+            {
+                if (double.TryParse(valueString, out _))
+                {
+                    curve.Add(double.Parse(valueString, CultureInfo.InvariantCulture));
+                }
+            }
+
+            // remove last blank of outputStringMatlab
+            if (outputStringMatlab[outputStringMatlab.Length - 1] == ' ')
+            {
+                outputStringMatlab = outputStringMatlab.Remove(outputStringMatlab.Length - 1);
+            }
+
             outputStringMatlab += "];";
 
             // remove last blank of matlabGridString

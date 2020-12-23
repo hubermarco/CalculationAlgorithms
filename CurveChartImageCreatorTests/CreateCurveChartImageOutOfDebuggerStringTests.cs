@@ -25,8 +25,9 @@ namespace CurveChartImageCreatorTests
             var curve = new List<double>();
             var grid = new List<double>();
 
-            CurveConverter.ConvertDebuggerString(
-               debuggerString,
+            CurveConverter.ConvertInputString(
+               inputString: debuggerString,
+               isInputDebugString: true,
                ref matlabGridString,
                ref matlabCurveString,
                ref cSharpGridString,
@@ -62,8 +63,9 @@ namespace CurveChartImageCreatorTests
             var curve = new List<double>();
             var grid = new List<double>();
 
-            CurveConverter.ConvertDebuggerString(
-              debuggerString,
+            CurveConverter.ConvertInputString(
+              inputString: debuggerString,
+              isInputDebugString: true,
               ref matlabGridString,
               ref matlabCurveString,
               ref cSharpGridString,
@@ -99,8 +101,9 @@ namespace CurveChartImageCreatorTests
             var curve = new List<double>();
             var grid = new List<double>();
 
-            CurveConverter.ConvertDebuggerString(
-              debuggerString,
+            CurveConverter.ConvertInputString(
+              inputString: debuggerString,
+              isInputDebugString: true,
               ref matlabGridString,
               ref matlabCurveString,
               ref cSharpGridString,

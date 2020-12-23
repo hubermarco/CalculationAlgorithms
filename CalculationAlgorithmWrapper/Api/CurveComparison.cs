@@ -9,6 +9,7 @@ namespace CalculationAlgorithmWrapper
         public static void Compare(
            string string1,
            string string2,
+           bool isInputDebugString,
            ref List<double> curve1,
            ref List<double> curve2,
            ref int valueCount1,
@@ -38,8 +39,9 @@ namespace CalculationAlgorithmWrapper
                 var curve = new List<double>();
                 var grid = new List<double>();
 
-                valueCountDict[index] = CurveConverter.ConvertDebuggerString(
-                    inputStringDict[index],
+                valueCountDict[index] = CurveConverter.ConvertInputString(
+                    inputString: inputStringDict[index],
+                    isInputDebugString: isInputDebugString,
                     ref matlabGridString,
                     ref matlabCurveString,
                     ref cSharpGridString,

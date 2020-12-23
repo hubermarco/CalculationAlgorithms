@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace CalculatorAlgorithmsWrapperTests
+namespace CalculationAlgorithmWrapperTests
 {
     [TestFixture]
     public class CurveConverterTests
@@ -23,8 +23,9 @@ namespace CalculatorAlgorithmsWrapperTests
             var curve = new List<double>();
             var grid = new List<double>();
 
-            CurveConverter.ConvertDebuggerString(
-                debuggerString,
+            CurveConverter.ConvertInputString(
+                inputString: debuggerString,
+                isInputDebugString: true,
                 ref matlabGridString,
                 ref matlabCurveString,
                 ref cSharpGridString,
@@ -50,8 +51,9 @@ namespace CalculatorAlgorithmsWrapperTests
             var curve = new List<double>();
             var grid = new List<double>();
 
-            CurveConverter.ConvertDebuggerString(
-                debuggerString,
+            CurveConverter.ConvertInputString(
+                inputString: debuggerString,
+                isInputDebugString: true, 
                 ref matlabGridString,
                 ref matlabCurveString,
                 ref cSharpGridString,
@@ -77,8 +79,9 @@ namespace CalculatorAlgorithmsWrapperTests
             var curve = new List<double>();
             var grid = new List<double>();
 
-            CurveConverter.ConvertDebuggerString(
-                debuggerString,
+            CurveConverter.ConvertInputString(
+                inputString: debuggerString,
+                isInputDebugString: true,
                 ref matlabGridString,
                 ref matlabCurveString,
                 ref cSharpGridString,
@@ -89,6 +92,35 @@ namespace CalculatorAlgorithmsWrapperTests
             Assert.AreEqual(300, curve.Count);
             Assert.AreEqual(300, grid.Count);
         }
+
+        [Test]
+        public void When_text_string_conataining_list_with_of_curve_values_is_converted_then_corresponding_result_is_returned()
+        {
+            var currentDirectory = GetCurrentDirectory();
+            var inputPath = currentDirectory + "\\" + "TextInput.txt";
+            var inputString = File.ReadAllText(inputPath);
+
+            var matlabGridString = string.Empty;
+            var matlabCurveString = string.Empty;
+            var cSharpGridString = string.Empty;
+            var cSharpCurveString = string.Empty;
+            var curve = new List<double>();
+            var grid = new List<double>();
+
+            CurveConverter.ConvertInputString(
+                inputString: inputString,
+                isInputDebugString: false,
+                ref matlabGridString,
+                ref matlabCurveString,
+                ref cSharpGridString,
+                ref cSharpCurveString,
+                ref curve,
+                ref grid);
+
+            Assert.AreEqual(228, curve.Count, "curve.Count");
+            Assert.AreEqual(0, grid.Count, "grid.Count");
+        }
+
 
         private string GetCurrentDirectory()
         {
