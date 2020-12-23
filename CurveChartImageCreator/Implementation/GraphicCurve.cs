@@ -70,7 +70,12 @@ namespace CurveChartImageCreator
             {
                 dXScale = (dWidth - 2.0 * dBorder) / (dXMax - dXMin);   //linear x axis
             }
-            dYScale = (dHeight - 2.0 * dBorder) / (dYMax - dYMin);
+
+            // Set deltaY to 10 if (dYMax - dYMin) is 0 in order to avoid an exception
+            var deltaY = (dYMax - dYMin);
+            var deltaYResulting = (deltaY == 0) ? 10 : deltaY;
+
+            dYScale = (dHeight - 2.0 * dBorder) / deltaYResulting;
         }
 
         private static void CalculateXandYRange(
