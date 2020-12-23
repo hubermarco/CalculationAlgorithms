@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Api\ArithmetricFunctions.cs" />
     <Compile Include="Api\CalculatorFactory.cs" />
+    <Compile Include="Api\CurveComparison.cs" />
     <Compile Include="Api\CurveConverter.cs" />
     <Compile Include="Api\ICalculator.cs" />
     <Compile Include="Api\ArithmetricStringFunctions.cs" />
