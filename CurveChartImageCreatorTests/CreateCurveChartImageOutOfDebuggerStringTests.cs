@@ -27,7 +27,7 @@ namespace CurveChartImageCreatorTests
 
             CurveConverter.ConvertInputString(
                inputString: debuggerString,
-               isInputDebugString: true,
+               inputFormat: InputFormat.Debug,
                ref matlabGridString,
                ref matlabCurveString,
                ref cSharpGridString,
@@ -65,7 +65,7 @@ namespace CurveChartImageCreatorTests
 
             CurveConverter.ConvertInputString(
               inputString: debuggerString,
-              isInputDebugString: true,
+              inputFormat: InputFormat.Debug,
               ref matlabGridString,
               ref matlabCurveString,
               ref cSharpGridString,
@@ -103,7 +103,7 @@ namespace CurveChartImageCreatorTests
 
             CurveConverter.ConvertInputString(
               inputString: debuggerString,
-              isInputDebugString: true,
+              inputFormat: InputFormat.Debug,
               ref matlabGridString,
               ref matlabCurveString,
               ref cSharpGridString,

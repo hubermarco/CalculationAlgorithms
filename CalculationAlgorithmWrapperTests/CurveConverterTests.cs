@@ -25,7 +25,7 @@ namespace CalculationAlgorithmWrapperTests
 
             CurveConverter.ConvertInputString(
                 inputString: debuggerString,
-                isInputDebugString: true,
+                inputFormat: InputFormat.Debug,
                 ref matlabGridString,
                 ref matlabCurveString,
                 ref cSharpGridString,
@@ -53,7 +53,7 @@ namespace CalculationAlgorithmWrapperTests
 
             CurveConverter.ConvertInputString(
                 inputString: debuggerString,
-                isInputDebugString: true, 
+                inputFormat: InputFormat.Debug,
                 ref matlabGridString,
                 ref matlabCurveString,
                 ref cSharpGridString,
@@ -81,7 +81,7 @@ namespace CalculationAlgorithmWrapperTests
 
             CurveConverter.ConvertInputString(
                 inputString: debuggerString,
-                isInputDebugString: true,
+                inputFormat: InputFormat.Debug,
                 ref matlabGridString,
                 ref matlabCurveString,
                 ref cSharpGridString,
@@ -109,7 +109,7 @@ namespace CalculationAlgorithmWrapperTests
 
             CurveConverter.ConvertInputString(
                 inputString: inputString,
-                isInputDebugString: false,
+                inputFormat: InputFormat.Text,
                 ref matlabGridString,
                 ref matlabCurveString,
                 ref cSharpGridString,

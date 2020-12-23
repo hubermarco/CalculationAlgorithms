@@ -62,6 +62,7 @@
     <Compile Include="Api\CurveConverter.cs" />
     <Compile Include="Api\ICalculator.cs" />
     <Compile Include="Api\ArithmetricStringFunctions.cs" />
+    <Compile Include="Api\InputFormat.cs" />
     <Compile Include="Implementation\CalculationStringWrapper.cs" />
     <Compile Include="Implementation\Calculator.cs" />
     <Compile Include="Implementation\Converters.cs" />

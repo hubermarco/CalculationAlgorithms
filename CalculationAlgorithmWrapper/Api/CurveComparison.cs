@@ -9,7 +9,7 @@ namespace CalculationAlgorithmWrapper
         public static void Compare(
            string string1,
            string string2,
-           bool isInputDebugString,
+           InputFormat inputFormat,
            ref List<double> curve1,
            ref List<double> curve2,
            ref int valueCount1,
@@ -41,7 +41,7 @@ namespace CalculationAlgorithmWrapper
 
                 valueCountDict[index] = CurveConverter.ConvertInputString(
                     inputString: inputStringDict[index],
-                    isInputDebugString: isInputDebugString,
+                    inputFormat: inputFormat,
                     ref matlabGridString,
                     ref matlabCurveString,
                     ref cSharpGridString,
@@ -62,16 +62,23 @@ namespace CalculationAlgorithmWrapper
             valueCount1 = curveDict[0].Count;
             valueCount2 = curveDict[1].Count;
 
-            deltaCurve = curveDict[0].Select((x, index) => Math.Round(curveDict[1][index] - x, 2)).ToList();
+            if(curve1.Count == curve2.Count)
+            {
+                deltaCurve = curveDict[0].Select((x, index) => Math.Round(curveDict[1][index] - x, 2)).ToList();
+
+                deltaCurveStringMatlab = CurveConverter.ConvertCurveToMatlabCurveString(
+                    curve: deltaCurve.ToList(),
+                    curveName: "deltaCurve");
+            }
+            else
+            {
+                deltaCurveStringMatlab = "No comparison possible!";
+            }
 
             resultingGrid = gridDict[0].ToList();
 
             resultingMatlabGridString = matlabGridStringDict[0];
-
-            deltaCurveStringMatlab = CurveConverter.ConvertCurveToMatlabCurveString(
-                curve: deltaCurve.ToList(),
-                curveName: "deltaCurve");
-
+        
             resultingCSharpGridString = cSharpGridStringDict[0];
 
             deltaCurveStringCSharp = CurveConverter.ConvertMatlabCurveStringToCSharpCurveString(

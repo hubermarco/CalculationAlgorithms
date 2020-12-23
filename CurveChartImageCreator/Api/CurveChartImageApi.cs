@@ -39,7 +39,7 @@ namespace CurveChartImageCreator
             {
                 foreach (var curve in curveList)
                 {
-                    if(curve != null)
+                    if( (curve != null) && (curve.Count != 0) )
                     {
                         var freqCrv = new FreqCrv(TCurveType.None);
                         xGrid.Select((x, index) => new FreqPt(x, curve[index])).ToList().ForEach(freqPt => freqCrv.Add(freqPt));

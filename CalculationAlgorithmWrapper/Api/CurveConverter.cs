@@ -9,7 +9,7 @@ namespace CalculationAlgorithmWrapper
     {
          public static int ConvertInputString(
             string inputString,
-            bool isInputDebugString,
+            InputFormat inputFormat,
             ref string matlabGridString,
             ref string matlabCurveString,
             ref string cSharpGridString,
@@ -17,9 +17,15 @@ namespace CalculationAlgorithmWrapper
             ref List<double> curve,
             ref List<double> grid)
         {
-            var valueCount = 0;
+            int valueCount;
+            var usedInputFormat = inputFormat;
 
-            if (isInputDebugString)
+            if (inputFormat == InputFormat.Automatic)
+            {
+                usedInputFormat = IsInputStringDebugString(inputString) ? InputFormat.Debug : InputFormat.Text;
+            }
+            
+            if (usedInputFormat == InputFormat.Debug)
             {
                 valueCount = ConvertDebuggerString(
                     inputString,
@@ -30,7 +36,7 @@ namespace CalculationAlgorithmWrapper
                     ref curve,
                     ref grid);
             }
-            else
+            else if(usedInputFormat == InputFormat.Text)
             {
                 valueCount = ConvertTextString(
                     inputString,
@@ -40,6 +46,10 @@ namespace CalculationAlgorithmWrapper
                     ref cSharpCurveString,
                     ref curve,
                     ref grid);
+            }
+            else
+            {
+                throw new ArgumentException($"inputFormat:{inputFormat} not valid");
             }
             
             return valueCount;
@@ -197,46 +207,49 @@ namespace CalculationAlgorithmWrapper
             curve.Clear();
             grid.Clear();
 
-            var textLines = textString.Split('\n');
-
-            var textLinesFiltered = textLines.
-                Where(line => (line != "\r") && (line != "") && (line != "\t\t\r") ).ToArray();
-
-            var relevantLineString = textLinesFiltered.First(x => x.Contains('['));
-            var startIndex = relevantLineString.IndexOf('[') + 1;
-            var subStringLength = relevantLineString.IndexOf(']') - startIndex;
-
-            var valueStringLine = relevantLineString.Substring(startIndex: startIndex, length: subStringLength);
-
-            var valueStringFiltered = valueStringLine.Replace(",", "");
-
-            var valueStringList = valueStringFiltered.Split(' ');
-
-            outputStringMatlab += valueStringFiltered;
-
-            foreach (var valueString in valueStringList)
+            if(textString.Length != 0)
             {
-                if (double.TryParse(valueString, out _))
+                var textLines = textString.Split('\n');
+
+                var textLinesFiltered = textLines.
+                    Where(line => (line != "\r") && (line != "") && (line != "\t\t\r")).ToArray();
+
+                var relevantLineString = textLinesFiltered.First(x => x.Contains('['));
+                var startIndex = relevantLineString.IndexOf('[') + 1;
+                var subStringLength = relevantLineString.IndexOf(']') - startIndex;
+
+                var valueStringLine = relevantLineString.Substring(startIndex: startIndex, length: subStringLength);
+
+                var valueStringFiltered = valueStringLine.Replace(",", "");
+
+                var valueStringList = valueStringFiltered.Split(' ');
+
+                outputStringMatlab += valueStringFiltered;
+
+                foreach (var valueString in valueStringList)
                 {
-                    curve.Add(double.Parse(valueString, CultureInfo.InvariantCulture));
+                    if (double.TryParse(valueString, out _))
+                    {
+                        curve.Add(double.Parse(valueString, CultureInfo.InvariantCulture));
+                    }
                 }
+
+                // remove last blank of outputStringMatlab
+                if (outputStringMatlab[outputStringMatlab.Length - 1] == ' ')
+                {
+                    outputStringMatlab = outputStringMatlab.Remove(outputStringMatlab.Length - 1);
+                }
+
+                outputStringMatlab += "];";
+
+                // remove last blank of matlabGridString
+                if (matlabGridString[matlabGridString.Length - 1] == ' ')
+                {
+                    matlabGridString = matlabGridString.Remove(matlabGridString.Length - 1);
+                }
+
+                matlabGridString += "];";
             }
-
-            // remove last blank of outputStringMatlab
-            if (outputStringMatlab[outputStringMatlab.Length - 1] == ' ')
-            {
-                outputStringMatlab = outputStringMatlab.Remove(outputStringMatlab.Length - 1);
-            }
-
-            outputStringMatlab += "];";
-
-            // remove last blank of matlabGridString
-            if (matlabGridString[matlabGridString.Length - 1] == ' ')
-            {
-                matlabGridString = matlabGridString.Remove(matlabGridString.Length - 1);
-            }
-
-            matlabGridString += "];";
 
             return valueCount;
         }
@@ -296,6 +309,30 @@ namespace CalculationAlgorithmWrapper
             }
 
             return xGrid;
+        }
+
+        public static InputFormat Convert2InputFormat(
+            bool isRadioButtonFormatAutomaticChecked,
+            bool isRadioButtonFormatDebug)
+        {
+            var inputFormat = InputFormat.Text;
+
+            if (isRadioButtonFormatAutomaticChecked)
+            {
+                inputFormat = InputFormat.Automatic;
+            }
+            else if (isRadioButtonFormatDebug)
+            {
+                inputFormat = InputFormat.Debug;
+            }
+
+            return inputFormat;
+        }
+
+        private static bool IsInputStringDebugString(string inputString)
+        {
+            var isInputStringDebugString = inputString.Contains("\t");
+            return isInputStringDebugString;
         }
     }
 }
