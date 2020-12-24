@@ -233,24 +233,24 @@ namespace CalculationAlgorithmWrapper
                         curve.Add(double.Parse(valueString, CultureInfo.InvariantCulture));
                     }
                 }
-
-                // remove last blank of outputStringMatlab
-                if (outputStringMatlab[outputStringMatlab.Length - 1] == ' ')
-                {
-                    outputStringMatlab = outputStringMatlab.Remove(outputStringMatlab.Length - 1);
-                }
-
-                outputStringMatlab += "];";
-
-                // remove last blank of matlabGridString
-                if (matlabGridString[matlabGridString.Length - 1] == ' ')
-                {
-                    matlabGridString = matlabGridString.Remove(matlabGridString.Length - 1);
-                }
-
-                matlabGridString += "];";
             }
 
+            // remove last blank of outputStringMatlab
+            if (outputStringMatlab[outputStringMatlab.Length - 1] == ' ')
+            {
+                outputStringMatlab = outputStringMatlab.Remove(outputStringMatlab.Length - 1);
+            }
+
+            outputStringMatlab += "];";
+
+            // remove last blank of matlabGridString
+            if (matlabGridString[matlabGridString.Length - 1] == ' ')
+            {
+                matlabGridString = matlabGridString.Remove(matlabGridString.Length - 1);
+            }
+
+            matlabGridString += "];";
+           
             return valueCount;
         }
 

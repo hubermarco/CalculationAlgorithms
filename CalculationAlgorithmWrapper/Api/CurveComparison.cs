@@ -75,11 +75,13 @@ namespace CalculationAlgorithmWrapper
                 deltaCurveStringMatlab = "No comparison possible!";
             }
 
-            resultingGrid = gridDict[0].ToList();
+            resultingGrid = (gridDict[0].Count > 0) ? gridDict[0].ToList() : gridDict[1].ToList();
 
-            resultingMatlabGridString = matlabGridStringDict[0];
-        
-            resultingCSharpGridString = cSharpGridStringDict[0];
+            resultingMatlabGridString = (matlabGridStringDict[0].Count() > 0) ?
+                matlabGridStringDict[0] : matlabGridStringDict[1];
+
+            resultingCSharpGridString = (cSharpGridStringDict[0].Count() > 0) ?
+                cSharpGridStringDict[0] : cSharpGridStringDict[1];
 
             deltaCurveStringCSharp = CurveConverter.ConvertMatlabCurveStringToCSharpCurveString(
                 deltaCurveStringMatlab);
