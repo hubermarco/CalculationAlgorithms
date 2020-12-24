@@ -20,11 +20,12 @@ namespace CalculationAlgorithmWrapper
         {
             int valueCount;
             var usedInputFormat = GetUsedInputFormat(inputString, inputFormat);
+            var inputStringWithSingleSpaces = Regex.Replace(inputString, " {2,}", " ");
 
             if (usedInputFormat == InputFormat.Debug)
             {
                 valueCount = ConvertDebuggerString(
-                    inputString,
+                    inputStringWithSingleSpaces,
                     ref matlabGridString,
                     ref matlabCurveString,
                     ref cSharpGridString,
@@ -35,7 +36,7 @@ namespace CalculationAlgorithmWrapper
             else if(usedInputFormat == InputFormat.Text)
             {
                 valueCount = ConvertTextString(
-                    inputString,
+                    inputStringWithSingleSpaces,
                     ref matlabGridString,
                     ref matlabCurveString,
                     ref cSharpGridString,
@@ -201,11 +202,12 @@ namespace CalculationAlgorithmWrapper
             var valueString = string.Empty;
             grid.Clear();
 
-            if(textString.Length != 0)
+            if (textString.Length != 0)
             {
-                if(GetStartAndEndChar(textString, out char startChar, out char endChar))
+                if (GetStartAndEndChar(textString, out char startChar, out char endChar))
                 {
-                    valueString = ConvertTextStringToValueStringWithStartCharAndStopChar(textString, startChar, endChar);
+                    valueString = ConvertTextStringToValueStringWithStartCharAndStopChar(
+                        textString, startChar, endChar);
                 }
                 else
                 {
@@ -389,7 +391,9 @@ namespace CalculationAlgorithmWrapper
             matlabGridString = "x = [";
             matlabCurveString = "curve = [";
 
-            matlabCurveString += valueString;
+            var valueStringWithSingleSpaces = Regex.Replace(valueString, " {2,}", " ");
+
+            matlabCurveString += valueStringWithSingleSpaces;
 
             // remove last blank of outputStringMatlab
             if (matlabCurveString[matlabCurveString.Length - 1] == ' ')
