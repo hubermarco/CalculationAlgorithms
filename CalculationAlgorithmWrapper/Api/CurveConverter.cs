@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace CalculationAlgorithmWrapper
 {
@@ -18,13 +19,8 @@ namespace CalculationAlgorithmWrapper
             ref List<double> grid)
         {
             int valueCount;
-            var usedInputFormat = inputFormat;
+            var usedInputFormat = GetUsedInputFormat(inputString, inputFormat);
 
-            if (inputFormat == InputFormat.Automatic)
-            {
-                usedInputFormat = IsInputStringDebugString(inputString) ? InputFormat.Debug : InputFormat.Text;
-            }
-            
             if (usedInputFormat == InputFormat.Debug)
             {
                 valueCount = ConvertDebuggerString(
@@ -207,9 +203,14 @@ namespace CalculationAlgorithmWrapper
 
             if(textString.Length != 0)
             {
-                GetStartAndEndChar(textString, out char startChar, out char endChar);
-
-                valueString = ConvertTextStringToValueString(textString, startChar, endChar);
+                if(GetStartAndEndChar(textString, out char startChar, out char endChar))
+                {
+                    valueString = ConvertTextStringToValueStringWithStartCharAndStopChar(textString, startChar, endChar);
+                }
+                else
+                {
+                    valueString = ConvertTextStringToValueStringSearchingForNumbers(textString);
+                }
 
                 curve = ConvertValueStringToCurve(valueString, ' ');
 
@@ -296,33 +297,36 @@ namespace CalculationAlgorithmWrapper
             return inputFormat;
         }
 
-        private static bool IsInputStringDebugString(string inputString)
+        private static InputFormat GetUsedInputFormat(string inputString, InputFormat inputFormat)
         {
+            var usedInputFormat = inputFormat;
             var isInputStringDebugString = inputString.Contains("\t");
-            return isInputStringDebugString;
+     
+            if (inputFormat == InputFormat.Automatic)
+            {
+                usedInputFormat = isInputStringDebugString ? InputFormat.Debug : InputFormat.Text;
+            }
+            return usedInputFormat;
         }
 
-        private static void GetStartAndEndChar(string textString, out char startChar, out char endChar)
+        private static bool GetStartAndEndChar(string textString, out char startChar, out char endChar)
         {
+            var startStopCharDict = new Dictionary<char, char> { { '[', ']' } , { '{', '}' }, { '(', ')' }, { ' ', ' ' } };
+
             startChar = textString.Contains('[') ?
                     '[' :
                     textString.Contains('{') ?
                     '{' :
+                    textString.Contains('(') ?
+                    '(' :
                     ' ';
 
-            endChar = ' ';
+            endChar = startStopCharDict[startChar];
 
-            if (startChar == '[')
-            {
-                endChar = ']';
-            }
-            else if (startChar == '{')
-            {
-                endChar = '}';
-            }
+            return (startChar != ' ');
         }
 
-        private static string ConvertTextStringToValueString(string textString, char startChar, char endChar)
+        private static string ConvertTextStringToValueStringWithStartCharAndStopChar(string textString, char startChar, char endChar)
         {
             var textLines = textString.Split('\n');
 
@@ -339,6 +343,27 @@ namespace CalculationAlgorithmWrapper
 
             return valueStringFiltered;
         }
+
+        private static string ConvertTextStringToValueStringSearchingForNumbers(string textString)
+        {
+            var textLines = textString.Split('\n');
+
+            var textLinesFiltered = textLines.
+                Where(line => (line != "\r") && (line != "") && (line != "\t\t\r")).ToArray();
+
+            var relevantLineString = textLinesFiltered.First(
+                x => x.ToCharArray().FirstOrDefault(c => Char.IsDigit(c)) != default(char));
+
+            var startIndex = relevantLineString.IndexOfAny(new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' });
+            var stopIndex = relevantLineString.LastIndexOfAny(new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' });
+
+            var valueStringLine = relevantLineString.Substring(startIndex: startIndex, length: stopIndex + 1 - startIndex);
+
+            var valueStringFiltered = valueStringLine.Replace(",", " ").Replace(";", " ");
+
+            return valueStringFiltered;
+        }
+
 
         private static List<double> ConvertValueStringToCurve(string valueString, char splitChar)
         {
@@ -381,7 +406,6 @@ namespace CalculationAlgorithmWrapper
             }
 
             matlabGridString += "];";
-
         }
     }
 }

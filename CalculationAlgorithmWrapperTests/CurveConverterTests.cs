@@ -94,7 +94,7 @@ namespace CalculationAlgorithmWrapperTests
         }
 
         [Test]
-        public void When_text_string_conataining_list_with_of_curve_values_is_converted_then_corresponding_result_is_returned()
+        public void When_text_string_containing_list_with_of_curve_values_is_converted_then_corresponding_result_is_returned()
         {
             var currentDirectory = GetCurrentDirectory();
             var inputPath = currentDirectory + "\\" + "TextInput.txt";
@@ -119,6 +119,34 @@ namespace CalculationAlgorithmWrapperTests
 
             Assert.AreEqual(228, curve.Count, "curve.Count");
             Assert.AreEqual(0, grid.Count, "grid.Count");
+        }
+
+        [Test]
+        public void When_text_string_containing_curve_values_is_converted_then_corresponding_result_is_returned()
+        {
+            var inputString = "ert45,45,56,56 66 77pp";
+
+            var matlabGridString = string.Empty;
+            var matlabCurveString = string.Empty;
+            var cSharpGridString = string.Empty;
+            var cSharpCurveString = string.Empty;
+            var curve = new List<double>();
+            var grid = new List<double>();
+
+            CurveConverter.ConvertInputString(
+                inputString: inputString,
+                inputFormat: InputFormat.Text,
+                ref matlabGridString,
+                ref matlabCurveString,
+                ref cSharpGridString,
+                ref cSharpCurveString,
+                ref curve,
+                ref grid);
+
+            var expectedCurve = new List<double> { 45, 45, 56, 56, 66, 77 };
+
+            Assert.AreEqual(6, curve.Count, "curve.Count");
+            CollectionAssert.AreEqual(expectedCurve, curve);
         }
 
 
