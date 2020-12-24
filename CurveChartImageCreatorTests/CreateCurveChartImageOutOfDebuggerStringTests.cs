@@ -40,7 +40,8 @@ namespace CurveChartImageCreatorTests
             CurveChartImageApi.Create(
                  fileNameWithoutExtention: TestContext.CurrentContext.Test.Name,
                  headerCaption: "Header",
-                 xGrid: grid,
+                 xGrid1: grid,
+                 xGrid2: grid,
                  curveList1: null,
                  curveList2: new List<List<double>> { curve },
                  outputDir: outPutDir,
@@ -78,7 +79,8 @@ namespace CurveChartImageCreatorTests
             CurveChartImageApi.Create(
                  fileNameWithoutExtention: TestContext.CurrentContext.Test.Name,
                  headerCaption: "Header",
-                 xGrid: grid,
+                 xGrid1: grid,
+                 xGrid2: grid,
                  curveList1: null,
                  curveList2: new List<List<double>> { curve },
                  outputDir: outPutDir,
@@ -120,7 +122,8 @@ namespace CurveChartImageCreatorTests
             CurveChartImageApi.Create(
                  fileNameWithoutExtention: TestContext.CurrentContext.Test.Name,
                  headerCaption: "Header",
-                 xGrid: xGrid,
+                 xGrid1: xGrid,
+                 xGrid2: xGrid,
                  curveList1: null,
                  curveList2: new List<List<double>> { manipulatedCurve },
                  outputDir: outPutDir,

@@ -12,8 +12,8 @@ namespace CalculationAlgorithmWrapper
            InputFormat inputFormat,
            ref List<double> curve1,
            ref List<double> curve2,
-           ref int valueCount1,
-           ref int valueCount2,
+           ref List<double> grid1,
+           ref List<double> grid2,
            ref string resultingMatlabGridString,
            ref string deltaCurveStringMatlab,
            ref string resultingCSharpGridString,
@@ -59,9 +59,9 @@ namespace CalculationAlgorithmWrapper
 
             curve1 = curveDict[0].ToList();
             curve2 = curveDict[1].ToList();
-            valueCount1 = curveDict[0].Count;
-            valueCount2 = curveDict[1].Count;
-
+            grid1 = gridDict[0].ToList();
+            grid2 = gridDict[1].ToList();
+ 
             if(curve1.Count == curve2.Count)
             {
                 deltaCurve = curveDict[0].Select((x, index) => Math.Round(curveDict[1][index] - x, 2)).ToList();

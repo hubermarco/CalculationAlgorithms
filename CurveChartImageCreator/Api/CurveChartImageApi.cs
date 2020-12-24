@@ -9,7 +9,8 @@ namespace CurveChartImageCreator
         public static void Create(
             string fileNameWithoutExtention,
             string headerCaption,
-            IList<double> xGrid,
+            IList<double> xGrid1,
+            IList<double> xGrid2,
             IEnumerable<IList<double>> curveList1,
             IEnumerable<IList<double>> curveList2,
             string outputDir,
@@ -17,8 +18,8 @@ namespace CurveChartImageCreator
             uint imageWidth = 600,
             uint imageHeight = 400)
         {
-            var freqCurveList1 = ConvertCurveListToFreqCrv(curveList1, xGrid);
-            var freqCurveList2 = ConvertCurveListToFreqCrv(curveList2, xGrid);
+            var freqCurveList1 = ConvertCurveListToFreqCrv(curveList1, xGrid1);
+            var freqCurveList2 = ConvertCurveListToFreqCrv(curveList2, xGrid2);
 
             TestCurveChartImage.Create(
                 fileNameWithoutExtention: fileNameWithoutExtention,

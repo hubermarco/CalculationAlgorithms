@@ -202,62 +202,29 @@ namespace CalculationAlgorithmWrapper
            ref List<double> grid)
         {
             var valueCount = 0;
-            matlabGridString = "x = [";
-            outputStringMatlab = "curve = [";
-            curve.Clear();
+            var valueString = string.Empty;
             grid.Clear();
 
             if(textString.Length != 0)
             {
-                var textLines = textString.Split('\n');
+                GetStartAndEndChar(textString, out char startChar, out char endChar);
 
-                var textLinesFiltered = textLines.
-                    Where(line => (line != "\r") && (line != "") && (line != "\t\t\r")).ToArray();
+                valueString = ConvertTextStringToValueString(textString, startChar, endChar);
 
-                var relevantLineString = textLinesFiltered.First(x => x.Contains('['));
-                var startIndex = relevantLineString.IndexOf('[') + 1;
-                var subStringLength = relevantLineString.IndexOf(']') - startIndex;
+                curve = ConvertValueStringToCurve(valueString, ' ');
 
-                var valueStringLine = relevantLineString.Substring(startIndex: startIndex, length: subStringLength);
-
-                var valueStringFiltered = valueStringLine.Replace(",", "");
-
-                var valueStringList = valueStringFiltered.Split(' ');
-
-                outputStringMatlab += valueStringFiltered;
-
-                foreach (var valueString in valueStringList)
-                {
-                    if (double.TryParse(valueString, out _))
-                    {
-                        curve.Add(double.Parse(valueString, CultureInfo.InvariantCulture));
-                    }
-                }
+                valueCount = curve.Count;
             }
 
-            // remove last blank of outputStringMatlab
-            if (outputStringMatlab[outputStringMatlab.Length - 1] == ' ')
-            {
-                outputStringMatlab = outputStringMatlab.Remove(outputStringMatlab.Length - 1);
-            }
+            CreateMatlabString(valueString, out outputStringMatlab, out matlabGridString);
 
-            outputStringMatlab += "];";
-
-            // remove last blank of matlabGridString
-            if (matlabGridString[matlabGridString.Length - 1] == ' ')
-            {
-                matlabGridString = matlabGridString.Remove(matlabGridString.Length - 1);
-            }
-
-            matlabGridString += "];";
-           
             return valueCount;
         }
 
         public static string ConvertMatlabCurveStringToCSharpCurveString(string matlabCurveString)
         {
             var outputStringCsharp = matlabCurveString.Replace(" ", ", ").Replace("curve,", "var curve").Replace("=,", "=")
-                .Replace("[", "new List<double> {").Replace("]", "}").Replace(", }", "}");
+                .Replace("[", "new List<double> {").Replace("]", "}").Replace(", }", "}").Replace(", =", " =");
 
             return outputStringCsharp;
         }
@@ -265,7 +232,7 @@ namespace CalculationAlgorithmWrapper
         public static string ConvertMatlabGridStringToCSharpGridString(string matlabGridString)
         {
             var outputStringCsharp = matlabGridString.Replace(" ", ", ").Replace("x,", "var x").Replace("=,", "=")
-                .Replace("[", "new List<double> {").Replace("]", "}").Replace(", }", "}");
+                .Replace("[", "new List<double> {").Replace("]", "}").Replace(", }", "}").Replace(", =", " =");
 
             return outputStringCsharp;
         }
@@ -288,7 +255,7 @@ namespace CalculationAlgorithmWrapper
         {
             IList<double> xGrid = null;
 
-            if (grid.Count > 0)
+            if ((grid != null) && (grid.Count > 0) )
             {
                 xGrid = grid;
             }
@@ -333,6 +300,88 @@ namespace CalculationAlgorithmWrapper
         {
             var isInputStringDebugString = inputString.Contains("\t");
             return isInputStringDebugString;
+        }
+
+        private static void GetStartAndEndChar(string textString, out char startChar, out char endChar)
+        {
+            startChar = textString.Contains('[') ?
+                    '[' :
+                    textString.Contains('{') ?
+                    '{' :
+                    ' ';
+
+            endChar = ' ';
+
+            if (startChar == '[')
+            {
+                endChar = ']';
+            }
+            else if (startChar == '{')
+            {
+                endChar = '}';
+            }
+        }
+
+        private static string ConvertTextStringToValueString(string textString, char startChar, char endChar)
+        {
+            var textLines = textString.Split('\n');
+
+            var textLinesFiltered = textLines.
+                Where(line => (line != "\r") && (line != "") && (line != "\t\t\r")).ToArray();
+
+            var relevantLineString = textLinesFiltered.First(x => x.Contains(startChar));
+            var startIndex = relevantLineString.IndexOf(startChar) + 1;
+            var subStringLength = relevantLineString.IndexOf(endChar) - startIndex;
+
+            var valueStringLine = relevantLineString.Substring(startIndex: startIndex, length: subStringLength);
+
+            var valueStringFiltered = valueStringLine.Replace(",", " ").Replace(";", " ");
+
+            return valueStringFiltered;
+        }
+
+        private static List<double> ConvertValueStringToCurve(string valueString, char splitChar)
+        {
+            var curve = new List<double>();
+
+            var valueStringList = valueString.Split(splitChar);
+
+            foreach (var valueStringEntry in valueStringList)
+            {
+                if (double.TryParse(valueStringEntry, out _))
+                {
+                    curve.Add(double.Parse(valueStringEntry, CultureInfo.InvariantCulture));
+                }
+            }
+            return curve;
+        }
+
+        private static void CreateMatlabString(
+            string valueString, 
+            out string matlabCurveString,
+            out string matlabGridString)
+        {
+            matlabGridString = "x = [";
+            matlabCurveString = "curve = [";
+
+            matlabCurveString += valueString;
+
+            // remove last blank of outputStringMatlab
+            if (matlabCurveString[matlabCurveString.Length - 1] == ' ')
+            {
+                matlabCurveString = matlabCurveString.Remove(matlabCurveString.Length - 1);
+            }
+
+            matlabCurveString += "];";
+
+            // remove last blank of matlabGridString
+            if (matlabGridString[matlabGridString.Length - 1] == ' ')
+            {
+                matlabGridString = matlabGridString.Remove(matlabGridString.Length - 1);
+            }
+
+            matlabGridString += "];";
+
         }
     }
 }

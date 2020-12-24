@@ -21,7 +21,8 @@ namespace CurveChartImageCreatorTests
             CurveChartImageApi.Create(
                  fileNameWithoutExtention: "test",
                  headerCaption: "Header",
-                 xGrid: f,
+                 xGrid1: f,
+                 xGrid2: f,
                  curveList1: new List<List<double>> { curve },
                  curveList2: new List<List<double>> { curve2 },
                  outputDir: outPutDir,
