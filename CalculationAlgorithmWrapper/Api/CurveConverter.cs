@@ -19,8 +19,8 @@ namespace CalculationAlgorithmWrapper
             ref List<double> grid)
         {
             int valueCount;
-            var usedInputFormat = GetUsedInputFormat(inputString, inputFormat);
             var inputStringWithSingleSpaces = Regex.Replace(inputString, " {2,}", " ");
+            var usedInputFormat = GetUsedInputFormat(inputString, inputFormat);
 
             if (usedInputFormat == InputFormat.Debug)
             {
@@ -48,7 +48,6 @@ namespace CalculationAlgorithmWrapper
             {
                 throw new ArgumentException($"inputFormat:{inputFormat} not valid");
             }
-            
             return valueCount;
         }
 
