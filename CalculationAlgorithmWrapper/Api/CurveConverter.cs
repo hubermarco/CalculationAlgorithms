@@ -19,7 +19,9 @@ namespace CalculationAlgorithmWrapper
             ref List<double> grid)
         {
             int valueCount;
-            var inputStringWithSingleSpaces = Regex.Replace(inputString, " {2,}", " ");
+            var inputStringWithNumbers = Regex.Replace(inputString, "[a-zA-Z]", " ");
+            var inputStringWithSingleSpaces = Regex.Replace(inputStringWithNumbers, " {2,}", " ");
+            
             var usedInputFormat = GetUsedInputFormat(inputString, inputFormat);
 
             if (usedInputFormat == InputFormat.Debug)
