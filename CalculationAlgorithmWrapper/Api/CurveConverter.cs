@@ -19,15 +19,14 @@ namespace CalculationAlgorithmWrapper
             ref List<double> grid)
         {
             int valueCount;
-            var inputStringWithNumbers = Regex.Replace(inputString, "[a-zA-Z]", " ");
-            var inputStringWithSingleSpaces = Regex.Replace(inputStringWithNumbers, " {2,}", " ");
             
             var usedInputFormat = GetUsedInputFormat(inputString, inputFormat);
 
             if (usedInputFormat == InputFormat.Debug)
             {
                 valueCount = ConvertDebuggerString(
-                    inputStringWithSingleSpaces,
+                    inputString,
+                    numberOfDigits:3,
                     ref matlabGridString,
                     ref matlabCurveString,
                     ref cSharpGridString,
@@ -38,7 +37,7 @@ namespace CalculationAlgorithmWrapper
             else if(usedInputFormat == InputFormat.Text)
             {
                 valueCount = ConvertTextString(
-                    inputStringWithSingleSpaces,
+                    inputString,
                     ref matlabGridString,
                     ref matlabCurveString,
                     ref cSharpGridString,
@@ -138,6 +137,7 @@ namespace CalculationAlgorithmWrapper
 
         private static int ConvertDebuggerString(
            string inputString,
+           int numberOfDigits,
            ref string matlabGridString,
            ref string matlabCurveString,
            ref string cSharpGridString,
@@ -147,6 +147,7 @@ namespace CalculationAlgorithmWrapper
         {
             var valueCount = ConvertDebuggerStringToMatlabCurveString(
                 inputString,
+                numberOfDigits,
                 ref matlabGridString,
                 ref matlabCurveString,
                 ref curve,
@@ -188,6 +189,7 @@ namespace CalculationAlgorithmWrapper
 
         private static int ConvertDebuggerStringToMatlabCurveString(
             string debuggerString,
+            int numberOfDigits,
             ref string matlabGridString,
             ref string outputStringMatlab,
             ref List<double> curve,
@@ -199,7 +201,9 @@ namespace CalculationAlgorithmWrapper
             curve.Clear();
             grid.Clear();
 
-            var debuggerLines = debuggerString.Split('\n');
+            var debuggerStringWithSingleSpaces = Regex.Replace(debuggerString, " {2,}", " ");
+
+            var debuggerLines = debuggerStringWithSingleSpaces.Split('\n');
 
             var debuggerLinesFiltered = debuggerLines.
                 Where(line => (line != "\r") && (line != "") && (line != "\t\t\r") &&
@@ -235,10 +239,13 @@ namespace CalculationAlgorithmWrapper
 
                 if (double.TryParse(numberSubString, out _))
                 {
-                    outputStringMatlab += numberSubString + " ";
+                    var value = double.Parse(numberSubString, CultureInfo.InvariantCulture);
+                    var usedNumberSubString = $"{Math.Round(value, numberOfDigits)}".Replace(",", ".");
+
+                    outputStringMatlab += usedNumberSubString + " ";
                     valueCount++;
 
-                    curve.Add(double.Parse(numberSubString, CultureInfo.InvariantCulture));
+                    curve.Add(value);
 
                     if (double.TryParse(gridString, out _))
                     {
@@ -278,16 +285,19 @@ namespace CalculationAlgorithmWrapper
             var valueString = string.Empty;
             grid.Clear();
 
-            if (textString.Length != 0)
+            var textStringWithoutLetters = Regex.Replace(textString, "[a-zA-Z]", " ");
+            var textStringWithSingleSpaces = Regex.Replace(textStringWithoutLetters, " {2,}", " ");
+            
+            if (textStringWithSingleSpaces.Length != 0)
             {
-                if (GetStartAndEndChar(textString, out char startChar, out char endChar))
+                if (GetStartAndEndChar(textStringWithSingleSpaces, out char startChar, out char endChar))
                 {
                     valueString = ConvertTextStringToValueStringWithStartCharAndStopChar(
-                        textString, startChar, endChar);
+                        textStringWithSingleSpaces, startChar, endChar);
                 }
                 else
                 {
-                    valueString = ConvertTextStringToValueStringSearchingForNumbers(textString);
+                    valueString = ConvertTextStringToValueStringSearchingForNumbers(textStringWithSingleSpaces);
                 }
 
                 curve = ConvertValueStringToCurve(valueString, ' ');
