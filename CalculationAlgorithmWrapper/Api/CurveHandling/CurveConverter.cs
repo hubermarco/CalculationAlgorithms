@@ -76,15 +76,26 @@ namespace CalculationAlgorithmWrapper
             return outputStringCsharp;
         }
 
-        public static string ConvertCurveToMatlabCurveString(List<double> curve, string curveName)
+        public static string ConvertCurveToMatlabCurveString(List<double> curve, string curveName, bool commanSeparation=false)
         {
-            var deltaCurveString = $"{curveName} = [";
-            curve.ForEach(x => deltaCurveString += $"{x} ");
-            deltaCurveString += "];";
+            var curveString = $"{curveName} = [";
 
-            var deltaCurveStringAdapted = deltaCurveString.Replace(',', '.');
+            var separarationString = commanSeparation ? ", " : " ";
 
-            return deltaCurveStringAdapted;
+            curve.ForEach(x => 
+            { 
+                var xAdapted = x.ToString().Replace(',', '.'); 
+                curveString += $"{xAdapted}{separarationString}"; 
+            });
+             
+            curveString += "];";
+
+            if(commanSeparation)
+            {
+                curveString = curveString.Replace(", ];", "]");
+            }
+
+            return curveString;
         }
 
         public static IList<double> CalculateXGrid(
