@@ -56,13 +56,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\ArithmetricFunctions.cs" />
-    <Compile Include="Api\CalculatorFactory.cs" />
-    <Compile Include="Api\CurveComparison.cs" />
-    <Compile Include="Api\CurveConverter.cs" />
-    <Compile Include="Api\ICalculator.cs" />
-    <Compile Include="Api\ArithmetricStringFunctions.cs" />
-    <Compile Include="Api\InputFormat.cs" />
+    <Compile Include="Implementation\ArithmetricFunctions.cs" />
+    <Compile Include="Api\Calculator\CalculatorFactory.cs" />
+    <Compile Include="Api\CurveHandling\CurveComparison.cs" />
+    <Compile Include="Api\CurveHandling\CurveConverter.cs" />
+    <Compile Include="Api\Calculator\ICalculator.cs" />
+    <Compile Include="Implementation\ArithmetricStringFunctions.cs" />
+    <Compile Include="Api\CurveHandling\InputFormat.cs" />
     <Compile Include="Implementation\CalculationStringWrapper.cs" />
     <Compile Include="Implementation\Calculator.cs" />
     <Compile Include="Implementation\Converters.cs" />
