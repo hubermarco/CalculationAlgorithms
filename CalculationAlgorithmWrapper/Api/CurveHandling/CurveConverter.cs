@@ -62,18 +62,14 @@ namespace CalculationAlgorithmWrapper
 
         public static string ConvertMatlabCurveStringToCSharpCurveString(string matlabCurveString)
         {
-            var outputStringCsharp = matlabCurveString.Replace(" ", ", ").Replace("curve,", "var curve").Replace("=,", "=")
+           
+            var outputStringCsharp = matlabCurveString.Replace(" ", ", ").Replace("=,", "=")
                 .Replace("[", "new List<double> {").Replace("]", "}").Replace(", }", "}").Replace(", =", " =");
 
-            return outputStringCsharp;
-        }
+            // replace "deltaCurve = new List<double> {3, 3, 3};" by "var deltaCurve = new List<double> {3, 3, 3};"
+            var outputStringCsharpRegEx = Regex.Replace(input: outputStringCsharp, pattern: "(\\b^\\w[^=]*\\b)", "var $1");
 
-        public static string ConvertMatlabGridStringToCSharpGridString(string matlabGridString)
-        {
-            var outputStringCsharp = matlabGridString.Replace(" ", ", ").Replace("x,", "var x").Replace("=,", "=")
-                .Replace("[", "new List<double> {").Replace("]", "}").Replace(", }", "}").Replace(", =", " =");
-
-            return outputStringCsharp;
+            return outputStringCsharpRegEx;
         }
 
         public static string ConvertCurveToMatlabCurveString(List<double> curve, string curveName, bool commanSeparation=false)
@@ -87,12 +83,14 @@ namespace CalculationAlgorithmWrapper
                 var xAdapted = x.ToString().Replace(',', '.'); 
                 curveString += $"{xAdapted}{separarationString}"; 
             });
-             
+
+            // Remove last separarationString
+            curveString = curveString.Remove(curveString.Length - separarationString.Length);
             curveString += "];";
 
             if(commanSeparation)
             {
-                curveString = curveString.Replace(", ];", "]");
+                curveString = curveString.Replace("];", "]");
             }
 
             return curveString;
@@ -165,7 +163,7 @@ namespace CalculationAlgorithmWrapper
                 ref grid);
 
             var cSharpCurveStringOutput = ConvertMatlabCurveStringToCSharpCurveString(matlabCurveString);
-            var cSharpGridStringOutput = ConvertMatlabGridStringToCSharpGridString(matlabGridString);
+            var cSharpGridStringOutput = ConvertMatlabCurveStringToCSharpCurveString(matlabGridString);
 
             cSharpGridString = cSharpGridStringOutput;
             cSharpCurveString = cSharpCurveStringOutput;
@@ -190,7 +188,7 @@ namespace CalculationAlgorithmWrapper
                 ref grid);
 
             var cSharpCurveStringOutput = ConvertMatlabCurveStringToCSharpCurveString(matlabCurveString);
-            var cSharpGridStringOutput = ConvertMatlabGridStringToCSharpGridString(matlabGridString);
+            var cSharpGridStringOutput = ConvertMatlabCurveStringToCSharpCurveString(matlabGridString);
 
             cSharpGridString = cSharpGridStringOutput;
             cSharpCurveString = cSharpCurveStringOutput;

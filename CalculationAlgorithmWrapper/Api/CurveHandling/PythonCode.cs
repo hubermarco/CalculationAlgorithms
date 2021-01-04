@@ -13,10 +13,12 @@ namespace CalculationAlgorithmWrapper.Api
             var curve1Rounded = curve1.Select(x => Math.Round(x, numberDecimalPlaces)).ToList();
             var curve2Rounded = curve2.Select(x => Math.Round(x, numberDecimalPlaces)).ToList();
 
-            var gridString1 = CurveConverter.ConvertCurveToMatlabCurveString(grid1, "x1", commanSeparation: true);
+            var usedGrid1 = (grid1.Count != 0) ? grid1 : Enumerable.Range(0, curve1.Count).Select(x => (double)x).ToList();
+            var gridString1 = CurveConverter.ConvertCurveToMatlabCurveString(usedGrid1, "x1", commanSeparation: true);
             var curveString1 = CurveConverter.ConvertCurveToMatlabCurveString(curve1Rounded, "curve1", commanSeparation: true);
 
-            var gridString2 = CurveConverter.ConvertCurveToMatlabCurveString(grid2, "x2", commanSeparation: true);
+            var usedGrid2 = (grid2.Count != 0) ? grid2 : Enumerable.Range(0, curve2.Count).Select(x => (double)x).ToList();
+            var gridString2 = CurveConverter.ConvertCurveToMatlabCurveString(usedGrid2, "x2", commanSeparation: true);
             var curveString2 = CurveConverter.ConvertCurveToMatlabCurveString(curve2Rounded, "curve2", commanSeparation: true);
 
             stringList.Add("import numpy as np");
@@ -43,7 +45,7 @@ namespace CalculationAlgorithmWrapper.Api
 
             if(curve1.Count == curve2.Count)
             {
-                var gridString = CurveConverter.ConvertCurveToMatlabCurveString(grid1, "x", commanSeparation: true);
+                var gridString = CurveConverter.ConvertCurveToMatlabCurveString(usedGrid1, "x", commanSeparation: true);
                 var deltaCurve = curve1.Select((value, index) => Math.Round(curve2[index] - value, numberDecimalPlaces)).ToList();
                 var deltaCurveString = CurveConverter.ConvertCurveToMatlabCurveString(deltaCurve, "deltaCurve", commanSeparation: true);
 
