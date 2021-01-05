@@ -13,11 +13,11 @@ namespace CalculationAlgorithmWrapper.Api
             var curve1Rounded = curve1.Select(x => Math.Round(x, numberDecimalPlaces)).ToList();
             var curve2Rounded = curve2.Select(x => Math.Round(x, numberDecimalPlaces)).ToList();
 
-            var usedGrid1 = (grid1.Count != 0) ? grid1 : Enumerable.Range(0, curve1.Count).Select(x => (double)x).ToList();
+            var usedGrid1 = CurveConverter.CalculateXGrid(grid:grid1, numberOfCurvePoints:curve1.Count, linearFreqAxis:linearFreqAxis).ToList();
             var gridString1 = CurveConverter.ConvertCurveToMatlabCurveString(usedGrid1, "x1", commanSeparation: true);
             var curveString1 = CurveConverter.ConvertCurveToMatlabCurveString(curve1Rounded, "curve1", commanSeparation: true);
 
-            var usedGrid2 = (grid2.Count != 0) ? grid2 : Enumerable.Range(0, curve2.Count).Select(x => (double)x).ToList();
+            var usedGrid2 = CurveConverter.CalculateXGrid(grid: grid2, numberOfCurvePoints: curve2.Count, linearFreqAxis: linearFreqAxis).ToList();
             var gridString2 = CurveConverter.ConvertCurveToMatlabCurveString(usedGrid2, "x2", commanSeparation: true);
             var curveString2 = CurveConverter.ConvertCurveToMatlabCurveString(curve2Rounded, "curve2", commanSeparation: true);
 
