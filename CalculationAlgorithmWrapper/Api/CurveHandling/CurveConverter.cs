@@ -76,22 +76,22 @@ namespace CalculationAlgorithmWrapper
         {
             var curveString = $"{curveName} = [";
 
-            var separarationString = commanSeparation ? ", " : " ";
+            var separationString = commanSeparation ? ", " : " ";
 
             curve.ForEach(x => 
             { 
                 var xAdapted = x.ToString().Replace(',', '.'); 
-                curveString += $"{xAdapted}{separarationString}"; 
+                curveString += $"{xAdapted}{separationString}"; 
             });
 
             // Remove last separarationString
-            curveString = curveString.Remove(curveString.Length - separarationString.Length);
-            curveString += "];";
-
-            if(commanSeparation)
-            {
-                curveString = curveString.Replace("];", "]");
-            }
+            if(curve.Count > 0)
+                curveString = curveString.Remove(curveString.Length - separationString.Length);
+            
+            if (commanSeparation) 
+                curveString += "]"; 
+            else 
+                curveString += "];";
 
             return curveString;
         }
