@@ -268,7 +268,8 @@ namespace CalculationAlgorithmWrapper
 
             var textStringWithoutLetters = Regex.Replace(textString, "[a-zA-Z]", " ");
             var textStringWithSingleSpaces = Regex.Replace(textStringWithoutLetters, " {2,}", " ");
-            
+            textStringWithSingleSpaces = (textStringWithSingleSpaces == " ") ? string.Empty : textStringWithoutLetters;
+
             if (textStringWithSingleSpaces.Length != 0)
             {
                 if (GetStartAndEndChar(textStringWithSingleSpaces, out char startChar, out char endChar))

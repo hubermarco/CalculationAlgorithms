@@ -149,6 +149,30 @@ namespace CalculationAlgorithmWrapperTests
             CollectionAssert.AreEqual(expectedCurve, curve);
         }
 
+        [Test]
+        public void When_text_string_containing_curve_values_is_converted_then_corresponding_result_is_returned2()
+        {
+            var inputString = "ert";
+
+            var matlabGridString = string.Empty;
+            var matlabCurveString = string.Empty;
+            var cSharpGridString = string.Empty;
+            var cSharpCurveString = string.Empty;
+            var curve = new List<double>();
+            var grid = new List<double>();
+
+            CurveConverter.ConvertInputString(
+                inputString: inputString,
+                inputFormat: InputFormat.Text,
+                ref matlabGridString,
+                ref matlabCurveString,
+                ref cSharpGridString,
+                ref cSharpCurveString,
+                ref curve,
+                ref grid);
+
+            Assert.AreEqual(0, curve.Count, "curve.Count");
+        }
 
         private string GetCurrentDirectory()
         {
