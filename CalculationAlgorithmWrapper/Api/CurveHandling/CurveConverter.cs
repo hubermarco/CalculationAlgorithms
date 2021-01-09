@@ -306,19 +306,22 @@ namespace CalculationAlgorithmWrapper
 
         private static bool GetStartAndEndChar(string textString, out char startChar, out char endChar)
         {
-            var startStopCharDict = new Dictionary<char, char> { { '[', ']' } , { '{', '}' }, { '(', ')' }, { ' ', ' ' } };
+            var startAndEndCharFound = false;
+            startChar = ' ';
+            endChar = ' ';
+            var startStopCharDict = new Dictionary<char, char> { { '[', ']' } , { '{', '}' }, { '(', ')' }};
 
-            startChar = textString.Contains('[') ?
-                    '[' :
-                    textString.Contains('{') ?
-                    '{' :
-                    textString.Contains('(') ?
-                    '(' :
-                    ' ';
+            foreach(var startStopCharValuePair in startStopCharDict)
+            {
+                if(textString.Contains(startStopCharValuePair.Key) && textString.Contains(startStopCharValuePair.Value))
+                {
+                    startChar = startStopCharValuePair.Key;
+                    endChar = startStopCharValuePair.Value;
+                    startAndEndCharFound = true;
+                }
+            }
 
-            endChar = startStopCharDict[startChar];
-
-            return (startChar != ' ');
+            return startAndEndCharFound;
         }
 
         private static string ConvertTextStringToValueStringWithStartCharAndStopChar(string textString, char startChar, char endChar)
