@@ -268,7 +268,7 @@ namespace CalculationAlgorithmWrapper
 
             var textStringWithoutLetters = Regex.Replace(textString, "[a-zA-Z]", " ");
             var textStringWithSingleSpaces = Regex.Replace(textStringWithoutLetters, " {2,}", " ");
-            textStringWithSingleSpaces = (textStringWithSingleSpaces == " ") ? string.Empty : textStringWithoutLetters;
+            textStringWithSingleSpaces = (textStringWithSingleSpaces == " ") ? string.Empty : textStringWithSingleSpaces;
 
             if (textStringWithSingleSpaces.Length != 0)
             {
@@ -384,8 +384,9 @@ namespace CalculationAlgorithmWrapper
             matlabCurveString = "curve = [";
 
             var valueStringWithSingleSpaces = Regex.Replace(valueString, " {2,}", " ");
+            var valueStringWithoutSpacesAtTheBeginning = Regex.Replace(valueStringWithSingleSpaces, "^\\s+", "");
 
-            matlabCurveString += valueStringWithSingleSpaces;
+            matlabCurveString += valueStringWithoutSpacesAtTheBeginning;
 
             // remove last blank of outputStringMatlab
             if (matlabCurveString[matlabCurveString.Length - 1] == ' ')

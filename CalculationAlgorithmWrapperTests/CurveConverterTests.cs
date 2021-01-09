@@ -174,6 +174,39 @@ namespace CalculationAlgorithmWrapperTests
             Assert.AreEqual(0, curve.Count, "curve.Count");
         }
 
+        [Test]
+        public void When_text_string_containing_curve_values_is_converted_then_corresponding_result_is_returned3()
+        {
+            var inputString = "new List<double> {                    45, 45, 56, 56, 66, 77            };";
+
+            var matlabGridString = string.Empty;
+            var matlabCurveString = string.Empty;
+            var cSharpGridString = string.Empty;
+            var cSharpCurveString = string.Empty;
+            var curve = new List<double>();
+            var grid = new List<double>();
+
+            CurveConverter.ConvertInputString(
+                inputString: inputString,
+                inputFormat: InputFormat.Text,
+                ref matlabGridString,
+                ref matlabCurveString,
+                ref cSharpGridString,
+                ref cSharpCurveString,
+                ref curve,
+                ref grid);
+
+            var expectedCurve = new List<double> { 45, 45, 56, 56, 66, 77 };
+
+            Assert.AreEqual(6, curve.Count, "curve.Count");
+            CollectionAssert.AreEqual(expectedCurve, curve);
+            Assert.AreEqual("curve = [45 45 56 56 66 77];", matlabCurveString);
+            Assert.AreEqual("x = [];", matlabGridString);
+            Assert.AreEqual("var curve = new List<double> {45, 45, 56, 56, 66, 77};", cSharpCurveString);
+            Assert.AreEqual("var x = new List<double> {};", cSharpGridString);
+        }
+
+
         private string GetCurrentDirectory()
         {
             var executionDirectory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
