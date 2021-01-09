@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\CurveHandling\PythonCode.cs" />
+    <Compile Include="Api\CurveHandling\XGrid.cs" />
     <Compile Include="Implementation\ArithmetricFunctions.cs" />
     <Compile Include="Api\Calculator\CalculatorFactory.cs" />
     <Compile Include="Api\CurveHandling\CurveComparison.cs" />
