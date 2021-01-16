@@ -58,7 +58,7 @@ namespace CalculationAlgorithmWrapper
                 .Replace("[", "new List<double> {").Replace("]", "}").Replace(", }", "}").Replace(", =", " =");
 
             // replace "deltaCurve = new List<double> {3, 3, 3};" by "var deltaCurve = new List<double> {3, 3, 3};"
-            var outputStringCsharpRegEx = Regex.Replace(input: outputStringCsharp, pattern: "(\\b^\\w[^=]*\\b)", "var $1");
+            var outputStringCsharpRegEx = Regex.Replace(input: outputStringCsharp, pattern: "(\\b^[^=]*\\b)", "var $1");
 
             return outputStringCsharpRegEx;
         }
