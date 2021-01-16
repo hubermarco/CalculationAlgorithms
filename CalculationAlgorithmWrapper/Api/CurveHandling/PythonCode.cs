@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CalculationAlgorithmWrapper.Api
+namespace CalculationAlgorithmWrapper
 {
     public class PythonCode
     {
