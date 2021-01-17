@@ -8,18 +8,14 @@ namespace CalculationAlgorithmWrapper
 {
     public class CurveConverter
     {
-         public static int ConvertInputString(
+         public static CurveConverterValues ConvertInputString(
             string inputString,
-            InputFormat inputFormat,
-            ref string matlabGridString,
-            ref string matlabCurveString,
-            ref string cSharpGridString,
-            ref string cSharpCurveString,
-            ref List<double> curve,
-            ref List<double> grid)
+            InputFormat inputFormat)
         {
             int valueCount;
-            
+            string matlabGridString, matlabCurveString, cSharpGridString, cSharpCurveString;
+            List<double> curve, grid;
+
             var usedInputFormat = GetUsedInputFormat(inputString, inputFormat);
 
             if (usedInputFormat == InputFormat.Debug)
@@ -27,29 +23,37 @@ namespace CalculationAlgorithmWrapper
                 valueCount = ConvertDebuggerString(
                     inputString,
                     numberOfDigits:3,
-                    ref matlabGridString,
-                    ref matlabCurveString,
-                    ref cSharpGridString,
-                    ref cSharpCurveString,
-                    ref curve,
-                    ref grid);
+                    out matlabGridString,
+                    out matlabCurveString,
+                    out cSharpGridString,
+                    out cSharpCurveString,
+                    out curve,
+                    out grid);
             }
             else if(usedInputFormat == InputFormat.Text)
             {
                 valueCount = ConvertTextString(
                     inputString,
-                    ref matlabGridString,
-                    ref matlabCurveString,
-                    ref cSharpGridString,
-                    ref cSharpCurveString,
-                    ref curve,
-                    ref grid);
+                    out matlabGridString,
+                    out matlabCurveString,
+                    out cSharpGridString,
+                    out cSharpCurveString,
+                    out curve,
+                    out grid);
             }
             else
             {
                 throw new ArgumentException($"inputFormat:{inputFormat} not valid");
             }
-            return valueCount;
+
+            return new CurveConverterValues(
+                valueCount: valueCount,
+                matlabGridString: matlabGridString,
+                matlabCurveString: matlabCurveString,
+                cSharpGridString: cSharpGridString,
+                cSharpCurveString: cSharpCurveString,
+                curve: curve,
+                grid: grid);
         }
  
         public static string ConvertMatlabCurveStringToCSharpCurveString(string matlabCurveString)
@@ -108,20 +112,20 @@ namespace CalculationAlgorithmWrapper
         private static int ConvertDebuggerString(
            string inputString,
            int numberOfDigits,
-           ref string matlabGridString,
-           ref string matlabCurveString,
-           ref string cSharpGridString,
-           ref string cSharpCurveString,
-           ref List<double> curve,
-           ref List<double> grid)
+           out string matlabGridString,
+           out string matlabCurveString,
+           out string cSharpGridString,
+           out string cSharpCurveString,
+           out List<double> curve,
+           out List<double> grid)
         {
             var valueCount = ConvertDebuggerStringToMatlabCurveString(
                 inputString,
                 numberOfDigits,
-                ref matlabGridString,
-                ref matlabCurveString,
-                ref curve,
-                ref grid);
+                out matlabGridString,
+                out matlabCurveString,
+                out curve,
+                out grid);
 
             var cSharpCurveStringOutput = ConvertMatlabCurveStringToCSharpCurveString(matlabCurveString);
             var cSharpGridStringOutput = ConvertMatlabCurveStringToCSharpCurveString(matlabGridString);
@@ -134,19 +138,19 @@ namespace CalculationAlgorithmWrapper
 
         private static int ConvertTextString(
             string inputString,
-            ref string matlabGridString,
-            ref string matlabCurveString,
-            ref string cSharpGridString,
-            ref string cSharpCurveString,
-            ref List<double> curve,
-            ref List<double> grid)
+            out string matlabGridString,
+            out string matlabCurveString,
+            out string cSharpGridString,
+            out string cSharpCurveString,
+            out List<double> curve,
+            out List<double> grid)
         {
             var valueCount = ConvertTextStringToMatlabCurveString(
                 inputString,
-                ref matlabGridString,
-                ref matlabCurveString,
-                ref curve,
-                ref grid);
+                out matlabGridString,
+                out matlabCurveString,
+                out curve,
+                out grid);
 
             var cSharpCurveStringOutput = ConvertMatlabCurveStringToCSharpCurveString(matlabCurveString);
             var cSharpGridStringOutput = ConvertMatlabCurveStringToCSharpCurveString(matlabGridString);
@@ -160,16 +164,16 @@ namespace CalculationAlgorithmWrapper
         private static int ConvertDebuggerStringToMatlabCurveString(
             string debuggerString,
             int numberOfDigits,
-            ref string matlabGridString,
-            ref string outputStringMatlab,
-            ref List<double> curve,
-            ref List<double> grid)
+            out string matlabGridString,
+            out string outputStringMatlab,
+            out List<double> curve,
+            out List<double> grid)
         {
             var valueCount = 0;
             matlabGridString = "x = [";
             outputStringMatlab = "curve = [";
-            curve.Clear();
-            grid.Clear();
+            curve = new List<double>();
+            grid = new List<double>();
 
             // E must not be replaced because it's part of a number as exponent (1.2246063538223773E-15)
             var debuggerStringWithoutLetters = Regex.Replace(debuggerString, "[a-zA-DF-Z]", " ");
@@ -248,14 +252,15 @@ namespace CalculationAlgorithmWrapper
 
         private static int ConvertTextStringToMatlabCurveString(
            string textString,
-           ref string matlabGridString,
-           ref string outputStringMatlab,
-           ref List<double> curve,
-           ref List<double> grid)
+           out string matlabGridString,
+           out string outputStringMatlab,
+           out List<double> curve,
+           out List<double> grid)
         {
             var valueCount = 0;
             var valueString = string.Empty;
-            grid.Clear();
+            grid = new List<double>();
+            curve = new List<double>();
 
             var textStringWithoutLetters = Regex.Replace(textString, "[a-zA-Z]", " ");
             var textStringWithSingleSpaces = Regex.Replace(textStringWithoutLetters, " {2,}", " ");

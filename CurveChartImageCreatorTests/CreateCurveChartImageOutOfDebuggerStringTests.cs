@@ -18,32 +18,19 @@ namespace CurveChartImageCreatorTests
             var inputPath = currentDirectory + "\\" + "CurveConverterInput.txt";
             var debuggerString = File.ReadAllText(inputPath);
 
-            var matlabGridString = string.Empty;
-            var matlabCurveString = string.Empty;
-            var cSharpGridString = string.Empty;
-            var cSharpCurveString = string.Empty;
-            var curve = new List<double>();
-            var grid = new List<double>();
-
-            CurveConverter.ConvertInputString(
+            var curveConverterValues = CurveConverter.ConvertInputString(
                inputString: debuggerString,
-               inputFormat: InputFormat.Debug,
-               ref matlabGridString,
-               ref matlabCurveString,
-               ref cSharpGridString,
-               ref cSharpCurveString,
-               ref curve,
-               ref grid);
+               inputFormat: InputFormat.Debug);
 
             var outPutDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory) + "\\Test";
 
             CurveChartImageApi.Create(
                  fileNameWithoutExtention: TestContext.CurrentContext.Test.Name,
                  headerCaption: "Header",
-                 xGrid1: grid,
-                 xGrid2: grid,
+                 xGrid1: curveConverterValues.Grid,
+                 xGrid2: curveConverterValues.Grid,
                  curveList1: null,
-                 curveList2: new List<List<double>> { curve },
+                 curveList2: new List<List<double>> { curveConverterValues.Curve },
                  outputDir: outPutDir,
                  linearFreqAxis: false,
                  imageWidth: 900,
@@ -57,32 +44,19 @@ namespace CurveChartImageCreatorTests
             var inputPath = currentDirectory + "\\" + "DictionaryInput.txt";
             var debuggerString = File.ReadAllText(inputPath);
 
-            var matlabGridString = string.Empty;
-            var matlabCurveString = string.Empty;
-            var cSharpGridString = string.Empty;
-            var cSharpCurveString = string.Empty;
-            var curve = new List<double>();
-            var grid = new List<double>();
-
-            CurveConverter.ConvertInputString(
-              inputString: debuggerString,
-              inputFormat: InputFormat.Debug,
-              ref matlabGridString,
-              ref matlabCurveString,
-              ref cSharpGridString,
-              ref cSharpCurveString,
-              ref curve,
-              ref grid);
+            var curveConverterValues = CurveConverter.ConvertInputString(
+                inputString: debuggerString,
+                inputFormat: InputFormat.Debug);
 
             var outPutDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory) + "\\Test";
 
             CurveChartImageApi.Create(
                  fileNameWithoutExtention: TestContext.CurrentContext.Test.Name,
                  headerCaption: "Header",
-                 xGrid1: grid,
-                 xGrid2: grid,
+                 xGrid1: curveConverterValues.Grid,
+                 xGrid2: curveConverterValues.Grid,
                  curveList1: null,
-                 curveList2: new List<List<double>> { curve },
+                 curveList2: new List<List<double>> { curveConverterValues.Curve },
                  outputDir: outPutDir,
                  linearFreqAxis: true,
                  imageWidth: 900,
@@ -96,24 +70,11 @@ namespace CurveChartImageCreatorTests
             var inputPath = currentDirectory + "\\" + "CurveInput.txt";
             var debuggerString = File.ReadAllText(inputPath);
 
-            var matlabGridString = string.Empty;
-            var matlabCurveString = string.Empty;
-            var cSharpGridString = string.Empty;
-            var cSharpCurveString = string.Empty;
-            var curve = new List<double>();
-            var grid = new List<double>();
-
-            CurveConverter.ConvertInputString(
+            var curveConverterValues = CurveConverter.ConvertInputString(
               inputString: debuggerString,
-              inputFormat: InputFormat.Debug,
-              ref matlabGridString,
-              ref matlabCurveString,
-              ref cSharpGridString,
-              ref cSharpCurveString,
-              ref curve,
-              ref grid);
+              inputFormat: InputFormat.Debug);
 
-            var manipulatedCurve = curve.Where((value, index) => (index < 250) ).ToList();
+            var manipulatedCurve = curveConverterValues.Curve.Where((value, index) => (index < 250) ).ToList();
 
             var xGrid = Enumerable.Range(0, manipulatedCurve.Count).Select((value, index) => (double)(index+1)).ToList();
 

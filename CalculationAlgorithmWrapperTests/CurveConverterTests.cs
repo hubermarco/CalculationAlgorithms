@@ -16,25 +16,12 @@ namespace CalculationAlgorithmWrapperTests
             var inputPath = currentDirectory + "\\" + "CurveConverterInput.txt";
             var debuggerString = File.ReadAllText(inputPath);
 
-            var matlabGridString = string.Empty;
-            var matlabCurveString = string.Empty;
-            var cSharpGridString = string.Empty;
-            var cSharpCurveString = string.Empty;
-            var curve = new List<double>();
-            var grid = new List<double>();
-
-            CurveConverter.ConvertInputString(
+            var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: debuggerString,
-                inputFormat: InputFormat.Debug,
-                ref matlabGridString,
-                ref matlabCurveString,
-                ref cSharpGridString,
-                ref cSharpCurveString,
-                ref curve,
-                ref grid);
+                inputFormat: InputFormat.Debug);
 
-            Assert.AreEqual(228, curve.Count);
-            Assert.AreEqual(228, grid.Count);
+            Assert.AreEqual(228, curveConverterValues.Curve.Count);
+            Assert.AreEqual(228, curveConverterValues.Grid.Count);
         }
 
         [Test]
@@ -44,25 +31,12 @@ namespace CalculationAlgorithmWrapperTests
             var inputPath = currentDirectory + "\\" + "CurveInput.txt";
             var debuggerString = File.ReadAllText(inputPath);
 
-            var matlabGridString = string.Empty;
-            var matlabCurveString = string.Empty;
-            var cSharpGridString = string.Empty;
-            var cSharpCurveString = string.Empty;
-            var curve = new List<double>();
-            var grid = new List<double>();
-
-            CurveConverter.ConvertInputString(
+            var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: debuggerString,
-                inputFormat: InputFormat.Debug,
-                ref matlabGridString,
-                ref matlabCurveString,
-                ref cSharpGridString,
-                ref cSharpCurveString,
-                ref curve,
-                ref grid);
+                inputFormat: InputFormat.Debug);
 
-            Assert.AreEqual(1000, curve.Count);
-            Assert.AreEqual(0, grid.Count);
+            Assert.AreEqual(1000, curveConverterValues.Curve.Count);
+            Assert.AreEqual(0, curveConverterValues.Grid.Count);
         }
 
         [Test]
@@ -72,25 +46,12 @@ namespace CalculationAlgorithmWrapperTests
             var inputPath = currentDirectory + "\\" + "DictionaryInput.txt";
             var debuggerString = File.ReadAllText(inputPath);
 
-            var matlabGridString = string.Empty;
-            var matlabCurveString = string.Empty;
-            var cSharpGridString = string.Empty;
-            var cSharpCurveString = string.Empty;
-            var curve = new List<double>();
-            var grid = new List<double>();
-
-            CurveConverter.ConvertInputString(
+            var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: debuggerString,
-                inputFormat: InputFormat.Debug,
-                ref matlabGridString,
-                ref matlabCurveString,
-                ref cSharpGridString,
-                ref cSharpCurveString,
-                ref curve,
-                ref grid);
+                inputFormat: InputFormat.Debug);
 
-            Assert.AreEqual(300, curve.Count);
-            Assert.AreEqual(300, grid.Count);
+            Assert.AreEqual(300, curveConverterValues.Curve.Count);
+            Assert.AreEqual(300, curveConverterValues.Grid.Count);
         }
 
         [Test]
@@ -100,25 +61,12 @@ namespace CalculationAlgorithmWrapperTests
             var inputPath = currentDirectory + "\\" + "TextInput.txt";
             var inputString = File.ReadAllText(inputPath);
 
-            var matlabGridString = string.Empty;
-            var matlabCurveString = string.Empty;
-            var cSharpGridString = string.Empty;
-            var cSharpCurveString = string.Empty;
-            var curve = new List<double>();
-            var grid = new List<double>();
-
-            CurveConverter.ConvertInputString(
+            var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: inputString,
-                inputFormat: InputFormat.Text,
-                ref matlabGridString,
-                ref matlabCurveString,
-                ref cSharpGridString,
-                ref cSharpCurveString,
-                ref curve,
-                ref grid);
+                inputFormat: InputFormat.Text);
 
-            Assert.AreEqual(228, curve.Count, "curve.Count");
-            Assert.AreEqual(0, grid.Count, "grid.Count");
+            Assert.AreEqual(228, curveConverterValues.Curve.Count, "curve.Count");
+            Assert.AreEqual(0, curveConverterValues.Grid.Count, "grid.Count");
         }
 
         [Test]
@@ -126,27 +74,14 @@ namespace CalculationAlgorithmWrapperTests
         {
             var inputString = "ert45,45,56,56 66 77pp";
 
-            var matlabGridString = string.Empty;
-            var matlabCurveString = string.Empty;
-            var cSharpGridString = string.Empty;
-            var cSharpCurveString = string.Empty;
-            var curve = new List<double>();
-            var grid = new List<double>();
-
-            CurveConverter.ConvertInputString(
+            var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: inputString,
-                inputFormat: InputFormat.Text,
-                ref matlabGridString,
-                ref matlabCurveString,
-                ref cSharpGridString,
-                ref cSharpCurveString,
-                ref curve,
-                ref grid);
+                inputFormat: InputFormat.Text);
 
             var expectedCurve = new List<double> { 45, 45, 56, 56, 66, 77 };
 
-            Assert.AreEqual(6, curve.Count, "curve.Count");
-            CollectionAssert.AreEqual(expectedCurve, curve);
+            Assert.AreEqual(6, curveConverterValues.Curve.Count, "curve.Count");
+            CollectionAssert.AreEqual(expectedCurve, curveConverterValues.Curve);
         }
 
         [Test]
@@ -154,24 +89,11 @@ namespace CalculationAlgorithmWrapperTests
         {
             var inputString = "ert";
 
-            var matlabGridString = string.Empty;
-            var matlabCurveString = string.Empty;
-            var cSharpGridString = string.Empty;
-            var cSharpCurveString = string.Empty;
-            var curve = new List<double>();
-            var grid = new List<double>();
-
-            CurveConverter.ConvertInputString(
+            var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: inputString,
-                inputFormat: InputFormat.Text,
-                ref matlabGridString,
-                ref matlabCurveString,
-                ref cSharpGridString,
-                ref cSharpCurveString,
-                ref curve,
-                ref grid);
+                inputFormat: InputFormat.Text);
 
-            Assert.AreEqual(0, curve.Count, "curve.Count");
+            Assert.AreEqual(0, curveConverterValues.Curve.Count, "curve.Count");
         }
 
         [Test]
@@ -179,31 +101,18 @@ namespace CalculationAlgorithmWrapperTests
         {
             var inputString = "new List<double> {                    45, 45, 56, 56, 66, 77            };";
 
-            var matlabGridString = string.Empty;
-            var matlabCurveString = string.Empty;
-            var cSharpGridString = string.Empty;
-            var cSharpCurveString = string.Empty;
-            var curve = new List<double>();
-            var grid = new List<double>();
-
-            CurveConverter.ConvertInputString(
+            var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: inputString,
-                inputFormat: InputFormat.Text,
-                ref matlabGridString,
-                ref matlabCurveString,
-                ref cSharpGridString,
-                ref cSharpCurveString,
-                ref curve,
-                ref grid);
+                inputFormat: InputFormat.Text);
 
             var expectedCurve = new List<double> { 45, 45, 56, 56, 66, 77 };
 
-            Assert.AreEqual(6, curve.Count, "curve.Count");
-            CollectionAssert.AreEqual(expectedCurve, curve);
-            Assert.AreEqual("curve = [45 45 56 56 66 77];", matlabCurveString);
-            Assert.AreEqual("x = [];", matlabGridString);
-            Assert.AreEqual("var curve = new List<double> {45, 45, 56, 56, 66, 77};", cSharpCurveString);
-            Assert.AreEqual("var x = new List<double> {};", cSharpGridString);
+            Assert.AreEqual(6, curveConverterValues.Curve.Count, "curve.Count");
+            CollectionAssert.AreEqual(expectedCurve, curveConverterValues.Curve);
+            Assert.AreEqual("curve = [45 45 56 56 66 77];", curveConverterValues.MatlabCurveString);
+            Assert.AreEqual("x = [];", curveConverterValues.MatlabGridString);
+            Assert.AreEqual("var curve = new List<double> {45, 45, 56, 56, 66, 77};", curveConverterValues.CSharpCurveString);
+            Assert.AreEqual("var x = new List<double> {};", curveConverterValues.CSharpGridString);
         }
 
         [Test]
@@ -211,31 +120,18 @@ namespace CalculationAlgorithmWrapperTests
         {
             var inputString = "new List<double> {                    45, 45, 56, 56, 66, 77            ;";
 
-            var matlabGridString = string.Empty;
-            var matlabCurveString = string.Empty;
-            var cSharpGridString = string.Empty;
-            var cSharpCurveString = string.Empty;
-            var curve = new List<double>();
-            var grid = new List<double>();
-
-            CurveConverter.ConvertInputString(
+            var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: inputString,
-                inputFormat: InputFormat.Text,
-                ref matlabGridString,
-                ref matlabCurveString,
-                ref cSharpGridString,
-                ref cSharpCurveString,
-                ref curve,
-                ref grid);
+                inputFormat: InputFormat.Text);
 
             var expectedCurve = new List<double> { 45, 45, 56, 56, 66, 77 };
 
-            Assert.AreEqual(6, curve.Count, "curve.Count");
-            CollectionAssert.AreEqual(expectedCurve, curve);
-            Assert.AreEqual("curve = [45 45 56 56 66 77];", matlabCurveString);
-            Assert.AreEqual("x = [];", matlabGridString);
-            Assert.AreEqual("var curve = new List<double> {45, 45, 56, 56, 66, 77};", cSharpCurveString);
-            Assert.AreEqual("var x = new List<double> {};", cSharpGridString);
+            Assert.AreEqual(6, curveConverterValues.Curve.Count, "curve.Count");
+            CollectionAssert.AreEqual(expectedCurve, curveConverterValues.Curve);
+            Assert.AreEqual("curve = [45 45 56 56 66 77];", curveConverterValues.MatlabCurveString);
+            Assert.AreEqual("x = [];", curveConverterValues.MatlabGridString);
+            Assert.AreEqual("var curve = new List<double> {45, 45, 56, 56, 66, 77};", curveConverterValues.CSharpCurveString);
+            Assert.AreEqual("var x = new List<double> {};", curveConverterValues.CSharpGridString);
         }
 
         private string GetCurrentDirectory()

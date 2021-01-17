@@ -32,29 +32,16 @@ namespace CalculationAlgorithmWrapper
 
             for (var index = 0; index < matlabGridStringDict.Count(); index++)
             {
-                var matlabGridString = string.Empty;
-                var matlabCurveString = string.Empty;
-                var cSharpGridString = string.Empty;
-                var cSharpCurveString = string.Empty;
-                var curve = new List<double>();
-                var grid = new List<double>();
-
-                valueCountDict[index] = CurveConverter.ConvertInputString(
+                var curveConverterValues = CurveConverter.ConvertInputString(
                     inputString: inputStringDict[index],
-                    inputFormat: inputFormat,
-                    ref matlabGridString,
-                    ref matlabCurveString,
-                    ref cSharpGridString,
-                    ref cSharpCurveString,
-                    ref curve,
-                    ref grid);
+                    inputFormat: inputFormat);
 
-                matlabGridStringDict[index] = matlabGridString;
-                matlabCurveStringDict[index] = matlabCurveString;
-                cSharpGridStringDict[index] = cSharpGridString;
-                cSharpCurveStringDict[index] = cSharpCurveString;
-                curveDict[index] = curve;
-                gridDict[index] = grid;
+                matlabGridStringDict[index] = curveConverterValues.MatlabGridString;
+                matlabCurveStringDict[index] = curveConverterValues.MatlabCurveString;
+                cSharpGridStringDict[index] = curveConverterValues.CSharpGridString;
+                cSharpCurveStringDict[index] = curveConverterValues.CSharpCurveString;
+                curveDict[index] = curveConverterValues.Curve;
+                gridDict[index] = curveConverterValues.Grid;
             }
 
             curve1 = curveDict[0].ToList();
