@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CalculationAlgorithmWrapper
 {
@@ -29,5 +31,26 @@ namespace CalculationAlgorithmWrapper
         public string CSharpCurveString { get; }
         public List<double> Curve { get; }
         public List<double> Grid { get; }
+
+        public List<double> GetRoundedCurve(int decimalPlaces)
+        {
+            return Curve.Select(x => Math.Round(x, decimalPlaces)).ToList();
+        }
+
+        public string GetRoundedMatlabGridString(int decimalPlaces, string curveName)
+        {
+            var roundedMatlabGridString = CurveConverter.
+                ConvertCurveToMatlabCurveString(Curve.Select(x => Math.Round(x, decimalPlaces)).ToList(), curveName: curveName);
+
+            return roundedMatlabGridString;
+        }
+
+        public string ConvertMatlabCurveStringToCSharpCurveString(string matlabCurveString)
+        {
+            var cSharpCurveString =  CurveConverter.
+                ConvertMatlabCurveStringToCSharpCurveString(matlabCurveString);
+
+            return cSharpCurveString;
+        }
     }
 }
