@@ -164,7 +164,6 @@ namespace CalculationAlgorithmWrapper
         private static CurveConverterValues ConvertTextString(
            string textString)
         {
-            var valueCount = 0;
             var valueString = string.Empty;
             var grid = new List<double>();
             var curve = new List<double>();
@@ -186,8 +185,6 @@ namespace CalculationAlgorithmWrapper
                 }
 
                 curve = ConvertValueStringToCurve(valueString, ' ');
-
-                valueCount = curve.Count;
             }
 
             CreateMatlabString(valueString, out var outputStringMatlab, out var matlabGridString);
