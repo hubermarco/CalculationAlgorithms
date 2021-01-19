@@ -32,12 +32,21 @@ namespace CalculationAlgorithmWrapper
             return Curve.Select(x => Math.Round(x, decimalPlaces)).ToList();
         }
 
-        public string GetRoundedMatlabGridString(int decimalPlaces, string curveName)
+        public string GetRoundedMatlabCurveString(int decimalPlaces, string curveName)
         {
-            var roundedMatlabGridString = CurveConverter.
+            var roundedMatlabCurveString = CurveConverter.
                 ConvertCurveToMatlabCurveString(Curve.Select(x => Math.Round(x, decimalPlaces)).ToList(), curveName: curveName);
 
-            return roundedMatlabGridString;
+            return roundedMatlabCurveString;
+        }
+
+        public string GetRoundedCSharpCurveString(int decimalPlaces, string curveName)
+        {
+            var roundedMatlabCurveString = GetRoundedMatlabCurveString(decimalPlaces, curveName);
+
+            var roundedCSharpCurveString = ConvertMatlabCurveStringToCSharpCurveString(matlabCurveString: roundedMatlabCurveString);
+
+            return roundedCSharpCurveString;
         }
 
         public static string ConvertMatlabCurveStringToCSharpCurveString(string matlabCurveString)
