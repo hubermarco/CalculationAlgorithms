@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace CalculationAlgorithmWrapper
 {
@@ -10,16 +11,12 @@ namespace CalculationAlgorithmWrapper
             int valueCount,
             string matlabGridString,
             string matlabCurveString,
-            string cSharpGridString,
-            string cSharpCurveString,
             List<double> curve,
             List<double> grid)
         {
             ValueCount = valueCount;
             MatlabGridString = matlabGridString;
             MatlabCurveString = matlabCurveString;
-            CSharpGridString = cSharpGridString;
-            CSharpCurveString = cSharpCurveString;
             Curve = curve;
             Grid = grid;
         }
@@ -27,8 +24,8 @@ namespace CalculationAlgorithmWrapper
         public int ValueCount { get; }
         public string MatlabGridString { get; }
         public string MatlabCurveString { get; }
-        public string CSharpGridString { get; }
-        public string CSharpCurveString { get; }
+        public string CSharpGridString { get { return ConvertMatlabCurveStringToCSharpCurveString(MatlabGridString); } }
+        public string CSharpCurveString { get { return ConvertMatlabCurveStringToCSharpCurveString(MatlabCurveString); } }
         public List<double> Curve { get; }
         public List<double> Grid { get; }
 
@@ -45,12 +42,15 @@ namespace CalculationAlgorithmWrapper
             return roundedMatlabGridString;
         }
 
-        public string ConvertMatlabCurveStringToCSharpCurveString(string matlabCurveString)
+        public static string ConvertMatlabCurveStringToCSharpCurveString(string matlabCurveString)
         {
-            var cSharpCurveString =  CurveConverter.
-                ConvertMatlabCurveStringToCSharpCurveString(matlabCurveString);
+            var outputStringCsharp = matlabCurveString.Replace(" ", ", ").Replace("=,", "=")
+                .Replace("[", "new List<double> {").Replace("]", "}").Replace(", }", "}").Replace(", =", " =");
 
-            return cSharpCurveString;
+            // replace "deltaCurve = new List<double> {3, 3, 3};" by "var deltaCurve = new List<double> {3, 3, 3};"
+            var outputStringCsharpRegEx = Regex.Replace(input: outputStringCsharp, pattern: "(\\b^[^=]*\\b)", "var $1");
+
+            return outputStringCsharpRegEx;
         }
     }
 }

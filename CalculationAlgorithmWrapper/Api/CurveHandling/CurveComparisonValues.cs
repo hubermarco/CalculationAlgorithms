@@ -86,7 +86,7 @@ namespace CalculationAlgorithmWrapper
         public string GetDeltaCurveStringCSharp()
         {
             var deltaCurveStringMatlab = GetDeltaCurveStringMatlab();
-            var deltaCurveStringCSharp = CurveConverter.ConvertMatlabCurveStringToCSharpCurveString(
+            var deltaCurveStringCSharp = CurveConverterValues.ConvertMatlabCurveStringToCSharpCurveString(
                 deltaCurveStringMatlab);
 
             return deltaCurveStringCSharp;
