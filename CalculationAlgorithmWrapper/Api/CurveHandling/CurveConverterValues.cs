@@ -8,20 +8,18 @@ namespace CalculationAlgorithmWrapper
     public class CurveConverterValues
     {
         public CurveConverterValues(
-            int valueCount,
             string matlabGridString,
             string matlabCurveString,
             List<double> curve,
             List<double> grid)
         {
-            ValueCount = valueCount;
             MatlabGridString = matlabGridString;
             MatlabCurveString = matlabCurveString;
             Curve = curve;
             Grid = grid;
         }
 
-        public int ValueCount { get; }
+        public int ValueCount { get { return Curve.Count; } }
         public string MatlabGridString { get; }
         public string MatlabCurveString { get; }
         public string CSharpGridString { get { return ConvertMatlabCurveStringToCSharpCurveString(MatlabGridString); } }

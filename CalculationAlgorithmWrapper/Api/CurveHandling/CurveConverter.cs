@@ -78,7 +78,6 @@ namespace CalculationAlgorithmWrapper
             string debuggerString,
             int numberOfDigits)
         {
-            var valueCount = 0;
             var matlabGridString = "x = [";
             var outputStringMatlab = "curve = [";
             var curve = new List<double>();
@@ -128,7 +127,6 @@ namespace CalculationAlgorithmWrapper
                     var usedNumberSubString = $"{Math.Round(value, numberOfDigits)}".Replace(",", ".");
 
                     outputStringMatlab += usedNumberSubString + " ";
-                    valueCount++;
 
                     curve.Add(value);
 
@@ -157,7 +155,6 @@ namespace CalculationAlgorithmWrapper
             matlabGridString += "];";
 
             return new CurveConverterValues(
-               valueCount: valueCount,
                matlabGridString: matlabGridString,
                matlabCurveString: outputStringMatlab,
                curve: curve,
@@ -196,7 +193,6 @@ namespace CalculationAlgorithmWrapper
             CreateMatlabString(valueString, out var outputStringMatlab, out var matlabGridString);
 
             return new CurveConverterValues(
-               valueCount: valueCount,
                matlabGridString: matlabGridString,
                matlabCurveString: outputStringMatlab,
                curve: curve,
