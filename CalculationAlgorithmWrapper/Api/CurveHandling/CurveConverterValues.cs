@@ -44,24 +44,6 @@ namespace CalculationAlgorithmWrapper
         public List<double> Curve { get; }
         public List<double> Grid { get; }
 
-        public static string GetRoundedMatlabCurveString(IList<double> curve, string curveName, int? decimalPlaces)
-        {
-            double RoundCurveElement(double x){ return Math.Round(x, decimalPlaces.Value); }
-            double BypassCurveElement(double x) { return x; }
-
-            Func<double, double> ElementManipulator;
-   
-            if (decimalPlaces.HasValue)
-                ElementManipulator = RoundCurveElement;
-            else
-                ElementManipulator = BypassCurveElement;
-
-            var roundedMatlabCurveString = ConvertCurveToMatlabCurveString(
-                curve.Select(ElementManipulator).ToList(), curveName: curveName);
-
-            return roundedMatlabCurveString;
-        }
-
         public static string ConvertMatlabCurveStringToCSharpCurveString(string matlabCurveString)
         {
             var outputStringCsharp = matlabCurveString.Replace(" ", ", ").Replace("=,", "=")
@@ -95,6 +77,24 @@ namespace CalculationAlgorithmWrapper
                 curveString += "];";
 
             return curveString;
+        }
+
+        private static string GetRoundedMatlabCurveString(IList<double> curve, string curveName, int? decimalPlaces)
+        {
+            double RoundCurveElement(double x) { return Math.Round(x, decimalPlaces.Value); }
+            double BypassCurveElement(double x) { return x; }
+
+            Func<double, double> ElementManipulator;
+
+            if (decimalPlaces.HasValue)
+                ElementManipulator = RoundCurveElement;
+            else
+                ElementManipulator = BypassCurveElement;
+
+            var roundedMatlabCurveString = ConvertCurveToMatlabCurveString(
+                curve.Select(ElementManipulator).ToList(), curveName: curveName);
+
+            return roundedMatlabCurveString;
         }
     }
 }
