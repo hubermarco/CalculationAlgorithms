@@ -16,11 +16,13 @@ namespace CalculationAlgorithmWrapper
         }
 
         public int ValueCount { get { return Curve.Count; } }
+
         public string GetMatlabGridString(string curveName, int? decimalPlaces = null)
         {
             var matlabGridString = GetRoundedMatlabCurveString(curve: Grid, curveName, decimalPlaces);
             return matlabGridString;
         }
+        
         public string GetMatlabCurveString(string curveName, int? decimalPlaces = null)
         {
             var roundedMatlabCurveString = GetRoundedMatlabCurveString(Curve, curveName, decimalPlaces);
@@ -42,11 +44,6 @@ namespace CalculationAlgorithmWrapper
         public List<double> Curve { get; }
         public List<double> Grid { get; }
 
-        public List<double> GetRoundedCurve(int decimalPlaces)
-        {
-            return Curve.Select(x => Math.Round(x, decimalPlaces)).ToList();
-        }
-
         public static string GetRoundedMatlabCurveString(IList<double> curve, string curveName, int? decimalPlaces)
         {
             double RoundCurveElement(double x){ return Math.Round(x, decimalPlaces.Value); }
@@ -65,15 +62,6 @@ namespace CalculationAlgorithmWrapper
             return roundedMatlabCurveString;
         }
 
-        public string GetRoundedCSharpCurveString(string curveName, int? decimalPlaces = null)
-        {
-            var roundedMatlabCurveString = GetMatlabCurveString(curveName, decimalPlaces);
-
-            var roundedCSharpCurveString = ConvertMatlabCurveStringToCSharpCurveString(matlabCurveString: roundedMatlabCurveString);
-
-            return roundedCSharpCurveString;
-        }
-
         public static string ConvertMatlabCurveStringToCSharpCurveString(string matlabCurveString)
         {
             var outputStringCsharp = matlabCurveString.Replace(" ", ", ").Replace("=,", "=")
@@ -84,7 +72,6 @@ namespace CalculationAlgorithmWrapper
 
             return outputStringCsharpRegEx;
         }
-
 
         public static string ConvertCurveToMatlabCurveString(List<double> curve, string curveName, bool commanSeparation = false)
         {
@@ -109,6 +96,5 @@ namespace CalculationAlgorithmWrapper
 
             return curveString;
         }
-
     }
 }
