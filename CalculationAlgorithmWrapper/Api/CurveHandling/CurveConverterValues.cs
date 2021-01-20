@@ -8,22 +8,37 @@ namespace CalculationAlgorithmWrapper
     public class CurveConverterValues
     {
         public CurveConverterValues(
-            string matlabGridString,
-            string matlabCurveString,
             List<double> curve,
             List<double> grid)
         {
-            MatlabGridString = matlabGridString;
-            MatlabCurveString = matlabCurveString;
             Curve = curve;
             Grid = grid;
         }
 
         public int ValueCount { get { return Curve.Count; } }
-        public string MatlabGridString { get; }
-        public string MatlabCurveString { get; }
-        public string CSharpGridString { get { return ConvertMatlabCurveStringToCSharpCurveString(MatlabGridString); } }
-        public string CSharpCurveString { get { return ConvertMatlabCurveStringToCSharpCurveString(MatlabCurveString); } }
+        public string GetMatlabGridString(string curveName, int? decimalPlaces = null)
+        {
+            var matlabGridString = GetRoundedMatlabCurveString(curve: Grid, curveName, decimalPlaces);
+            return matlabGridString;
+        }
+        public string GetMatlabCurveString(string curveName, int? decimalPlaces = null)
+        {
+            var roundedMatlabCurveString = GetRoundedMatlabCurveString(Curve, curveName, decimalPlaces);
+            return roundedMatlabCurveString;
+        }
+
+        public string GetCSharpGridString(string curveName, int? decimalPlaces = null)
+        {
+            var matlabGridString = GetMatlabGridString(curveName, decimalPlaces);
+            return ConvertMatlabCurveStringToCSharpCurveString(matlabGridString);
+        }
+
+        public string GetCSharpCurveString(string curveName, int? decimalPlaces = null)
+        {
+            var matlabCurveString = GetMatlabCurveString(curveName, decimalPlaces);
+            return ConvertMatlabCurveStringToCSharpCurveString(matlabCurveString);
+        }
+
         public List<double> Curve { get; }
         public List<double> Grid { get; }
 
@@ -32,17 +47,27 @@ namespace CalculationAlgorithmWrapper
             return Curve.Select(x => Math.Round(x, decimalPlaces)).ToList();
         }
 
-        public string GetRoundedMatlabCurveString(int decimalPlaces, string curveName)
+        public static string GetRoundedMatlabCurveString(IList<double> curve, string curveName, int? decimalPlaces)
         {
+            double RoundCurveElement(double x){ return Math.Round(x, decimalPlaces.Value); }
+            double BypassCurveElement(double x) { return x; }
+
+            Func<double, double> ElementManipulator;
+   
+            if (decimalPlaces.HasValue)
+                ElementManipulator = RoundCurveElement;
+            else
+                ElementManipulator = BypassCurveElement;
+
             var roundedMatlabCurveString = CurveConverter.
-                ConvertCurveToMatlabCurveString(Curve.Select(x => Math.Round(x, decimalPlaces)).ToList(), curveName: curveName);
+                ConvertCurveToMatlabCurveString(curve.Select(ElementManipulator).ToList(), curveName: curveName);
 
             return roundedMatlabCurveString;
         }
 
-        public string GetRoundedCSharpCurveString(int decimalPlaces, string curveName)
+        public string GetRoundedCSharpCurveString(string curveName, int? decimalPlaces = null)
         {
-            var roundedMatlabCurveString = GetRoundedMatlabCurveString(decimalPlaces, curveName);
+            var roundedMatlabCurveString = GetMatlabCurveString(curveName, decimalPlaces);
 
             var roundedCSharpCurveString = ConvertMatlabCurveStringToCSharpCurveString(matlabCurveString: roundedMatlabCurveString);
 

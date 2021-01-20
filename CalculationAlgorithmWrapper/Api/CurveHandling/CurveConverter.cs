@@ -155,8 +155,6 @@ namespace CalculationAlgorithmWrapper
             matlabGridString += "];";
 
             return new CurveConverterValues(
-               matlabGridString: matlabGridString,
-               matlabCurveString: outputStringMatlab,
                curve: curve,
                grid: grid);
         }
@@ -190,8 +188,6 @@ namespace CalculationAlgorithmWrapper
             CreateMatlabString(valueString, out var outputStringMatlab, out var matlabGridString);
 
             return new CurveConverterValues(
-               matlabGridString: matlabGridString,
-               matlabCurveString: outputStringMatlab,
                curve: curve,
                grid: grid);
         }

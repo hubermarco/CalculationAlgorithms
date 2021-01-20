@@ -109,10 +109,10 @@ namespace CalculationAlgorithmWrapperTests
 
             Assert.AreEqual(6, curveConverterValues.Curve.Count, "curve.Count");
             CollectionAssert.AreEqual(expectedCurve, curveConverterValues.Curve);
-            Assert.AreEqual("curve = [45 45 56 56 66 77];", curveConverterValues.MatlabCurveString);
-            Assert.AreEqual("x = [];", curveConverterValues.MatlabGridString);
-            Assert.AreEqual("var curve = new List<double> {45, 45, 56, 56, 66, 77};", curveConverterValues.CSharpCurveString);
-            Assert.AreEqual("var x = new List<double> {};", curveConverterValues.CSharpGridString);
+            Assert.AreEqual("curve = [45 45 56 56 66 77];", curveConverterValues.GetMatlabCurveString("curve"));
+            Assert.AreEqual("x = [];", curveConverterValues.GetMatlabGridString("x", null) );
+            Assert.AreEqual("var curve = new List<double> {45, 45, 56, 56, 66, 77};", curveConverterValues.GetCSharpCurveString("curve"));
+            Assert.AreEqual("var x = new List<double> {};", curveConverterValues.GetCSharpGridString("x"));
         }
 
         [Test]
@@ -128,10 +128,10 @@ namespace CalculationAlgorithmWrapperTests
 
             Assert.AreEqual(6, curveConverterValues.Curve.Count, "curve.Count");
             CollectionAssert.AreEqual(expectedCurve, curveConverterValues.Curve);
-            Assert.AreEqual("curve = [45 45 56 56 66 77];", curveConverterValues.MatlabCurveString);
-            Assert.AreEqual("x = [];", curveConverterValues.MatlabGridString);
-            Assert.AreEqual("var curve = new List<double> {45, 45, 56, 56, 66, 77};", curveConverterValues.CSharpCurveString);
-            Assert.AreEqual("var x = new List<double> {};", curveConverterValues.CSharpGridString);
+            Assert.AreEqual("curve = [45 45 56 56 66 77];", curveConverterValues.GetMatlabCurveString("curve"));
+            Assert.AreEqual("x = [];", curveConverterValues.GetMatlabGridString("x"));
+            Assert.AreEqual("var curve = new List<double> {45, 45, 56, 56, 66, 77};", curveConverterValues.GetCSharpCurveString("curve"));
+            Assert.AreEqual("var x = new List<double> {};", curveConverterValues.GetCSharpGridString("x"));
         }
 
         private string GetCurrentDirectory()

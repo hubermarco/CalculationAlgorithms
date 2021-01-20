@@ -30,7 +30,7 @@ namespace CalculationAlgorithmWrapper
             return deltaCurve;
         }
 
-        public string GetDeltaCurveStringMatlab()
+        public string GetDeltaCurveStringMatlab(string curveName, int? decimalPlaces = null)
         {
             string deltaCurveStringMatlab;
             var curve1 = CurveConverterValues1.Curve;
@@ -38,11 +38,16 @@ namespace CalculationAlgorithmWrapper
 
             if (curve1.Count == curve2.Count)
             {
-                var deltaCurve = curve1.Select((x, index) => Math.Round(curve2[index] - x, 2)).ToList();
+                IList<double> deltaCurve;
+
+                if (decimalPlaces.HasValue)
+                    deltaCurve = curve1.Select((x, index) => Math.Round(curve2[index] - x, decimalPlaces.Value)).ToList();
+                else
+                    deltaCurve = curve1.Select((x, index) => curve2[index] - x).ToList();
 
                 deltaCurveStringMatlab = CurveConverter.ConvertCurveToMatlabCurveString(
                     curve: deltaCurve.ToList(),
-                    curveName: "deltaCurve");
+                    curveName: curveName);
             }
             else
             {
@@ -61,21 +66,21 @@ namespace CalculationAlgorithmWrapper
             return resultingGrid;
         }
 
-        public string GetResultingMatlabGridString()
+        public string GetResultingMatlabGridString(string curveName, int? decimalPlaces = null)
         {
-            var matlabGridString1 = CurveConverterValues1.MatlabGridString;
-            var matlabGridString2 = CurveConverterValues2.MatlabGridString;
+            var matlabGridString1 = CurveConverterValues1.GetMatlabGridString(curveName, decimalPlaces);
+            var matlabGridString2 = CurveConverterValues2.GetMatlabGridString(curveName, decimalPlaces);
 
-            var resultingMatlabGridString = (matlabGridString1.Count() > 0) ?
+            var resultingCSharpGridString = (matlabGridString1.Count() > 0) ?
                 matlabGridString1 : matlabGridString2;
 
-            return resultingMatlabGridString;
+            return resultingCSharpGridString;
         }
 
-        public string GetResultingCSharpGridString()
+        public string GetResultingCSharpGridString(string curveName, int? decimalPlaces = null)
         {
-            var cSharpGridString1 = CurveConverterValues1.CSharpGridString;
-            var cSharpGridString2 = CurveConverterValues2.CSharpGridString;
+            var cSharpGridString1 = CurveConverterValues1.GetCSharpGridString(curveName, decimalPlaces);
+            var cSharpGridString2 = CurveConverterValues2.GetCSharpGridString(curveName, decimalPlaces);
 
             var resultingCSharpGridString = (cSharpGridString1.Count() > 0) ?
                 cSharpGridString1 : cSharpGridString2;
@@ -83,9 +88,9 @@ namespace CalculationAlgorithmWrapper
             return resultingCSharpGridString;
         }
 
-        public string GetDeltaCurveStringCSharp()
+        public string GetDeltaCurveStringCSharp(string curveName, int? decimalPlaces = null)
         {
-            var deltaCurveStringMatlab = GetDeltaCurveStringMatlab();
+            var deltaCurveStringMatlab = GetDeltaCurveStringMatlab(curveName, decimalPlaces);
             var deltaCurveStringCSharp = CurveConverterValues.ConvertMatlabCurveStringToCSharpCurveString(
                 deltaCurveStringMatlab);
 
