@@ -14,12 +14,12 @@ namespace CalculationAlgorithmWrapper
             var curve2Rounded = curve2.Select(x => Math.Round(x, numberDecimalPlaces)).ToList();
 
             var usedGrid1 = XGrid.Calculate(grid:grid1, numberOfCurvePoints:curve1.Count, linearFreqAxis:linearFreqAxis).ToList();
-            var gridString1 = CurveConverter.ConvertCurveToMatlabCurveString(usedGrid1, "x1", commanSeparation: true);
-            var curveString1 = CurveConverter.ConvertCurveToMatlabCurveString(curve1Rounded, "curve1", commanSeparation: true);
+            var gridString1 = CurveConverterValues.ConvertCurveToMatlabCurveString(usedGrid1, "x1", commanSeparation: true);
+            var curveString1 = CurveConverterValues.ConvertCurveToMatlabCurveString(curve1Rounded, "curve1", commanSeparation: true);
 
             var usedGrid2 = XGrid.Calculate(grid: grid2, numberOfCurvePoints: curve2.Count, linearFreqAxis: linearFreqAxis).ToList();
-            var gridString2 = CurveConverter.ConvertCurveToMatlabCurveString(usedGrid2, "x2", commanSeparation: true);
-            var curveString2 = CurveConverter.ConvertCurveToMatlabCurveString(curve2Rounded, "curve2", commanSeparation: true);
+            var gridString2 = CurveConverterValues.ConvertCurveToMatlabCurveString(usedGrid2, "x2", commanSeparation: true);
+            var curveString2 = CurveConverterValues.ConvertCurveToMatlabCurveString(curve2Rounded, "curve2", commanSeparation: true);
 
             stringList.Add("import numpy as np");
             stringList.Add("import matplotlib.pyplot as plt");
@@ -45,9 +45,9 @@ namespace CalculationAlgorithmWrapper
 
             if(curve1.Count == curve2.Count)
             {
-                var gridString = CurveConverter.ConvertCurveToMatlabCurveString(usedGrid1, "x", commanSeparation: true);
+                var gridString = CurveConverterValues.ConvertCurveToMatlabCurveString(usedGrid1, "x", commanSeparation: true);
                 var deltaCurve = curve1.Select((value, index) => Math.Round(curve2[index] - value, numberDecimalPlaces)).ToList();
-                var deltaCurveString = CurveConverter.ConvertCurveToMatlabCurveString(deltaCurve, "deltaCurve", commanSeparation: true);
+                var deltaCurveString = CurveConverterValues.ConvertCurveToMatlabCurveString(deltaCurve, "deltaCurve", commanSeparation: true);
 
                 stringList.Add("");
                 stringList.Add(gridString);

@@ -45,7 +45,7 @@ namespace CalculationAlgorithmWrapper
                 else
                     deltaCurve = curve1.Select((x, index) => curve2[index] - x).ToList();
 
-                deltaCurveStringMatlab = CurveConverter.ConvertCurveToMatlabCurveString(
+                deltaCurveStringMatlab = CurveConverterValues.ConvertCurveToMatlabCurveString(
                     curve: deltaCurve.ToList(),
                     curveName: curveName);
             }

@@ -59,8 +59,8 @@ namespace CalculationAlgorithmWrapper
             else
                 ElementManipulator = BypassCurveElement;
 
-            var roundedMatlabCurveString = CurveConverter.
-                ConvertCurveToMatlabCurveString(curve.Select(ElementManipulator).ToList(), curveName: curveName);
+            var roundedMatlabCurveString = ConvertCurveToMatlabCurveString(
+                curve.Select(ElementManipulator).ToList(), curveName: curveName);
 
             return roundedMatlabCurveString;
         }
@@ -84,5 +84,31 @@ namespace CalculationAlgorithmWrapper
 
             return outputStringCsharpRegEx;
         }
+
+
+        public static string ConvertCurveToMatlabCurveString(List<double> curve, string curveName, bool commanSeparation = false)
+        {
+            var curveString = $"{curveName} = [";
+
+            var separationString = commanSeparation ? ", " : " ";
+
+            curve.ForEach(x =>
+            {
+                var xAdapted = x.ToString().Replace(',', '.');
+                curveString += $"{xAdapted}{separationString}";
+            });
+
+            // Remove last separarationString
+            if (curve.Count > 0)
+                curveString = curveString.Remove(curveString.Length - separationString.Length);
+
+            if (commanSeparation)
+                curveString += "]";
+            else
+                curveString += "];";
+
+            return curveString;
+        }
+
     }
 }

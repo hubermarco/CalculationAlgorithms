@@ -32,30 +32,6 @@ namespace CalculationAlgorithmWrapper
             return curveConverterValues;
         }
  
-        public static string ConvertCurveToMatlabCurveString(List<double> curve, string curveName, bool commanSeparation=false)
-        {
-            var curveString = $"{curveName} = [";
-
-            var separationString = commanSeparation ? ", " : " ";
-
-            curve.ForEach(x => 
-            { 
-                var xAdapted = x.ToString().Replace(',', '.'); 
-                curveString += $"{xAdapted}{separationString}"; 
-            });
-
-            // Remove last separarationString
-            if(curve.Count > 0)
-                curveString = curveString.Remove(curveString.Length - separationString.Length);
-            
-            if (commanSeparation) 
-                curveString += "]"; 
-            else 
-                curveString += "];";
-
-            return curveString;
-        }
-
         public static InputFormat Convert2InputFormat(
             bool isRadioButtonFormatAutomaticChecked,
             bool isRadioButtonFormatDebug)
@@ -162,7 +138,6 @@ namespace CalculationAlgorithmWrapper
         private static CurveConverterValues ConvertTextString(
            string textString)
         {
-            var valueString = string.Empty;
             var grid = new List<double>();
             var curve = new List<double>();
 
@@ -172,6 +147,8 @@ namespace CalculationAlgorithmWrapper
 
             if (textStringWithSingleSpaces.Length != 0)
             {
+                string valueString;
+
                 if (GetStartAndEndChar(textStringWithSingleSpaces, out char startChar, out char endChar))
                 {
                     valueString = ConvertTextStringToValueStringWithStartCharAndStopChar(
@@ -184,8 +161,6 @@ namespace CalculationAlgorithmWrapper
 
                 curve = ConvertValueStringToCurve(valueString, ' ');
             }
-
-            CreateMatlabString(valueString, out var outputStringMatlab, out var matlabGridString);
 
             return new CurveConverterValues(
                curve: curve,
@@ -276,36 +251,6 @@ namespace CalculationAlgorithmWrapper
                 }
             }
             return curve;
-        }
-
-        private static void CreateMatlabString(
-            string valueString, 
-            out string matlabCurveString,
-            out string matlabGridString)
-        {
-            matlabGridString = "x = [";
-            matlabCurveString = "curve = [";
-
-            var valueStringWithSingleSpaces = Regex.Replace(valueString, " {2,}", " ");
-            var valueStringWithoutSpacesAtTheBeginning = Regex.Replace(valueStringWithSingleSpaces, "^\\s+", "");
-
-            matlabCurveString += valueStringWithoutSpacesAtTheBeginning;
-
-            // remove last blank of outputStringMatlab
-            if (matlabCurveString[matlabCurveString.Length - 1] == ' ')
-            {
-                matlabCurveString = matlabCurveString.Remove(matlabCurveString.Length - 1);
-            }
-
-            matlabCurveString += "];";
-
-            // remove last blank of matlabGridString
-            if (matlabGridString[matlabGridString.Length - 1] == ' ')
-            {
-                matlabGridString = matlabGridString.Remove(matlabGridString.Length - 1);
-            }
-
-            matlabGridString += "];";
         }
     }
 }
