@@ -8,8 +8,8 @@ namespace CalculationAlgorithmWrapper
     public class CurveConverterValues
     {
         public CurveConverterValues(
-            List<double> curve,
-            List<double> grid)
+            IList<double> curve,
+            IList<double> grid)
         {
             Curve = curve;
             Grid = grid;
@@ -41,8 +41,23 @@ namespace CalculationAlgorithmWrapper
             return ConvertMatlabCurveStringToCSharpCurveString(matlabCurveString);
         }
 
-        public List<double> Curve { get; }
-        public List<double> Grid { get; }
+        public IList<double> Curve { get; }
+        public IList<double> Grid { get; }
+
+        public static CurveConverterValues operator -(
+            CurveConverterValues curveConverterValues1, 
+            CurveConverterValues curveConverterValues2)
+        {
+            var deltaCurve = GetDeltaCurve(
+                curve1: curveConverterValues1.Curve,
+                curve2: curveConverterValues2.Curve);
+
+            var resultingGrid = GetGesultingGrid(
+                grid1: curveConverterValues1.Grid,
+                grid2: curveConverterValues2.Grid);
+
+            return new CurveConverterValues(curve: deltaCurve, grid: resultingGrid) ;
+        }
 
         public static string ConvertMatlabCurveStringToCSharpCurveString(string matlabCurveString)
         {
@@ -95,6 +110,24 @@ namespace CalculationAlgorithmWrapper
                 curve.Select(ElementManipulator).ToList(), curveName: curveName);
 
             return roundedMatlabCurveString;
+        }
+
+        private static IList<double> GetDeltaCurve(IList<double> curve1, IList<double> curve2)
+        {
+            IList<double> deltaCurve = null;
+          
+            if (curve1.Count == curve2.Count)
+            {
+                deltaCurve = curve2.Select((x, index) => curve1[index] - x).ToList();
+            }
+
+            return deltaCurve;
+        }
+
+        private static IList<double> GetGesultingGrid(IList<double> grid1, IList<double> grid2)
+        {
+            var resultingGrid = (grid1.Count > 0) ? grid1.ToList() : grid2.ToList();
+            return resultingGrid;
         }
     }
 }
