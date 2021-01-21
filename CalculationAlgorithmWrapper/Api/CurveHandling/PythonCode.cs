@@ -6,9 +6,18 @@ namespace CalculationAlgorithmWrapper
 {
     public class PythonCode
     {
-        public static IList<string> Create(List<double> curve1, List<double> curve2, List<double> grid1, List<double> grid2, bool linearFreqAxis, int numberDecimalPlaces)
+        public static IList<string> Create(
+            CurveConverterValues curveConverterValues1, 
+            CurveConverterValues curveConverterValues2, 
+            bool linearFreqAxis, 
+            int numberDecimalPlaces)
         {
             var stringList = new List<string>();
+
+            var curve1 = curveConverterValues1.Curve;
+            var curve2 = curveConverterValues2.Curve;
+            var grid1 = curveConverterValues1.Grid;
+            var grid2 = curveConverterValues2.Grid;
 
             var curve1Rounded = curve1.Select(x => Math.Round(x, numberDecimalPlaces)).ToList();
             var curve2Rounded = curve2.Select(x => Math.Round(x, numberDecimalPlaces)).ToList();
