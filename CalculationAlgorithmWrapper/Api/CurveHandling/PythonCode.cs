@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace CalculationAlgorithmWrapper
 {
     public class PythonCode
     {
-        public static IList<string> Create(
+        public static IList<string> CreateStringList(
             CurveConverterValues curveConverterValues1, 
             CurveConverterValues curveConverterValues2, 
             bool linearFreqAxis, 
@@ -76,6 +77,29 @@ namespace CalculationAlgorithmWrapper
             stringList.Add("plt.show()");
 
             return stringList;
+        }
+
+        public static void CreateFile(
+           string outputDir,
+           string fileNameWithoutExtension,
+           CurveConverterValues curveConverterValues1,
+           CurveConverterValues curveConverterValues2,
+           bool linearFreqAxis)
+        {
+            if (!Directory.Exists(outputDir))
+            {
+                Directory.CreateDirectory(outputDir);
+            }
+
+            var filePath = Path.Combine(outputDir, $"{fileNameWithoutExtension}.txt");
+
+            var stringLines = PythonCode.CreateStringList(
+                curveConverterValues1: curveConverterValues1,
+                curveConverterValues2: curveConverterValues2,
+                linearFreqAxis: linearFreqAxis,
+                numberDecimalPlaces: 4);
+
+            File.WriteAllLines(filePath, stringLines);
         }
     }
 }
