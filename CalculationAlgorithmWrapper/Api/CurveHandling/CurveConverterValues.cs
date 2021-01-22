@@ -15,7 +15,7 @@ namespace CalculationAlgorithmWrapper
             Grid = grid;
         }
 
-        public int ValueCount { get { return Curve.Count; } }
+        public int ValueCount { get { return (Curve != null) ? Curve.Count : 0; } }
 
         public string GetMatlabGridString(string curveName, int? decimalPlaces = null)
         {
