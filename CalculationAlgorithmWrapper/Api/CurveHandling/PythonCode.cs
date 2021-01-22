@@ -93,7 +93,7 @@ namespace CalculationAlgorithmWrapper
 
             var filePath = Path.Combine(outputDir, $"{fileNameWithoutExtension}.txt");
 
-            var stringLines = PythonCode.CreateStringList(
+            var stringLines = CreateStringList(
                 curveConverterValues1: curveConverterValues1,
                 curveConverterValues2: curveConverterValues2,
                 linearFreqAxis: linearFreqAxis,
