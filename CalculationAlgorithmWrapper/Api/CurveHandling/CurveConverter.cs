@@ -8,7 +8,7 @@ namespace CalculationAlgorithmWrapper
 {
     public class CurveConverter
     {
-         public static CurveConverterValues ConvertInputString(
+        public static CurveConverterValues ConvertInputString(
             string inputString,
             InputFormat inputFormat)
         {
