@@ -22,13 +22,11 @@ namespace CalculationAlgorithmWrapper
             var curve1Rounded = curve1.Select(x => Math.Round(x, numberDecimalPlaces)).ToList();
             var curve2Rounded = curve2.Select(x => Math.Round(x, numberDecimalPlaces)).ToList();
 
-            var usedGrid1 = XGrid.Calculate(grid:grid1, numberOfCurvePoints:curve1.Count, linearFreqAxis:linearFreqAxis).ToList();
-            var gridString1 = CurveConverterValues.ConvertCurveToMatlabCurveString(usedGrid1, "x1", commanSeparation: true);
-            var curveString1 = CurveConverterValues.ConvertCurveToMatlabCurveString(curve1Rounded, "curve1", commanSeparation: true);
-
-            var usedGrid2 = XGrid.Calculate(grid: grid2, numberOfCurvePoints: curve2.Count, linearFreqAxis: linearFreqAxis).ToList();
-            var gridString2 = CurveConverterValues.ConvertCurveToMatlabCurveString(usedGrid2, "x2", commanSeparation: true);
-            var curveString2 = CurveConverterValues.ConvertCurveToMatlabCurveString(curve2Rounded, "curve2", commanSeparation: true);
+            var gridString1 = curveConverterValues1.GetUsedPythonGridString(curveName: "x1", decimalPlaces: numberDecimalPlaces, linearFreqAxis: linearFreqAxis);
+            var curveString1 = curveConverterValues1.GetPythonCurveString(curveName: "curve1", decimalPlaces: numberDecimalPlaces);
+     
+            var gridString2 = curveConverterValues2.GetUsedPythonGridString(curveName: "x2", decimalPlaces: numberDecimalPlaces, linearFreqAxis: linearFreqAxis);
+            var curveString2 = curveConverterValues2.GetPythonCurveString(curveName: "curve2", decimalPlaces: numberDecimalPlaces);
 
             stringList.Add("import numpy as np");
             stringList.Add("import matplotlib.pyplot as plt");
@@ -54,9 +52,10 @@ namespace CalculationAlgorithmWrapper
 
             if(curve1.Count == curve2.Count)
             {
-                var gridString = CurveConverterValues.ConvertCurveToMatlabCurveString(usedGrid1, "x", commanSeparation: true);
-                var deltaCurve = curve1.Select((value, index) => Math.Round(curve2[index] - value, numberDecimalPlaces)).ToList();
-                var deltaCurveString = CurveConverterValues.ConvertCurveToMatlabCurveString(deltaCurve, "deltaCurve", commanSeparation: true);
+                var curveConverterValuesDelta = curveConverterValues2 - curveConverterValues1;
+
+                var gridString = curveConverterValuesDelta.GetPythonGridString("x", decimalPlaces: numberDecimalPlaces);
+                var deltaCurveString = curveConverterValuesDelta.GetPythonCurveString(curveName: "deltaCurve", decimalPlaces: numberDecimalPlaces);
 
                 stringList.Add("");
                 stringList.Add(gridString);
