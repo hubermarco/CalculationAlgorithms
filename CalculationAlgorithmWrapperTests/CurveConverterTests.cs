@@ -134,6 +134,25 @@ namespace CalculationAlgorithmWrapperTests
             Assert.AreEqual("var x = new List<double> {};", curveConverterValues.GetCSharpGridString("x"));
         }
 
+        [Test]
+        public void When_text_string_containing_curve_values_is_converted_then_corresponding_result_is_returned_5()
+        {
+            var inputString = "-4, 5, 7 8, 9; 10         ";
+
+            var curveConverterValues = CurveConverter.ConvertInputString(
+                inputString: inputString,
+                inputFormat: InputFormat.Text);
+
+            var expectedCurve = new List<double> { -4, 5, 7, 8, 9, 10 };
+
+            Assert.AreEqual(6, curveConverterValues.Curve.Count, "curve.Count");
+            CollectionAssert.AreEqual(expectedCurve, curveConverterValues.Curve);
+            Assert.AreEqual("curve = [-4 5 7 8 9 10];", curveConverterValues.GetMatlabCurveString("curve"));
+            Assert.AreEqual("x = [];", curveConverterValues.GetMatlabGridString("x"));
+            Assert.AreEqual("var curve = new List<double> {-4, 5, 7, 8, 9, 10};", curveConverterValues.GetCSharpCurveString("curve"));
+            Assert.AreEqual("var x = new List<double> {};", curveConverterValues.GetCSharpGridString("x"));
+        }
+
         private string GetCurrentDirectory()
         {
             var executionDirectory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);

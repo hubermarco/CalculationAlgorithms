@@ -227,7 +227,7 @@ namespace CalculationAlgorithmWrapper
             var relevantLineString = textLinesFiltered.First(
                 x => x.ToCharArray().FirstOrDefault(c => Char.IsDigit(c)) != default(char));
 
-            var startIndex = relevantLineString.IndexOfAny(new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' });
+            var startIndex = relevantLineString.IndexOfAny(new[] { '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' });
             var stopIndex = relevantLineString.LastIndexOfAny(new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' });
 
             var valueStringLine = relevantLineString.Substring(startIndex: startIndex, length: stopIndex + 1 - startIndex);
