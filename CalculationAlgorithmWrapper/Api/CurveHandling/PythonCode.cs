@@ -7,7 +7,7 @@ namespace CalculationAlgorithmWrapper
 {
     public class PythonCode
     {
-        public static IList<string> CreateStringList(
+        public static IList<string> CreateDeltaStringList(
             CurveConverterValues curveConverterValues1, 
             CurveConverterValues curveConverterValues2, 
             bool linearFreqAxis, 
@@ -79,12 +79,73 @@ namespace CalculationAlgorithmWrapper
             return stringList;
         }
 
-        public static void CreateFile(
+        public static IList<string> CreateStringList(
+            CurveConverterValues curveConverterValues,
+            bool linearFreqAxis,
+            int numberDecimalPlaces)
+        {
+            var stringList = new List<string>();
+
+            var curve = curveConverterValues.Curve;
+            var grid = curveConverterValues.Grid;
+
+            var curveRounded = curve.Select(x => Math.Round(x, numberDecimalPlaces)).ToList();
+            
+            var gridString = curveConverterValues.GetUsedPythonGridString(curveName: "x", decimalPlaces: numberDecimalPlaces, linearFreqAxis: linearFreqAxis);
+            var curveString = curveConverterValues.GetPythonCurveString(curveName: "curve", decimalPlaces: numberDecimalPlaces);
+
+            stringList.Add("import numpy as np");
+            stringList.Add("import matplotlib.pyplot as plt");
+            stringList.Add("");
+            stringList.Add(gridString);
+            stringList.Add("");
+            stringList.Add(curveString);
+            stringList.Add("");
+            stringList.Add("plt.figure()");
+
+            var plotString = linearFreqAxis ? "plot" : "semilogx";
+            stringList.Add($"plt.{plotString}(x, curve)");
+
+            stringList.Add("plt.grid()");
+            stringList.Add("plt.title('Curve')");
+            stringList.Add("plt.xlabel('x')");
+            stringList.Add("plt.ylabel('y')");
+            stringList.Add("plt.legend(['curve'])");
+            stringList.Add("plt.show()");
+
+            return stringList;
+        }
+
+        public static void CreateDeltaFile(
            string outputDir,
            string fileNameWithoutExtension,
            CurveConverterValues curveConverterValues1,
            CurveConverterValues curveConverterValues2,
-           bool linearFreqAxis)
+           bool linearFreqAxis,
+           int numberDecimalPlaces)
+        {
+            if (!Directory.Exists(outputDir))
+            {
+                Directory.CreateDirectory(outputDir);
+            }
+
+            var filePath = Path.Combine(outputDir, $"{fileNameWithoutExtension}.txt");
+
+            var stringLines = CreateDeltaStringList(
+                curveConverterValues1: curveConverterValues1,
+                curveConverterValues2: curveConverterValues2,
+                linearFreqAxis: linearFreqAxis,
+                numberDecimalPlaces: numberDecimalPlaces);
+
+            File.WriteAllLines(filePath, stringLines);
+        }
+
+        public static void CreateFile(
+            string outputDir,
+            string fileNameWithoutExtension,
+            CurveConverterValues curveConverterValues,
+            bool linearFreqAxis,
+            int numberDecimalPlaces)
         {
             if (!Directory.Exists(outputDir))
             {
@@ -94,10 +155,9 @@ namespace CalculationAlgorithmWrapper
             var filePath = Path.Combine(outputDir, $"{fileNameWithoutExtension}.txt");
 
             var stringLines = CreateStringList(
-                curveConverterValues1: curveConverterValues1,
-                curveConverterValues2: curveConverterValues2,
+                curveConverterValues: curveConverterValues,
                 linearFreqAxis: linearFreqAxis,
-                numberDecimalPlaces: 4);
+                numberDecimalPlaces: numberDecimalPlaces);
 
             File.WriteAllLines(filePath, stringLines);
         }
