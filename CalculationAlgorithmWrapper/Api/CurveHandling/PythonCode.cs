@@ -17,17 +17,19 @@ namespace CalculationAlgorithmWrapper
 
             var curve1 = curveConverterValues1.Curve;
             var curve2 = curveConverterValues2.Curve;
-            var grid1 = curveConverterValues1.Grid;
-            var grid2 = curveConverterValues2.Grid;
-
+           
             var curve1Rounded = curve1.Select(x => Math.Round(x, numberDecimalPlaces)).ToList();
             var curve2Rounded = curve2.Select(x => Math.Round(x, numberDecimalPlaces)).ToList();
 
-            var gridString1 = curveConverterValues1.GetUsedPythonGridString(curveName: "x1", decimalPlaces: numberDecimalPlaces, linearFreqAxis: linearFreqAxis);
-            var curveString1 = curveConverterValues1.GetPythonCurveString(curveName: "curve1", decimalPlaces: numberDecimalPlaces);
+            var gridString1 = curveConverterValues1.GetUsedPythonGridString(
+                curveName: "x1", decimalPlaces: numberDecimalPlaces, linearFreqAxis: linearFreqAxis);
+            var curveString1 = curveConverterValues1.GetPythonCurveString(
+                curveName: "curve1", decimalPlaces: numberDecimalPlaces);
      
-            var gridString2 = curveConverterValues2.GetUsedPythonGridString(curveName: "x2", decimalPlaces: numberDecimalPlaces, linearFreqAxis: linearFreqAxis);
-            var curveString2 = curveConverterValues2.GetPythonCurveString(curveName: "curve2", decimalPlaces: numberDecimalPlaces);
+            var gridString2 = curveConverterValues2.GetUsedPythonGridString(
+                curveName: "x2", decimalPlaces: numberDecimalPlaces, linearFreqAxis: linearFreqAxis);
+            var curveString2 = curveConverterValues2.GetPythonCurveString(
+                curveName: "curve2", decimalPlaces: numberDecimalPlaces);
 
             stringList.Add("import numpy as np");
             stringList.Add("import matplotlib.pyplot as plt");
@@ -55,8 +57,10 @@ namespace CalculationAlgorithmWrapper
             {
                 var curveConverterValuesDelta = curveConverterValues2 - curveConverterValues1;
 
-                var gridString = curveConverterValuesDelta.GetPythonGridString("x", decimalPlaces: numberDecimalPlaces);
-                var deltaCurveString = curveConverterValuesDelta.GetPythonCurveString(curveName: "deltaCurve", decimalPlaces: numberDecimalPlaces);
+                var gridString = curveConverterValuesDelta.GetUsedPythonGridString(
+                    "x", decimalPlaces: numberDecimalPlaces, linearFreqAxis: linearFreqAxis);
+                var deltaCurveString = curveConverterValuesDelta.GetPythonCurveString(
+                    curveName: "deltaCurve", decimalPlaces: numberDecimalPlaces);
 
                 stringList.Add("");
                 stringList.Add(gridString);
