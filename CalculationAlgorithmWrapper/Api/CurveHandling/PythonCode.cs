@@ -15,12 +15,6 @@ namespace CalculationAlgorithmWrapper
         {
             var stringList = new List<string>();
 
-            var curve1 = curveConverterValues1.Curve;
-            var curve2 = curveConverterValues2.Curve;
-           
-            var curve1Rounded = curve1.Select(x => Math.Round(x, numberDecimalPlaces)).ToList();
-            var curve2Rounded = curve2.Select(x => Math.Round(x, numberDecimalPlaces)).ToList();
-
             var gridString1 = curveConverterValues1.GetUsedPythonGridString(
                 curveName: "x1", decimalPlaces: numberDecimalPlaces, linearFreqAxis: linearFreqAxis);
             var curveString1 = curveConverterValues1.GetPythonCurveString(
@@ -53,7 +47,7 @@ namespace CalculationAlgorithmWrapper
             stringList.Add("plt.ylabel('y')");
             stringList.Add("plt.legend(['curve1', 'curve2'])");
 
-            if(curve1.Count == curve2.Count)
+            if(curveConverterValues1.ValueCount == curveConverterValues2.ValueCount)
             {
                 var curveConverterValuesDelta = curveConverterValues2 - curveConverterValues1;
 
@@ -90,13 +84,10 @@ namespace CalculationAlgorithmWrapper
         {
             var stringList = new List<string>();
 
-            var curve = curveConverterValues.Curve;
-            var grid = curveConverterValues.Grid;
-
-            var curveRounded = curve.Select(x => Math.Round(x, numberDecimalPlaces)).ToList();
-            
-            var gridString = curveConverterValues.GetUsedPythonGridString(curveName: "x", decimalPlaces: numberDecimalPlaces, linearFreqAxis: linearFreqAxis);
-            var curveString = curveConverterValues.GetPythonCurveString(curveName: "curve", decimalPlaces: numberDecimalPlaces);
+            var gridString = curveConverterValues.GetUsedPythonGridString(
+                curveName: "x", decimalPlaces: numberDecimalPlaces, linearFreqAxis: linearFreqAxis);
+            var curveString = curveConverterValues.GetPythonCurveString(
+                curveName: "curve", decimalPlaces: numberDecimalPlaces);
 
             stringList.Add("import numpy as np");
             stringList.Add("import matplotlib.pyplot as plt");
