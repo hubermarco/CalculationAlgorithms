@@ -32,10 +32,10 @@ namespace CurveChartImageCreater
             ref IList<double> curveOutput2,
             ref int scalingExponent)
         {
-            var exponent1 = CalculateRangeExponent(curve1);
-            var exponent2 = CalculateRangeExponent(curve2);
+            var rangeExponent1 = CalculateRangeExponent(curve1);
+            var rangeExponent2 = CalculateRangeExponent(curve2);
 
-            var resultingExponent = (exponent1 > exponent2) ? exponent1 : exponent2;
+            var resultingExponent = (rangeExponent1 > rangeExponent2) ? rangeExponent1 : rangeExponent2;
             var exponentLimit = resultingExponent > 0 ? maxExponent : minExponent;
 
             var skalingExponentResulting = (Math.Abs(resultingExponent) < Math.Abs(exponentLimit)) ?
