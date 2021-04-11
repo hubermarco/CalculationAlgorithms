@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="CreateCurveChartImageOutOfDebuggerStringTests.cs" />
     <Compile Include="CurveChartImageApiTests.cs" />
+    <Compile Include="ScalingTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

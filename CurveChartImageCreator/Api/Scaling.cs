@@ -51,7 +51,7 @@ namespace CurveChartImageCreater
 
         private static int CalculateRangeExponent(IList<double> curve)
         {
-            var range = curve.Max() - curve.Min();
+            var range = (curve.Count > 0) ? curve.Max() - curve.Min() : 0;
             var usedRange = (range != 0) ? range : 1;
             var exponent = (int)Math.Round(Math.Log10(Math.Abs(usedRange)));
             return exponent;
