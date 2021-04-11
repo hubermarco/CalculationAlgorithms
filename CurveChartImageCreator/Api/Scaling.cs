@@ -44,8 +44,8 @@ namespace CurveChartImageCreater
                     resultingExponent - maxExponent :
                     resultingExponent + minExponent;
 
-            curveOutput1 = curve1.Select(x => x / Math.Pow(10, skalingExponentResulting)).ToList();
-            curveOutput2 = curve2.Select(x => x / Math.Pow(10, skalingExponentResulting)).ToList();
+            curveOutput1 = curve1?.Select(x => x / Math.Pow(10, skalingExponentResulting)).ToList();
+            curveOutput2 = curve2?.Select(x => x / Math.Pow(10, skalingExponentResulting)).ToList();
             scalingExponent = skalingExponentResulting;
         }
 
