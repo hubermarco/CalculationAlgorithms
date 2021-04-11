@@ -19,7 +19,7 @@ namespace CurveChartImageCreater
                     rangeExponent - maxExponent :
                     rangeExponent + minExponent;
 
-            curveOutput = curve.Select(x => x / Math.Pow(10, skalingExponentResulting)).ToList();
+            curveOutput = curve?.Select(x => x / Math.Pow(10, skalingExponentResulting)).ToList();
             scalingExponent = skalingExponentResulting;
         }
 
