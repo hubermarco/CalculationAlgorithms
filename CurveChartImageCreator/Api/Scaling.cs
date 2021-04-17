@@ -14,10 +14,7 @@ namespace CurveChartImageCreater
            ref int scalingExponent)
         {
             var rangeExponent = CalculateRangeExponent(curve);
-
-            var skalingExponentResulting = (rangeExponent > 0) ?
-                    (rangeExponent <= maxExponent) ? 0 : rangeExponent - maxExponent :
-                    (rangeExponent >= minExponent) ? 0 : rangeExponent + minExponent;
+            int skalingExponentResulting = CalculateResultingSkalingExponent(minExponent, maxExponent, rangeExponent);
 
             curveOutput = curve?.Select(x => x / Math.Pow(10, skalingExponentResulting)).ToList();
             scalingExponent = skalingExponentResulting;
@@ -39,10 +36,7 @@ namespace CurveChartImageCreater
             var exponentLimit = resultingRangeExponent > 0 ? maxExponent : minExponent;
 
             var skalingExponentResulting = (Math.Abs(resultingRangeExponent) < Math.Abs(exponentLimit)) ?
-                0 :
-                (resultingRangeExponent > 0) ?
-                    (resultingRangeExponent <= maxExponent) ? 0 : resultingRangeExponent - maxExponent :
-                    (resultingRangeExponent >= minExponent) ? 0 : resultingRangeExponent + minExponent;
+                0 : CalculateResultingSkalingExponent(minExponent, maxExponent, resultingRangeExponent);
 
             curveOutput1 = curve1?.Select(x => x / Math.Pow(10, skalingExponentResulting)).ToList();
             curveOutput2 = curve2?.Select(x => x / Math.Pow(10, skalingExponentResulting)).ToList();
@@ -56,6 +50,13 @@ namespace CurveChartImageCreater
             var exponent = Math.Log10(Math.Abs(usedRange));
             var roundedExponent = exponent < 0 ? (int)Math.Floor(exponent) : (int)Math.Ceiling(exponent);
             return roundedExponent;
+        }
+
+        private static int CalculateResultingSkalingExponent(int minExponent, int maxExponent, int rangeExponent)
+        {
+            return (rangeExponent > 0) ?
+                ((minExponent <= rangeExponent) && (rangeExponent <= maxExponent)) ? 0 : rangeExponent + maxExponent:
+                ((minExponent <= rangeExponent) && (rangeExponent <= maxExponent)) ? 0 : rangeExponent - minExponent;
         }
     }
 }

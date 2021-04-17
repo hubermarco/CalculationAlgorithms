@@ -58,7 +58,26 @@ namespace CurveChartImageCreatorTests
                scalingExponent: ref scalingExponent);
 
             Assert.AreEqual(0, scalingExponent);
-            CollectionAssert.AreEqual(curveOutput, curve);
+            CollectionAssert.AreEqual(curve, curveOutput);
+        }
+
+        [Test]
+        public void When_curve_is_set_to_apply_method_then_corresponding_output_curve_is_returned_2()
+        {
+            IList<double> curveOutput = new List<double>();
+            var scalingExponent = 0;
+            var curve = new List<double> { 0.01, 0.02, 0.03 };
+            var outputCurveExpected = new List<double> { 10, 20, 30 };
+
+            Scaling.Apply(
+               curve: curve,
+               minExponent: 1,
+               maxExponent: 1,
+               curveOutput: ref curveOutput,
+               scalingExponent: ref scalingExponent);
+
+            Assert.AreEqual(-3, scalingExponent);
+            CollectionAssert.AreEqual(outputCurveExpected, curveOutput);
         }
 
         [Test]
