@@ -35,8 +35,7 @@ namespace CurveChartImageCreater
             var resultingRangeExponent = (rangeExponent1 > rangeExponent2) ? rangeExponent1 : rangeExponent2;
             var exponentLimit = resultingRangeExponent > 0 ? maxExponent : minExponent;
 
-            var skalingExponentResulting = (Math.Abs(resultingRangeExponent) < Math.Abs(exponentLimit)) ?
-                0 : CalculateResultingSkalingExponent(minExponent, maxExponent, resultingRangeExponent);
+            var skalingExponentResulting = CalculateResultingSkalingExponent(minExponent, maxExponent, resultingRangeExponent);
 
             curveOutput1 = curve1?.Select(x => x * Math.Pow(10, skalingExponentResulting)).ToList();
             curveOutput2 = curve2?.Select(x => x * Math.Pow(10, skalingExponentResulting)).ToList();
