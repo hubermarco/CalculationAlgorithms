@@ -15,9 +15,9 @@ namespace CurveChartImageCreater
         {
             var rangeExponent = CalculateRangeExponent(curve);
 
-            var skalingExponentResulting = rangeExponent > 0 ?
-                    rangeExponent - maxExponent :
-                    rangeExponent + minExponent;
+            var skalingExponentResulting = (rangeExponent > 0) ?
+                    (rangeExponent <= maxExponent) ? 0 : rangeExponent - maxExponent :
+                    (rangeExponent >= minExponent) ? 0 : rangeExponent + minExponent;
 
             curveOutput = curve?.Select(x => x / Math.Pow(10, skalingExponentResulting)).ToList();
             scalingExponent = skalingExponentResulting;
@@ -35,14 +35,14 @@ namespace CurveChartImageCreater
             var rangeExponent1 = CalculateRangeExponent(curve1);
             var rangeExponent2 = CalculateRangeExponent(curve2);
 
-            var resultingExponent = (rangeExponent1 > rangeExponent2) ? rangeExponent1 : rangeExponent2;
-            var exponentLimit = resultingExponent > 0 ? maxExponent : minExponent;
+            var resultingRangeExponent = (rangeExponent1 > rangeExponent2) ? rangeExponent1 : rangeExponent2;
+            var exponentLimit = resultingRangeExponent > 0 ? maxExponent : minExponent;
 
-            var skalingExponentResulting = (Math.Abs(resultingExponent) < Math.Abs(exponentLimit)) ?
+            var skalingExponentResulting = (Math.Abs(resultingRangeExponent) < Math.Abs(exponentLimit)) ?
                 0 :
-                resultingExponent > 0 ?
-                    resultingExponent - maxExponent :
-                    resultingExponent + minExponent;
+                (resultingRangeExponent > 0) ?
+                    (resultingRangeExponent <= maxExponent) ? 0 : resultingRangeExponent - maxExponent :
+                    (resultingRangeExponent >= minExponent) ? 0 : resultingRangeExponent + minExponent;
 
             curveOutput1 = curve1?.Select(x => x / Math.Pow(10, skalingExponentResulting)).ToList();
             curveOutput2 = curve2?.Select(x => x / Math.Pow(10, skalingExponentResulting)).ToList();
