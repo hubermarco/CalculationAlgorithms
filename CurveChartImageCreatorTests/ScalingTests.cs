@@ -82,6 +82,25 @@ namespace CurveChartImageCreatorTests
         }
 
         [Test]
+        public void When_curve_is_set_to_apply_method_then_corresponding_output_curve_is_returned_3()
+        {
+            IList<double> curveOutput = new List<double>();
+            var scalingExponent = 0;
+            var curve = new List<double> { 0.1, 0.2, 0.3 };
+            var outputCurveExpected = new List<double> { 10, 20, 30 };
+
+            Scaling.Apply(
+               curve: curve,
+               minExponent: 1,
+               maxExponent: 1,
+               curveOutput: ref curveOutput,
+               scalingExponent: ref scalingExponent);
+
+            Assert.AreEqual(-2, scalingExponent);
+            CollectionAssert.AreEqual(outputCurveExpected, curveOutput);
+        }
+
+        [Test]
         public void When_curves_have_different_number_of_elements_and_apply_method_is_called_then_an_empty_curve_is_returned()
         {
             IList<double> curveOutput1 = new List<double>();
@@ -131,6 +150,32 @@ namespace CurveChartImageCreatorTests
 
         [Test]
         public void When_one_curve_is_a_null_reference_and_apply_method_is_called_then_an_empty_curve_is_returned_2()
+        {
+            IList<double> curveOutput1 = new List<double>();
+            IList<double> curveOutput2 = new List<double>();
+            var scalingExponent = 0;
+
+            var curve1 = new List<double> { 0.1, 0.2, 0.3 };
+            IList<double> curve2 = null;
+
+            var curveOutput1Expected = new List<double> { 10, 20, 30 };
+
+            Scaling.Apply(
+               curve1: curve1,
+               curve2: curve2,
+               minExponent: 1,
+               maxExponent: 1,
+               curveOutput1: ref curveOutput1,
+               curveOutput2: ref curveOutput2,
+               scalingExponent: ref scalingExponent);
+
+            Assert.AreEqual(-2, scalingExponent);
+            CollectionAssert.AreEqual(curveOutput1Expected, curveOutput1, "curveOutput1 NOT equal to curve1");
+            CollectionAssert.AreEqual(null, curveOutput2, "curveOutput2 NOT equal to curve2");
+        }
+
+        [Test]
+        public void When_one_curve_is_a_null_reference_and_apply_method_is_called_then_an_empty_curve_is_returned_3()
         {
             IList<double> curveOutput1 = new List<double>();
             IList<double> curveOutput2 = new List<double>();
