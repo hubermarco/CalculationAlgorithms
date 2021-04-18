@@ -29,11 +29,12 @@ namespace CurveChartImageCreater
             ref IList<double> curveOutput2,
             ref int scalingExponent)
         {
-            var rangeExponent1 = (curve1 != null) ? CalculateRangeExponent(curve1) : int.MinValue;
-            var rangeExponent2 = (curve2 != null) ? CalculateRangeExponent(curve2) : int.MinValue;
+            var rangeExponent1 = ((curve1 != null) && (curve1.Count > 0)) ? CalculateRangeExponent(curve1) : int.MinValue;
+            var rangeExponent2 = ((curve2 != null) && (curve2.Count > 0)) ? CalculateRangeExponent(curve2) : int.MinValue;
 
             var resultingRangeExponent = (rangeExponent1 > rangeExponent2) ? rangeExponent1 : rangeExponent2;
-            var skalingExponentResulting = CalculateResultingSkalingExponent(minExponent, maxExponent, resultingRangeExponent);
+            var correctedResultingRangeExponent = (resultingRangeExponent == int.MinValue) ? 0 : resultingRangeExponent;
+            var skalingExponentResulting = CalculateResultingSkalingExponent(minExponent, maxExponent, correctedResultingRangeExponent);
 
             curveOutput1 = curve1?.Select(x => x * Math.Pow(10, skalingExponentResulting)).ToList();
             curveOutput2 = curve2?.Select(x => x * Math.Pow(10, skalingExponentResulting)).ToList();
