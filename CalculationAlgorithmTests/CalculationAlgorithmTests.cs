@@ -480,6 +480,14 @@ namespace CalculationAlgorithmTests
         }
 
         [Test]
+        public void When_a_mathematical_operation_is_done_then_correct_result_is_calculated_30()
+        {
+            var result = _calculationAlgorithm.Calculate("(3^2+4^2)^0.5*2");
+
+            Assert.AreEqual(10.0, result, _delta);
+        }
+
+        [Test]
         public void When_logarithm_for_base_10_is_calculated_then_result_is_as_expected()
         {
             var result = _calculationAlgorithm.Calculate("log(1000*100)*2^3");

@@ -185,8 +185,9 @@ namespace CalculationAlgorithm
             RuleSet ruleSet,
             ref ICalcTreeElement calcTreeElementCurrent)
         {
-            while (ruleSet.GetOperatorHierarchyLevel(calcTreeElementCurrent.GetBranchAccess().GetOperator()) >
-                   ruleSet.GetOperatorHierarchyLevel(currentCalcString))
+            while ( (calcTreeElementCurrent.GetParent() != null) &&
+                    (ruleSet.GetOperatorHierarchyLevel(calcTreeElementCurrent.GetBranchAccess().GetOperator()) >
+                     ruleSet.GetOperatorHierarchyLevel(currentCalcString)))
             {
                 calcTreeElementCurrent = calcTreeElementCurrent.GetParent();
             }
