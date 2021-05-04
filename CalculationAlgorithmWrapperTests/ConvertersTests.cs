@@ -38,21 +38,21 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_double_2_bool_was_called_then_corresponding_result_is_returned()
         {
-            var result = Converters.Double2Bool(3, 5, 0);
+            var result = Converters.Double2Bin(3, 5, 0);
             Assert.AreEqual(11, result);
         }
 
         [Test]
         public void When_double_2_bool_was_called_then_corresponding_result_is_returned_2()
         {
-            var result = Converters.Double2Bool(7, 5, 0);
+            var result = Converters.Double2Bin(7, 5, 0);
             Assert.AreEqual(111, result);
         }
 
         [Test]
         public void When_double_2_bool_was_called_then_corresponding_result_is_returned_3()
         {
-            var result = Converters.Double2Bool(-1, 6, 0);
+            var result = Converters.Double2Bin(-1, 6, 0);
             Assert.AreEqual(111111, result);
         }
 
@@ -66,14 +66,14 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_bool_2_double_was_called_then_corresponding_result_is_returned()
         {
-            var result = Converters.Bool2Double(111, 4, 0);
+            var result = Converters.Bin2Double(111, 4, 0);
             Assert.AreEqual(7, result);
         }
 
         [Test]
         public void When_bool_2_double_was_called_then_corresponding_result_is_returned_2()
         {
-            var result = Converters.Bool2Double(1111, 4, 1);
+            var result = Converters.Bin2Double(1111, 4, 1);
             Assert.AreEqual(-0.5, result);
         }
     }

@@ -84,7 +84,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_double_2_bool_is_called_then_correct_value_is_returned()
         {
-            var result = _calculator.Calculate("Double2Bool(-1, 6, 0)");
+            var result = _calculator.Calculate("Double2Bin(-1, 6, 0)");
 
             Assert.AreEqual(111111, result);
         }
@@ -92,7 +92,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_bool_2_double_is_called_then_correct_value_is_returned()
         {
-            var result = _calculator.Calculate("Bool2Double(1111, 4, 1)");
+            var result = _calculator.Calculate("Bin2Double(1111, 4, 1)");
 
             Assert.AreEqual(-0.5, result);
         }
@@ -100,7 +100,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_bool_2_double_is_called_for_a_number_with_16_digits_then_correct_value_is_returned()
         {
-            var result = _calculator.Calculate("Bool2Double(1111 1111 1111 1111, 16, 0)");
+            var result = _calculator.Calculate("Bin2Double(1111 1111 1111 1111, 16, 0)");
 
             Assert.AreEqual(-1, result);
         }

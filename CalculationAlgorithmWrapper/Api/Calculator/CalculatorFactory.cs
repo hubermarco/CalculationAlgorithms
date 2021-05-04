@@ -41,8 +41,8 @@ namespace CalculationAlgorithmWrapper
             {
                 { "Fix2Double", ArithmetricFunctions.Fix2Double },
                 { "Double2Fix", ArithmetricFunctions.Double2Fix },
-                { "Double2Bool", ArithmetricFunctions.Double2Bool },
-                { "Bool2Double", ArithmetricFunctions.Bool2Double },
+                { "Double2Bin", ArithmetricFunctions.Double2Bin },
+                { "Bin2Double", ArithmetricFunctions.Bin2Double },
                 { "sum", ArithmetricFunctions.Sum },
                 { "sin", inputList => Math.Sin(inputList[0]) },
                 { "cos", inputList => Math.Cos(inputList[0]) },

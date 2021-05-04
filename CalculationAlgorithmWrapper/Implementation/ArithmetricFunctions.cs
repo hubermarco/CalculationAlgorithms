@@ -24,22 +24,22 @@ namespace CalculationAlgorithmWrapper
             return returnValue;
         }
 
-        internal static double Double2Bool(IList<double> inputList)
+        internal static double Double2Bin(IList<double> inputList)
         {
             var returnValue = 0.0;
             if (inputList.Count == 3)
             {
-                returnValue = Converters.Double2Bool(inputList[0], (int)inputList[1], (int)inputList[2]);
+                returnValue = Converters.Double2Bin(inputList[0], (int)inputList[1], (int)inputList[2]);
             }
             return returnValue;
         }
 
-        internal static double Bool2Double(IList<double> inputList)
+        internal static double Bin2Double(IList<double> inputList)
         {
             var returnValue = 0.0;
             if (inputList.Count == 3)
             {
-                returnValue = Converters.Bool2Double((ulong)inputList[0], (int)inputList[1], (int)inputList[2]);
+                returnValue = Converters.Bin2Double((ulong)inputList[0], (int)inputList[1], (int)inputList[2]);
             }
             return returnValue;
         }

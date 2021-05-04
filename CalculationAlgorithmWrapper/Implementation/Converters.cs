@@ -301,7 +301,7 @@ namespace CalculationAlgorithmWrapper
             return fixValue;
         }
 
-        internal static ulong Double2Bool(double value, int nBits, int nFrac)
+        internal static ulong Double2Bin(double value, int nBits, int nFrac)
         {
             var registerValue = Double2Fix(value, nBits, nFrac);
 
@@ -310,7 +310,7 @@ namespace CalculationAlgorithmWrapper
             return boolValue;
         }
 
-        internal static double Bool2Double(ulong boolValue, int nBits, int nFrac)
+        internal static double Bin2Double(ulong boolValue, int nBits, int nFrac)
         {
             var fixValue = Bool2Fix(boolValue);
 
