@@ -60,9 +60,10 @@ namespace CalculationAlgorithmWrapper
             var grid = new List<double>();
 
             // E must not be replaced because it's part of a number as exponent (1.2246063538223773E-15)
-            var debuggerStringWithoutLetters = Regex.Replace(debuggerString, "[a-zA-DF-Z]", " ");
+            var debuggerStringWithoutDouble = Regex.Replace(debuggerString, "double", "d");
+            var debuggerStringWithoutLetters = Regex.Replace(debuggerStringWithoutDouble, "[a-df-zA-DF-Z]", " ");
             var debuggerStringWithSingleSpaces = Regex.Replace(debuggerStringWithoutLetters, " {2,}", " ");
-
+            
             var debuggerLines = debuggerStringWithSingleSpaces.Split('\n');
 
             var debuggerLinesFiltered = debuggerLines.
@@ -141,9 +142,11 @@ namespace CalculationAlgorithmWrapper
             var grid = new List<double>();
             var curve = new List<double>();
 
-            var textStringWithoutLetters = Regex.Replace(textString, "[a-zA-Z]", " ");
+            // E must not be replaced because it's part of a number as exponent (1.2246063538223773E-15)
+            var textStringWithoutLetters = Regex.Replace(textString, "[a-df-zA-DF-Z\n\r]", " ");
             var textStringWithSingleSpaces = Regex.Replace(textStringWithoutLetters, " {2,}", " ");
-            textStringWithSingleSpaces = (textStringWithSingleSpaces == " ") ? string.Empty : textStringWithSingleSpaces;
+            textStringWithSingleSpaces = !Regex.Match(textStringWithSingleSpaces, "[0-9]").Success
+                ? string.Empty : textStringWithSingleSpaces;
 
             if (textStringWithSingleSpaces.Length != 0)
             {

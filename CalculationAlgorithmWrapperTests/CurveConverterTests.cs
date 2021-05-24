@@ -153,6 +153,25 @@ namespace CalculationAlgorithmWrapperTests
             Assert.AreEqual("var x = new List<double> {};", curveConverterValues.GetCSharpGridString("x"));
         }
 
+        [Test]
+        public void When_text_string_containing_curve_values_is_converted_then_corresponding_result_is_returned_6()
+        {
+            var inputString = "cgmParameters.FrontMicFbcCoefficients: [-0.000278472900390625 -9.918212890625e-05 0.00034332275390625 0.00286865234375 0.010986328125 0.00665283203125 -0.03466796875 -0.033203125 0.03271484375 0.00274658203125 0.00384521484375 0.06640625 -0.029052734375 -0.046875 0.0048828125 -0.018798828125 -0.000177383422851563 0.02685546875 0.02587890625 -0.00616455078125 -0.0123291015625 -0.0108642578125 -0.0128173828125 -0.00177001953125 0.01953125 0.010986328125 -0.0052490234375 -0.00653076171875 -0.010986328125 -0.00390625 0.00714111328125 0.010986328125 0.00335693359375 -0.003173828125 -0.008544921875 -0.0047607421875 -0.00091552734375 0.00592041015625 0.003631591796875 0.000457763671875 -0.00250244140625 -0.0012969970703125 -0.000461578369140625 0.001556396484375 0.00017547607421875 -0.000823974609375 -0.001708984375 -0.00061798095703125 0.001007080078125 0.001800537109375 0.001007080078125 -0.001312255859375 -0.002288818359375 -0.0019378662109375 -9.1552734375e-05 0.00103759765625 0.0011444091796875 -0.00093841552734375 -0.0018463134765625 -0.002349853515625 -0.000278472900390625 0.000823974609375 0.0015106201171875 -0.000324249267578125]";
+
+            var curveConverterValues = CurveConverter.ConvertInputString(
+                inputString: inputString,
+                inputFormat: InputFormat.Text);
+
+            //var expectedCurve = new List<double> { -4, 5, 7, 8, 9, 10 };
+
+            Assert.AreEqual(64, curveConverterValues.Curve.Count, "curve.Count");
+            //CollectionAssert.AreEqual(expectedCurve, curveConverterValues.Curve);
+            //Assert.AreEqual("curve = [-4 5 7 8 9 10];", curveConverterValues.GetMatlabCurveString("curve"));
+            Assert.AreEqual("x = [];", curveConverterValues.GetMatlabGridString("x"));
+            //Assert.AreEqual("var curve = new List<double> {-4, 5, 7, 8, 9, 10};", curveConverterValues.GetCSharpCurveString("curve"));
+            //Assert.AreEqual("var x = new List<double> {};", curveConverterValues.GetCSharpGridString("x"));
+        }
+
         private string GetCurrentDirectory()
         {
             var executionDirectory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
