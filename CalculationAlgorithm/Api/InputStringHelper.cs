@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CalculationAlgorithm
 {
@@ -65,22 +67,44 @@ namespace CalculationAlgorithm
 
             if (inputString.Contains(operatorString))
             {
-                var findIndex = inputString.IndexOf(operatorString);
-
-                if (findIndex >= 0)
+                var foundIndizes = AllIndexesOf(inputString, operatorString);
+                
+                if (foundIndizes.Count > 0)
                 {
-                    var isCharBeforeALetter = (findIndex > 0) && char.IsLetter(inputString[findIndex - 1]);
-                    var isCharAfterALetter = (findIndex + operatorString.Length) < (inputString.Length - 1) &&
-                                    char.IsLetter(inputString[findIndex + operatorString.Length]);
-
-                    if (!isCharBeforeALetter && !isCharAfterALetter)
-                    {
-                        doesStringContainOperator = true;
-                    }
+                    doesStringContainOperator = foundIndizes.Any(index => IsFoundOperatorStringOperator(
+                        inputString, operatorString, doesStringContainOperator, index) );
                 }
             }
 
             return doesStringContainOperator;
+        }
+
+        private static bool IsFoundOperatorStringOperator(string inputString, string operatorString, bool doesStringContainOperator, int findIndex)
+        {
+            var isCharBeforeALetter = (findIndex > 0) && char.IsLetter(inputString[findIndex - 1]);
+            var isCharAfterALetter = (findIndex + operatorString.Length) < (inputString.Length - 1) &&
+                            char.IsLetter(inputString[findIndex + operatorString.Length]);
+
+            if (!isCharBeforeALetter && !isCharAfterALetter)
+            {
+                doesStringContainOperator = true;
+            }
+
+            return doesStringContainOperator;
+        }
+
+        public static IList<int> AllIndexesOf(string str, string value)
+        {
+            if (String.IsNullOrEmpty(value))
+                throw new ArgumentException("the string to find may not be empty", "value");
+            List<int> indexes = new List<int>();
+            for (int index = 0; ; index += value.Length)
+            {
+                index = str.IndexOf(value, index);
+                if (index == -1)
+                    return indexes;
+                indexes.Add(index);
+            }
         }
     }
 }
