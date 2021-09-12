@@ -20,8 +20,26 @@ namespace CurveChartImageCreater
             scalingExponent = -skalingExponentResulting;
         }
 
+        public static void ApplyWithOutput(
+           IList<double> curve,
+           int minExponent,
+           int maxExponent,
+           out IList<double> curveOutput,
+           out int scalingExponent)
+        {
+            scalingExponent = 0;
+            curveOutput = new List<double>();
+
+            Apply(
+                curve,
+                minExponent,
+                maxExponent,
+                ref curveOutput,
+                ref scalingExponent);
+        }
+
         public static void Apply(
-            IList<double> curve1, 
+            IList<double> curve1,
             IList<double> curve2,
             int minExponent,
             int maxExponent,
@@ -41,19 +59,42 @@ namespace CurveChartImageCreater
             scalingExponent = -skalingExponentResulting;
         }
 
+        public static void ApplyWithOutput(
+            IList<double> curve1,
+            IList<double> curve2,
+            int minExponent,
+            int maxExponent,
+            out IList<double> curveOutput1,
+            out IList<double> curveOutput2,
+            out int scalingExponent)
+        {
+            scalingExponent = 0;
+            curveOutput1 = new List<double>();
+            curveOutput2 = new List<double>();
+
+            Apply(
+                curve1,
+                curve2,
+                minExponent,
+                maxExponent,
+                ref curveOutput1,
+                ref curveOutput2,
+                ref scalingExponent);
+        }
+
         private static int CalculateRangeExponent(IList<double> curve)
         {
-            var range = ( (curve == null) || (curve.Count == 0)) ? 0 : curve.Max() - curve.Min();
+            var range = ((curve == null) || (curve.Count == 0)) ? 0 : curve.Max() - curve.Min();
             var usedRange = (range != 0) ? range : 1;
             var exponent = Math.Log10(Math.Abs(usedRange));
-            var roundedExponent = exponent < 0 ? (int)Math.Floor(exponent) : (int)Math.Floor(exponent);
+            var roundedExponent = (int)Math.Floor(exponent);
             return roundedExponent;
         }
 
         private static int CalculateResultingSkalingExponent(int minExponent, int maxExponent, int rangeExponent)
         {
             return (rangeExponent > 0) ?
-                ((minExponent <= rangeExponent) && (rangeExponent <= maxExponent)) ? 0 : maxExponent - rangeExponent:
+                ((minExponent <= rangeExponent) && (rangeExponent <= maxExponent)) ? 0 : maxExponent - rangeExponent :
                 ((minExponent <= rangeExponent) && (rangeExponent <= maxExponent)) ? 0 : minExponent - rangeExponent;
         }
     }
