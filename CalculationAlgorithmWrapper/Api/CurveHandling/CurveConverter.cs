@@ -54,8 +54,6 @@ namespace CalculationAlgorithmWrapper
             string debuggerString,
             int numberOfDigits)
         {
-            var matlabGridString = "x = [";
-            var outputStringMatlab = "curve = [";
             var curve = new List<double>();
             var grid = new List<double>();
 
@@ -103,33 +101,12 @@ namespace CalculationAlgorithmWrapper
                     var value = double.Parse(numberSubString, CultureInfo.InvariantCulture);
                     var usedNumberSubString = $"{Math.Round(value, numberOfDigits)}".Replace(",", ".");
 
-                    outputStringMatlab += usedNumberSubString + " ";
-
                     curve.Add(value);
 
                     if (double.TryParse(gridString, out _))
-                    {
-                        matlabGridString += gridString + " ";
                         grid.Add(double.Parse(gridString, CultureInfo.InvariantCulture));
-                    }
                 }
             }
-
-            // remove last blank of outputStringMatlab
-            if (outputStringMatlab[outputStringMatlab.Length - 1] == ' ')
-            {
-                outputStringMatlab = outputStringMatlab.Remove(outputStringMatlab.Length - 1);
-            }
-
-            outputStringMatlab += "];";
-
-            // remove last blank of matlabGridString
-            if (matlabGridString[matlabGridString.Length - 1] == ' ')
-            {
-                matlabGridString = matlabGridString.Remove(matlabGridString.Length - 1);
-            }
-
-            matlabGridString += "];";
 
             return new CurveConverterValues(
                curve: curve,

@@ -38,7 +38,7 @@ namespace CalculationAlgorithmWrapperTests
 
             var resultString = _calculator.Calculate();
 
-            Assert.AreEqual("Fix2Double(27,5,2)\n= -1,25", resultString);
+            Assert.AreEqual("Fix2Double(27,5,2)\n= -1.25", resultString);
         }
 
         [Test]
