@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CurveConverterInput.txt" />
+    <Content Include="CurveConverterTextInput.txt" />
     <Content Include="CurveInput.txt" />
     <Content Include="DictionaryInput.txt" />
     <Content Include="TextInput.txt" />

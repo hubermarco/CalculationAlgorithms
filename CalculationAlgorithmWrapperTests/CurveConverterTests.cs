@@ -70,6 +70,23 @@ namespace CalculationAlgorithmWrapperTests
         }
 
         [Test]
+        public void When_text_string_containing_2_lists_with_of_curve_values_is_converted_then_corresponding_result_is_returned()
+        {
+            var currentDirectory = GetCurrentDirectory();
+            var inputPath = currentDirectory + "\\" + "CurveConverterTextInput.txt";
+            var debuggerString = File.ReadAllText(inputPath);
+
+            var curveConverterValues = CurveConverter.ConvertInputString(
+                inputString: debuggerString,
+                inputFormat: InputFormat.Automatic);
+
+            Assert.AreEqual(228, curveConverterValues.Curve.Count);
+            Assert.AreEqual(1.01, curveConverterValues.Curve[0]);
+            Assert.AreEqual(228, curveConverterValues.Grid.Count);
+            Assert.AreEqual(100, curveConverterValues.Grid[0]);
+        }
+
+        [Test]
         public void When_text_string_containing_curve_values_is_converted_then_corresponding_result_is_returned()
         {
             var inputString = "ert45,45,56,56 66 77pp";

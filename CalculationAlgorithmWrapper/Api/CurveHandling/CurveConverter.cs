@@ -129,10 +129,26 @@ namespace CalculationAlgorithmWrapper
             {
                 string valueString;
 
-                if (GetStartAndEndChar(textStringWithSingleSpaces, out char startChar, out char endChar))
+                if (GetStartAndEndChar(textStringWithSingleSpaces, out char startChar, out char endChar, out int positionOfEndChar))
                 {
-                    valueString = ConvertTextStringToValueStringWithStartCharAndStopChar(
+                    var tempValueString = ConvertTextStringToValueStringWithStartCharAndStopChar(
                         textStringWithSingleSpaces, startChar, endChar);
+
+                    var newTextStringWithSingleSpaces = textStringWithSingleSpaces.Substring(
+                        startIndex: positionOfEndChar + 1,
+                        length: textStringWithSingleSpaces.Length - (positionOfEndChar + 1));
+
+                    if (GetStartAndEndChar(newTextStringWithSingleSpaces, out char startChar2, out char endChar2, out _))
+                    {
+                        valueString = ConvertTextStringToValueStringWithStartCharAndStopChar(
+                            newTextStringWithSingleSpaces, startChar2, endChar2);
+
+                        grid = ConvertValueStringToCurve(tempValueString, ' ');
+                    }
+                    else
+                    {
+                        valueString = tempValueString;
+                    }
                 }
                 else
                 {
@@ -159,11 +175,12 @@ namespace CalculationAlgorithmWrapper
             return usedInputFormat;
         }
 
-        private static bool GetStartAndEndChar(string textString, out char startChar, out char endChar)
+        private static bool GetStartAndEndChar(string textString, out char startChar, out char endChar, out int positionOfEndChar)
         {
             var startAndEndCharFound = false;
             startChar = ' ';
             endChar = ' ';
+            positionOfEndChar = -1;
             var startStopCharDict = new Dictionary<char, char> { { '[', ']' } , { '{', '}' }, { '(', ')' }};
 
             foreach(var startStopCharValuePair in startStopCharDict)
@@ -172,6 +189,8 @@ namespace CalculationAlgorithmWrapper
                 {
                     startChar = startStopCharValuePair.Key;
                     endChar = startStopCharValuePair.Value;
+                    positionOfEndChar = textString.IndexOf(endChar);
+
                     startAndEndCharFound = true;
                 }
             }

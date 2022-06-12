@@ -95,7 +95,9 @@ namespace CalculationAlgorithmWrapper
             CurveConverterValues curveConverterValues2)
         {
             var deltaCurve = GetDeltaCurve(
+                grid1: curveConverterValues1.Grid,
                 curve1: curveConverterValues1.Curve,
+                grid2: curveConverterValues2.Grid,
                 curve2: curveConverterValues2.Curve);
 
             var resultingGrid = GetGesultingGrid(
@@ -162,11 +164,18 @@ namespace CalculationAlgorithmWrapper
             return roundedMatlabCurveString;
         }
 
-        private static IList<double> GetDeltaCurve(IList<double> curve1, IList<double> curve2)
+        private static IList<double> GetDeltaCurve(
+            IList<double> grid1, 
+            IList<double> curve1, 
+            IList<double> grid2, 
+            IList<double> curve2)
         {
             IList<double> deltaCurve = null;
-          
-            if (curve1.Count == curve2.Count)
+
+            var isGridIdentical = (grid1.Count == grid2.Count) && 
+                grid1.Select((gridValue, index) => Math.Abs(grid2[index] - gridValue)).All(x => (x <= 0.001));
+            
+            if (isGridIdentical && (curve1.Count == curve2.Count))
             {
                 deltaCurve = curve2.Select((x, index) => curve1[index] - x).ToList();
             }
@@ -176,7 +185,7 @@ namespace CalculationAlgorithmWrapper
 
         private static IList<double> GetGesultingGrid(IList<double> grid1, IList<double> grid2)
         {
-            var resultingGrid = (grid1.Count > 0) ? grid1.ToList() : grid2.ToList();
+            var resultingGrid = (grid2.Count > 0) ? grid2.ToList() : grid1.ToList();
             return resultingGrid;
         }
 
