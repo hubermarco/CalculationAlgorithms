@@ -198,8 +198,14 @@ namespace CalculationAlgorithmWrapper
 
             var isGridIdentical = (grid1.Count == grid2.Count) && 
                 grid1.Select((gridValue, index) => Math.Abs(grid2[index] - gridValue)).All(x => (x <= 0.001));
-            
-            if (isGridIdentical && (curve1.Count == curve2.Count))
+
+            var curveValueCountsAre228AndOneCurveGridisNotAvailable = 
+                (curve1.Count == 228 && curve2.Count == 228) &&
+                ((grid1.Count == 0 && grid2.Count == 0) || 
+                 (new DoubleVector(grid1) == new DoubleVector(XGrid.GetFrequencyValues()) && grid2.Count == 0) ||
+                 (grid1.Count == 0) && new DoubleVector(grid2) == new DoubleVector(XGrid.GetFrequencyValues()));
+
+            if ((isGridIdentical || curveValueCountsAre228AndOneCurveGridisNotAvailable) && (curve1.Count == curve2.Count))
             {
                 deltaCurve = curve2.Select((x, index) => curve1[index] - x).ToList();
             }
