@@ -11,8 +11,30 @@ namespace CalculationAlgorithmWrapper
             IList<double> curve,
             IList<double> grid)
         {
-            Curve = curve;
-            Grid = grid;
+            CurveConverterResultCode = CurveConverterResultCode.CurveAndGridHaveDifferentSize;
+
+            if (grid == null || grid.Count == 0)
+            {
+                Curve = curve;
+                Grid = new List<double>();
+            }
+            if (curve?.Count != grid?.Count)
+            {
+                CurveConverterResultCode = CurveConverterResultCode.CurveAndGridHaveDifferentSize;
+                Curve = curve;
+                Grid = new List<double>();
+            }
+            else if(new DoubleVector(grid.Distinct().OrderBy(x => x)) != new DoubleVector(grid))
+            {
+                CurveConverterResultCode = CurveConverterResultCode.GridIsInvalid;
+                Curve = curve;
+                Grid = new List<double>();
+            }
+            else
+            {
+                Curve = curve;
+                Grid = grid;
+            }
         }
 
         public int ValueCount { get { return (Curve != null) ? Curve.Count : 0; } }
@@ -84,7 +106,9 @@ namespace CalculationAlgorithmWrapper
         public IList<double> Curve { get; }
         public IList<double> Grid { get; }
 
-        public IList<double> GetUsedGrid(bool linearFreqAxis)
+        public CurveConverterResultCode CurveConverterResultCode { get; }
+
+    public IList<double> GetUsedGrid(bool linearFreqAxis)
         {
             var usedGrid = CalculateUsedGrid(grid: Grid, numberOfCurvePoints: ValueCount, linearFreqAxis: linearFreqAxis);
             return usedGrid;

@@ -56,8 +56,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\CurveHandling\CurveConverterResultCode.cs" />
     <Compile Include="Api\CurveHandling\CurveConverterValues.cs" />
     <Compile Include="Api\CurveHandling\PythonCode.cs" />
+    <Compile Include="Api\CurveHandling\DoubleVector.cs" />
     <Compile Include="Api\CurveHandling\XGrid.cs" />
     <Compile Include="Implementation\ArithmetricFunctions.cs" />
     <Compile Include="Api\Calculator\CalculatorFactory.cs" />

@@ -192,6 +192,7 @@ namespace CalculationAlgorithmWrapper
                     positionOfEndChar = textString.IndexOf(endChar);
 
                     startAndEndCharFound = true;
+                    break;
                 }
             }
 
@@ -211,7 +212,9 @@ namespace CalculationAlgorithmWrapper
 
             var valueStringLine = relevantLineString.Substring(startIndex: startIndex, length: subStringLength);
 
-            var valueStringFiltered = valueStringLine.Replace(",", " ").Replace(";", " ");
+            var valueStringFiltered = valueStringLine.
+                Replace(",", " ").Replace(";", " ").Replace("(", "").Replace(")", "").
+                Replace("[", "").Replace("]", "").Replace("{", "").Replace("}", "");
 
             return valueStringFiltered;
         }
