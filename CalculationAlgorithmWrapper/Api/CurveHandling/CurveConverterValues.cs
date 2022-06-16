@@ -11,14 +11,14 @@ namespace CalculationAlgorithmWrapper
             IList<double> curve,
             IList<double> grid)
         {
-            CurveConverterResultCode = CurveConverterResultCode.CurveAndGridHaveDifferentSize;
+            CurveConverterResultCode = CurveConverterResultCode.Success;
 
             if (grid == null || grid.Count == 0)
             {
                 Curve = curve;
                 Grid = new List<double>();
             }
-            if (curve?.Count != grid?.Count)
+            if ( (grid?.Count != 0) && (curve?.Count != grid?.Count) )
             {
                 CurveConverterResultCode = CurveConverterResultCode.CurveAndGridHaveDifferentSize;
                 Curve = curve;
@@ -122,7 +122,9 @@ namespace CalculationAlgorithmWrapper
                 grid1: curveConverterValues1.Grid,
                 curve1: curveConverterValues1.Curve,
                 grid2: curveConverterValues2.Grid,
-                curve2: curveConverterValues2.Curve);
+                curve2: curveConverterValues2.Curve,
+                curveConverterResultCode1: curveConverterValues1.CurveConverterResultCode,
+                curveConverterResultCode2: curveConverterValues2.CurveConverterResultCode);
 
             var resultingGrid = GetGesultingGrid(
                 grid1: curveConverterValues1.Grid,
@@ -192,7 +194,9 @@ namespace CalculationAlgorithmWrapper
             IList<double> grid1, 
             IList<double> curve1, 
             IList<double> grid2, 
-            IList<double> curve2)
+            IList<double> curve2,
+            CurveConverterResultCode curveConverterResultCode1,
+            CurveConverterResultCode curveConverterResultCode2)
         {
             IList<double> deltaCurve = null;
 
@@ -200,12 +204,14 @@ namespace CalculationAlgorithmWrapper
                 grid1.Select((gridValue, index) => Math.Abs(grid2[index] - gridValue)).All(x => (x <= 0.001));
 
             var curveValueCountsAre228AndOneCurveGridisNotAvailable = 
-                (curve1.Count == 228 && curve2.Count == 228) &&
-                ((grid1.Count == 0 && grid2.Count == 0) || 
-                 (new DoubleVector(grid1) == new DoubleVector(XGrid.GetFrequencyValues()) && grid2.Count == 0) ||
-                 (grid1.Count == 0) && new DoubleVector(grid2) == new DoubleVector(XGrid.GetFrequencyValues()));
+                ((curve1.Count == 228) && (curve2.Count == 228)) &&
+                ( ((grid1.Count == 0) && (grid2.Count == 0)) || 
+                  ((new DoubleVector(grid1) == new DoubleVector(XGrid.GetFrequencyValues())) && (grid2.Count == 0)) ||
+                  ((grid1.Count == 0) && (new DoubleVector(grid2) == new DoubleVector(XGrid.GetFrequencyValues()))) );
 
-            if ((isGridIdentical || curveValueCountsAre228AndOneCurveGridisNotAvailable) && (curve1.Count == curve2.Count))
+            if ( (isGridIdentical || curveValueCountsAre228AndOneCurveGridisNotAvailable) && (curve1.Count == curve2.Count) &&
+                 ((curveConverterResultCode1 == CurveConverterResultCode.Success) && 
+                  (curveConverterResultCode2 == CurveConverterResultCode.Success)) )
             {
                 deltaCurve = curve2.Select((x, index) => curve1[index] - x).ToList();
             }
