@@ -108,7 +108,7 @@ namespace CalculationAlgorithmWrapper
 
         public CurveConverterResultCode CurveConverterResultCode { get; }
 
-    public IList<double> GetUsedGrid(bool linearFreqAxis)
+        public IList<double> GetUsedGrid(bool linearFreqAxis)
         {
             var usedGrid = CalculateUsedGrid(grid: Grid, numberOfCurvePoints: ValueCount, linearFreqAxis: linearFreqAxis);
             return usedGrid;
