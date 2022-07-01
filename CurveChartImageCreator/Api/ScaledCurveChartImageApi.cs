@@ -1,20 +1,21 @@
-﻿using CurveChartImageCreator;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace CurveChartImageCreater
+namespace CurveChartImageCreator
 {
     public class ScaledCurveChartImageApi
     {
         public static void Create(
+            string outputDirCurveChart,
             string fileNameWithoutExtention,
             string headerCaption,
             IList<double> grid1,
             IList<double> grid2,
             IList<double> curve1,
             IList<double> curve2,
-            string outputDirCurveChart,
-            bool linearFreqAxis)
+            bool linearFreqAxis,
+            uint imageWidth = 900,
+            uint imageHeight = 600)
         {
             IList<double> GetUsedGrid(bool linFreqAxis, IList<double> grid) =>
                 (!linFreqAxis && (grid?.Count > 0) && grid.Any(x => x <= 0)) ? null : grid;
@@ -24,7 +25,7 @@ namespace CurveChartImageCreater
             var usedGrid2 = GetUsedGrid(linearFreqAxis, grid2);
             var usedCurve2 = (usedGrid2 == null) ? null : curve2;
 
-            if ( ((usedGrid1 == null || usedGrid1.Count == 0)) && ((usedGrid2 == null) || (usedGrid2.Count == 0)) )
+            if (((usedGrid1 == null || usedGrid1.Count == 0)) && ((usedGrid2 == null) || (usedGrid2.Count == 0)))
                 headerCaption = "Negative x-values are not allowed in logarithmic scale";
 
             IList<double> scaledCurve1 = new List<double>();
@@ -48,8 +49,8 @@ namespace CurveChartImageCreater
                 curveList2: new List<IList<double>> { scaledCurve2 },
                 outputDir: outputDirCurveChart,
                 linearFreqAxis: linearFreqAxis,
-                imageWidth: 900,
-                imageHeight: 600);
+                imageWidth: imageWidth,
+                imageHeight: imageHeight);
         }
     }
 }

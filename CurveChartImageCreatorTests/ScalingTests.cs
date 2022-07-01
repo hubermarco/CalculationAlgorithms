@@ -1,4 +1,4 @@
-﻿using CurveChartImageCreater;
+﻿using CurveChartImageCreator;
 using NUnit.Framework;
 using System.Collections.Generic;
 

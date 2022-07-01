@@ -7,13 +7,13 @@ namespace CurveChartImageCreator
     public class CurveChartImageApi
     {
         public static void Create(
+            string outputDir,
             string fileNameWithoutExtention,
             string headerCaption,
             IList<double> xGrid1,
             IList<double> xGrid2,
             IEnumerable<IList<double>> curveList1,
             IEnumerable<IList<double>> curveList2,
-            string outputDir,
             bool linearFreqAxis = false,
             uint imageWidth = 600,
             uint imageHeight = 400)
