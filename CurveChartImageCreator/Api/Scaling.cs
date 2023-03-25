@@ -87,7 +87,18 @@ namespace CurveChartImageCreator
             var range = ((curve == null) || (curve.Count == 0)) ? 0 : curve.Max() - curve.Min();
             var usedRange = (range != 0) ? range : 1;
             var exponent = Math.Log10(Math.Abs(usedRange));
-            var roundedExponent = (int)Math.Floor(exponent);
+
+            var logarithmicRatioRangeMaxValue = ((curve == null) || (curve.Count == 0)) ? 0 : Math.Log10(Math.Abs(range / curve.Max()));
+            var logarithmicRatioRangeMinValue = ((curve == null) || (curve.Count == 0)) ? 0 : Math.Log10(Math.Abs(range / curve.Min()));
+            var logarithmicRatioRangeValue = Math.Max(logarithmicRatioRangeMaxValue, logarithmicRatioRangeMinValue);
+
+            var exponentOfMaxAbsoluteValue = ((curve == null) || (curve.Count == 0)) ? 
+                0 :
+                (int)Math.Floor(Math.Log10(Math.Max(Math.Abs(curve.Max()), Math.Abs(curve.Min()))));
+
+            var resultingExponent = (logarithmicRatioRangeValue < 0) ? exponentOfMaxAbsoluteValue : exponent;
+
+            var roundedExponent = (int)Math.Floor(resultingExponent);
             return roundedExponent;
         }
 
