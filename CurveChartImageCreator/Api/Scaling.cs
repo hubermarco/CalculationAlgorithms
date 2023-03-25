@@ -94,7 +94,7 @@ namespace CurveChartImageCreator
 
             var exponentOfMaxAbsoluteValue = ((curve == null) || (curve.Count == 0)) ? 
                 0 :
-                (int)Math.Floor(Math.Log10(Math.Max(Math.Abs(curve.Max()), Math.Abs(curve.Min()))));
+                Math.Log10(Math.Max(Math.Abs(curve.Max()), Math.Abs(curve.Min())));
 
             var resultingExponent = (logarithmicRatioRangeValue < 0) ? exponentOfMaxAbsoluteValue : exponent;
 
