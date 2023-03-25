@@ -248,7 +248,6 @@ namespace CurveChartImageCreatorTests
             CollectionAssert.AreEqual(curve2, curveOutput2, "curveOutput2 NOT equal to curve2");
         }
 
-
         [Test]
         public void When_apply_method_is_called_then_an_corresponding_curves_are_returned()
         {
@@ -302,7 +301,6 @@ namespace CurveChartImageCreatorTests
             CollectionAssert.AreEqual(curveOutputExpected1, curveOutput1, "curveOutput1 NOT equal to curve1");
             CollectionAssert.AreEqual(curveOutputExpected2, curveOutput2, "curveOutput2 NOT equal to curve2");
         }
-
 
         [Test]
         public void When_apply_method_is_called_then_an_corresponding_curves_are_returned_3()

@@ -84,29 +84,18 @@ namespace CurveChartImageCreator
 
         private static int CalculateRangeExponent(IList<double> curve)
         {
-            var range = ((curve == null) || (curve.Count == 0)) ? 0 : curve.Max() - curve.Min();
-            var usedRange = (range != 0) ? range : 1;
-            var exponent = Math.Log10(Math.Abs(usedRange));
-
-            var logarithmicRatioRangeMaxValue = ((curve == null) || (curve.Count == 0)) ? 0 : Math.Log10(Math.Abs(range / curve.Max()));
-            var logarithmicRatioRangeMinValue = ((curve == null) || (curve.Count == 0)) ? 0 : Math.Log10(Math.Abs(range / curve.Min()));
-            var logarithmicRatioRangeValue = Math.Max(logarithmicRatioRangeMaxValue, logarithmicRatioRangeMinValue);
-
+            
             var exponentOfMaxAbsoluteValue = ((curve == null) || (curve.Count == 0)) ? 
                 0 :
                 Math.Log10(Math.Max(Math.Abs(curve.Max()), Math.Abs(curve.Min())));
 
-            var resultingExponent = (logarithmicRatioRangeValue < 0) ? exponentOfMaxAbsoluteValue : exponent;
-
-            var roundedExponent = (int)Math.Floor(resultingExponent);
+            var roundedExponent = (int)Math.Floor(exponentOfMaxAbsoluteValue);
             return roundedExponent;
         }
 
         private static int CalculateResultingSkalingExponent(int minExponent, int maxExponent, int rangeExponent)
         {
-            return (rangeExponent > 0) ?
-                ((minExponent <= rangeExponent) && (rangeExponent <= maxExponent)) ? 0 : maxExponent - rangeExponent :
-                ((minExponent <= rangeExponent) && (rangeExponent <= maxExponent)) ? 0 : minExponent - rangeExponent;
+            return ((minExponent <= rangeExponent) && (rangeExponent <= maxExponent)) ? 0 : minExponent - rangeExponent;
         }
     }
 }
