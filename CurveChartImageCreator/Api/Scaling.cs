@@ -83,8 +83,7 @@ namespace CurveChartImageCreator
         }
 
         private static int CalculateRangeExponent(IList<double> curve)
-        {
-            
+        { 
             var exponentOfMaxAbsoluteValue = ((curve == null) || (curve.Count == 0)) ? 
                 0 :
                 Math.Log10(Math.Max(Math.Abs(curve.Max()), Math.Abs(curve.Min())));
