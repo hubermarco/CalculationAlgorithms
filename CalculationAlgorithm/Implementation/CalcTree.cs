@@ -68,7 +68,8 @@ namespace CalculationAlgorithm
                         ref calcTreeElementCurrentPosition);
 
                     // Jump over open bracket
-                    i++;
+                    if (InputStringHelper.IsOpenBracket(inputList[i+1]))
+                        i++;
                 }
 
                 else if(InputStringHelper.IsOpenBracket(currentCalcString))
@@ -96,9 +97,8 @@ namespace CalculationAlgorithm
                 }
             }
 
-            if(string.IsNullOrEmpty(calcTreeElementRoot.GetOperator()))
-                calcTreeElementRoot = calcTreeElementRoot.GetLastChild().GetBranchAccess();
-
+            CalcTreeHelper.RemovingUppermostBranchIfNotNeeded(ref calcTreeElementRoot);
+            
             return new CalcTreeResult(calcTreeElementRoot, variableDict);
         }
     }

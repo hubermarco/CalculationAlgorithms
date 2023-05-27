@@ -142,6 +142,13 @@ namespace CalculationAlgorithm
                            (calcTreeElementCurrent.GetParent() != null));
         }
 
+        internal static void RemovingUppermostBranchIfNotNeeded(
+            ref ICalcTreeBranch calcTreeElementRoot)
+        {
+            if (string.IsNullOrEmpty(calcTreeElementRoot.GetOperator()))
+                calcTreeElementRoot = calcTreeElementRoot.GetLastChild().GetBranchAccess();
+        }
+
         private static void AddBranchBetweenCurrentPositionAndItsParentWithOperatorString(
             string currentOperatorString,
             ICalcTreeElementFactory calcTreeElementFactory,
