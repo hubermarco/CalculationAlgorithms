@@ -103,6 +103,15 @@ namespace CalculationAlgorithmTests
         }
 
         [Test]
+        public void When_cosinus_is_performed_then_result_is_as_exptect()
+        {
+            var result = _calculationAlgorithm.Calculate("cos(0)");
+
+            Assert.AreEqual(1, result);
+        }
+
+
+        [Test]
         public void When_multiplication_is_performed_then_result_is_as_exptect()
         {
             var result = _calculationAlgorithm.Calculate("3*4");

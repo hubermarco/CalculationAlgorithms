@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace CalculationAlgorithm
 {
@@ -94,6 +95,9 @@ namespace CalculationAlgorithm
                         ref calcTreeElementCurrentPosition);
                 }
             }
+
+            if(string.IsNullOrEmpty(calcTreeElementRoot.GetOperator()))
+                calcTreeElementRoot = calcTreeElementRoot.GetLastChild().GetBranchAccess();
 
             return new CalcTreeResult(calcTreeElementRoot, variableDict);
         }
