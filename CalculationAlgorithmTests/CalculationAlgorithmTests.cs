@@ -103,6 +103,14 @@ namespace CalculationAlgorithmTests
         }
 
         [Test]
+        public void When_addition_mit_more_summands_is_performed_then_result_is_as_exptect()
+        {
+            var result = _calculationAlgorithm.Calculate("3+4+1+2");
+
+            Assert.AreEqual(10, result);
+        }
+
+        [Test]
         public void When_cosinus_is_performed_then_result_is_as_exptect()
         {
             var result = _calculationAlgorithm.Calculate("cos(0)");
