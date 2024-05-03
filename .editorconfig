@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# NUnit2005: Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)
+dotnet_diagnostic.NUnit2005.severity = silent
+
+# CS8603: Possible null reference return.
+dotnet_diagnostic.CS8603.severity = silent

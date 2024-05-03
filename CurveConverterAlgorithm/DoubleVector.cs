@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CalculationAlgorithmWrapper
+namespace CurveConverterAlgorithm
 {
     internal class DoubleVector : List<double>
     {

@@ -1,4 +1,4 @@
-﻿using CalculationAlgorithmWrapper;
+﻿using CurveConverterAlgorithm;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -183,13 +183,10 @@ namespace CalculationAlgorithmWrapperTests
             Assert.AreEqual("x = [];", curveConverterValues.GetMatlabGridString("x"));
         }
 
-        private string GetCurrentDirectory()
+        private static string GetCurrentDirectory()
         {
             var executionDirectory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-            var binDirectory = Directory.GetParent(executionDirectory).ToString();
-            var currentDirectory = Directory.GetParent(binDirectory).ToString();
-
-            return currentDirectory;
+            return executionDirectory;
         }
     }
 }

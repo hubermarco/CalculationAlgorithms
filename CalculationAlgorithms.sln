@@ -1,19 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29905.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculationAlgorithm", "CalculationAlgorithm\CalculationAlgorithm.csproj", "{C0DBEB1B-F81E-46CB-BC1E-580C0AA4A798}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculationAlgorithmTests", "CalculationAlgorithmTests\CalculationAlgorithmTests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculationAlgorithmWrapper", "CalculationAlgorithmWrapper\CalculationAlgorithmWrapper.csproj", "{061A95EB-0B0B-473D-AD0B-3B2ECD849386}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculationAlgorithmWrapperTests", "CalculationAlgorithmWrapperTests\CalculationAlgorithmWrapperTests.csproj", "{88FD47EC-679A-4F4C-BA5C-9DDC00F2D5B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculationAlgorithmWrapperTests", "CalculationAlgorithmWrapperTests\CalculationAlgorithmWrapperTests.csproj", "{88FD47EC-679A-4F4C-BA5C-9DDC00F2D5B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurveChartImageCreator", "CurveChartImageCreator\CurveChartImageCreator.csproj", "{F5507C43-4F6D-4A31-B940-6E90CC01675A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurveChartImageCreatorTests", "CurveChartImageCreatorTests\CurveChartImageCreatorTests.csproj", "{92195F54-1153-4662-8571-FD3C775B3318}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurveConverterAlgorithm", "CurveConverterAlgorithm\CurveConverterAlgorithm.csproj", "{9D0D8BDE-E86C-4EC8-8EAE-A27D0C77DA80}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurveConverterAlgorithmTests", "CurveConverterAlgorithmTests\CurveConverterAlgorithmTests.csproj", "{B2733536-6D33-401D-A5CB-EC1B81241C6C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurveChartImageCreatorTests", "CurveChartImageCreatorTests\CurveChartImageCreatorTests.csproj", "{CB875179-F75B-4BD9-A96B-68B03924173B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculationAlgorithmTests", "CalculationAlgorithmTests\CalculationAlgorithmTests.csproj", "{C2C0BF7A-22B3-4F88-865D-DADCF48A9B32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +29,6 @@ Global
 		{C0DBEB1B-F81E-46CB-BC1E-580C0AA4A798}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0DBEB1B-F81E-46CB-BC1E-580C0AA4A798}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0DBEB1B-F81E-46CB-BC1E-580C0AA4A798}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{061A95EB-0B0B-473D-AD0B-3B2ECD849386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{061A95EB-0B0B-473D-AD0B-3B2ECD849386}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{061A95EB-0B0B-473D-AD0B-3B2ECD849386}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,10 +41,22 @@ Global
 		{F5507C43-4F6D-4A31-B940-6E90CC01675A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5507C43-4F6D-4A31-B940-6E90CC01675A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5507C43-4F6D-4A31-B940-6E90CC01675A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{92195F54-1153-4662-8571-FD3C775B3318}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92195F54-1153-4662-8571-FD3C775B3318}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92195F54-1153-4662-8571-FD3C775B3318}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92195F54-1153-4662-8571-FD3C775B3318}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D0D8BDE-E86C-4EC8-8EAE-A27D0C77DA80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D0D8BDE-E86C-4EC8-8EAE-A27D0C77DA80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D0D8BDE-E86C-4EC8-8EAE-A27D0C77DA80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D0D8BDE-E86C-4EC8-8EAE-A27D0C77DA80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2733536-6D33-401D-A5CB-EC1B81241C6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2733536-6D33-401D-A5CB-EC1B81241C6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2733536-6D33-401D-A5CB-EC1B81241C6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2733536-6D33-401D-A5CB-EC1B81241C6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB875179-F75B-4BD9-A96B-68B03924173B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB875179-F75B-4BD9-A96B-68B03924173B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB875179-F75B-4BD9-A96B-68B03924173B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB875179-F75B-4BD9-A96B-68B03924173B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2C0BF7A-22B3-4F88-865D-DADCF48A9B32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2C0BF7A-22B3-4F88-865D-DADCF48A9B32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2C0BF7A-22B3-4F88-865D-DADCF48A9B32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2C0BF7A-22B3-4F88-865D-DADCF48A9B32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.Generic;
 
-namespace CalculationAlgorithmWrapper
+namespace CurveConverterAlgorithm
 {
     public class XGrid
     {

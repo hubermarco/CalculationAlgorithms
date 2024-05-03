@@ -1,5 +1,5 @@
 ﻿
-namespace CalculationAlgorithmWrapper
+namespace CurveConverterAlgorithm
 {
     public enum CurveConverterResultCode
     {

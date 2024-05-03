@@ -1,10 +1,7 @@
-﻿using CalculationAlgorithmWrapper;
+﻿
 using CurveChartImageCreator;
+using CurveConverterAlgorithm;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace CurveChartImageCreatorTests
 {
@@ -93,13 +90,10 @@ namespace CurveChartImageCreatorTests
                  imageHeight: 600);
         }
 
-        private string GetCurrentDirectory()
+        private static string GetCurrentDirectory()
         {
             var executionDirectory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-            var binDirectory = Directory.GetParent(executionDirectory).ToString();
-            var currentDirectory = Directory.GetParent(binDirectory).ToString();
-
-            return currentDirectory;
+            return executionDirectory;
         }
     }
 }

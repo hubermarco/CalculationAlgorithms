@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -19,9 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CalculationAlgorithmWrapper\CalculationAlgorithmWrapper.csproj" />
-    <ProjectReference Include="..\CalculationAlgorithm\CalculationAlgorithm.csproj" />
     <ProjectReference Include="..\CurveConverterAlgorithm\CurveConverterAlgorithm.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(ProjectDir)\*.txt&quot; &quot;$(TargetDir)&quot;" />
+  </Target>
 
 </Project>
