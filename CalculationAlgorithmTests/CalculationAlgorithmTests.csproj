@@ -10,7 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FParsec" Version="1.1.1" />
+    <PackageReference Include="FParsec.CSharp" Version="12.2.0" />
     <PackageReference Include="MathNet.Numerics.FSharp" Version="5.0.0" />
+    <PackageReference Include="MathNet.Symbolics" Version="0.24.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.4.2" />
@@ -20,18 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CalculationAlgorithm\CalculationAlgorithm.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="FParsec">
-      <HintPath>..\..\Externals\fparsec.1.1.1\FParsec.dll</HintPath>
-    </Reference>
-    <Reference Include="FParsecCS">
-      <HintPath>..\..\Externals\fparsec.1.1.1\FParsecCS.dll</HintPath>
-    </Reference>
-    <Reference Include="MathNet.Symbolics">
-      <HintPath>..\..\Externals\mathnet.symbolics.0.20.0\MathNet.Symbolics.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
