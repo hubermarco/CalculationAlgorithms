@@ -50,6 +50,18 @@ namespace CurveConverterAlgorithm
             return inputFormat;
         }
 
+        public static int GetDecimalPlacesFromString(string decimalPlacesString, int defaultDecimalPlaces)
+        {
+            var correctedDecimalPlacesText = Regex.Replace(decimalPlacesString, "[a-df-zA-DF-Z]", "");
+
+            if (!double.TryParse(correctedDecimalPlacesText, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var decimalPlaces))
+                decimalPlaces = defaultDecimalPlaces;
+
+            var decimalPlacesLimited = (int)Math.Round(Math.Min(Math.Max(decimalPlaces, 0), 15));
+
+            return decimalPlacesLimited;
+        }
+
         private static CurveConverterValues ConvertDebuggerString(
             string debuggerString,
             int numberOfDigits)
