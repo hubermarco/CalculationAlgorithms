@@ -9,7 +9,8 @@ namespace CurveConverterAlgorithm
     {
         public CurveConverterValues(
             IList<double> curve,
-            IList<double> grid)
+            IList<double> grid,
+            bool checkDoubles = true)
         {
             CurveConverterResultCode = CurveConverterResultCode.Success;
 
@@ -24,7 +25,7 @@ namespace CurveConverterAlgorithm
                 Curve = curve;
                 Grid = new List<double>();
             }
-            else if(new DoubleVector(grid.Distinct().OrderBy(x => x)) != new DoubleVector(grid))
+            else if(checkDoubles && new DoubleVector(grid.Distinct().OrderBy(x => x)) != new DoubleVector(grid))
             {
                 CurveConverterResultCode = CurveConverterResultCode.GridIsInvalid;
                 Curve = curve;

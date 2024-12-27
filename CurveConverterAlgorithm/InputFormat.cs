@@ -6,5 +6,6 @@ namespace CurveConverterAlgorithm
         Automatic,
         Debug,
         Text,
+        Invest,
     }
 }

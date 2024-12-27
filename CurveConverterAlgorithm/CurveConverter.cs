@@ -15,10 +15,13 @@ namespace CurveConverterAlgorithm
             CurveConverterValues curveConverterValues;
 
             var usedInputFormat = GetUsedInputFormat(inputString, inputFormat);
-
-            if (usedInputFormat == InputFormat.Debug)
+            if (usedInputFormat == InputFormat.Invest)
             {
-                curveConverterValues = ConvertDebuggerString(inputString, numberOfDigits:3);
+                curveConverterValues = ConvertInvestmentString(inputString);
+            }
+            else if (usedInputFormat == InputFormat.Debug)
+            {
+                curveConverterValues = ConvertDebuggerString(inputString);
             }
             else if(usedInputFormat == InputFormat.Text)
             {
@@ -31,7 +34,7 @@ namespace CurveConverterAlgorithm
 
             return curveConverterValues;
         }
- 
+
         public static InputFormat Convert2InputFormat(
             bool isRadioButtonFormatAutomaticChecked,
             bool isRadioButtonFormatDebug)
@@ -62,9 +65,44 @@ namespace CurveConverterAlgorithm
             return decimalPlacesLimited;
         }
 
+        private static CurveConverterValues ConvertInvestmentString(string inputString)
+        {
+            var grid = new List<double>();
+            var curve = new List<double>();
+
+            var textStringWithoutQuotationMarks = inputString.Replace("\",\"", "\";\"").Replace(",", "").Replace("\"", "");
+           
+            var textLines = textStringWithoutQuotationMarks.Split('\n').ToList();
+            textLines.RemoveAt(0);
+            textLines.Reverse();
+
+            foreach (var textLine in textLines)
+            {
+                var columns = textLine.Split(';');
+                
+                var dateArray = columns[0].Split('/');
+                var year = int.Parse(dateArray[2], CultureInfo.InvariantCulture);
+                var month = int.Parse(dateArray[0], CultureInfo.InvariantCulture);
+                var day = int.Parse(dateArray[1], CultureInfo.InvariantCulture);
+
+                var dateTime = new DateTime(year, month, day);
+                var dateTimeBeginningOfTheYear = new DateTime(year, month: 1, day: 1);
+
+                var deltaYear = (dateTime - dateTimeBeginningOfTheYear).TotalDays / 365.0;
+                grid.Add(year + deltaYear);
+
+                var price = double.Parse(columns[1], CultureInfo.InvariantCulture);
+                curve.Add(price);
+            }
+
+            return new CurveConverterValues(
+               curve: curve,
+               grid: grid,
+               checkDoubles: false);
+        }
+
         private static CurveConverterValues ConvertDebuggerString(
-            string debuggerString,
-            int numberOfDigits)
+            string debuggerString)
         {
             var curve = new List<double>();
             var grid = new List<double>();
@@ -111,8 +149,7 @@ namespace CurveConverterAlgorithm
                 if (double.TryParse(numberSubString, out _))
                 {
                     var value = double.Parse(numberSubString, CultureInfo.InvariantCulture);
-                    var usedNumberSubString = $"{Math.Round(value, numberOfDigits)}".Replace(",", ".");
-
+                    
                     curve.Add(value);
 
                     if (double.TryParse(gridString, out _))
@@ -179,10 +216,15 @@ namespace CurveConverterAlgorithm
         {
             var usedInputFormat = inputFormat;
             var isInputStringDebugString = inputString.Contains("\t");
+            var isInvestmentString = inputString.Contains(@"""Date"",""Price""");
      
             if (inputFormat == InputFormat.Automatic)
             {
-                usedInputFormat = isInputStringDebugString ? InputFormat.Debug : InputFormat.Text;
+                usedInputFormat = isInvestmentString ? 
+                    InputFormat.Invest : 
+                    isInputStringDebugString ? 
+                    InputFormat.Debug : 
+                    InputFormat.Text;
             }
             return usedInputFormat;
         }
