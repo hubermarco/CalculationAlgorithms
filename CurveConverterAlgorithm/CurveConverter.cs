@@ -70,22 +70,24 @@ namespace CurveConverterAlgorithm
             var grid = new List<double>();
             var curve = new List<double>();
 
-            var textStringWithoutQuotationMarks = inputString.Replace("\",\"", "\";\"").Replace(",", "").Replace("\"", "");
+            var textStringWithoutQuotationMarks = inputString.Replace("\",\"", "\";\"").Replace(",", " ").Replace("\"", "");
            
             var textLines = textStringWithoutQuotationMarks.Split('\n').ToList();
             textLines.RemoveAt(0);
-            textLines.Reverse();
+
+            if (textLines[0].Split(new[] { ';', ',', ' ' })[0].Split('/').Length == 3)
+                textLines.Reverse();
 
             foreach (var textLine in textLines)
             {
-                var columns = textLine.Split(';');
+                var columns = textLine.Split(new[] { ';', ',', ' '});
                 
                 var dateArray = columns[0].Split('/');
-                var year = int.Parse(dateArray[2], CultureInfo.InvariantCulture);
+                var year = int.Parse(dateArray[dateArray.Length == 3 ? 2 : 1], CultureInfo.InvariantCulture);
                 var month = int.Parse(dateArray[0], CultureInfo.InvariantCulture);
-                var day = int.Parse(dateArray[1], CultureInfo.InvariantCulture);
+                var day = (dateArray.Length == 3) ? int.Parse(dateArray[1], CultureInfo.InvariantCulture) : (int?)null;
 
-                var dateTime = new DateTime(year, month, day);
+                var dateTime = new DateTime(year, month, (day != null) ? day.Value : 1);
                 var dateTimeBeginningOfTheYear = new DateTime(year, month: 1, day: 1);
 
                 var deltaYear = (dateTime - dateTimeBeginningOfTheYear).TotalDays / 365.0;
@@ -216,7 +218,7 @@ namespace CurveConverterAlgorithm
         {
             var usedInputFormat = inputFormat;
             var isInputStringDebugString = inputString.Contains("\t");
-            var isInvestmentString = inputString.Contains(@"""Date"",""Price""");
+            var isInvestmentString = inputString.Contains("Date");
      
             if (inputFormat == InputFormat.Automatic)
             {
