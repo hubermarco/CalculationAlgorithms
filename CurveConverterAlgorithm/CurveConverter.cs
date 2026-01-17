@@ -235,18 +235,21 @@ namespace CurveConverterAlgorithm
             startChar = ' ';
             endChar = ' ';
             positionOfEndChar = -1;
-            var startStopCharDict = new Dictionary<char, char> { { '[', ']' } , { '{', '}' }, { '(', ')' }};
+            var positionOfStartChar = textString.Length;
+            var startStopCharList = new List<(char startChar, char endChar)> { ( '[', ']' ) , ( '{', '}' ), ( '(', ')' )};
 
-            foreach(var startStopCharValuePair in startStopCharDict)
+            foreach (var startStopCharTuple in startStopCharList)
             {
-                if(textString.Contains(startStopCharValuePair.Key) && textString.Contains(startStopCharValuePair.Value))
+                if(textString.Contains(startStopCharTuple.startChar) && textString.Contains(startStopCharTuple.endChar))
                 {
-                    startChar = startStopCharValuePair.Key;
-                    endChar = startStopCharValuePair.Value;
-                    positionOfEndChar = textString.IndexOf(endChar);
-
-                    startAndEndCharFound = true;
-                    break;
+                    if (textString.IndexOf(startStopCharTuple.startChar) < positionOfStartChar)
+                    {
+                        startChar = startStopCharTuple.startChar;
+                        endChar = startStopCharTuple.endChar;
+                        positionOfStartChar = textString.IndexOf(startChar);
+                        positionOfEndChar = textString.IndexOf(endChar);
+                        startAndEndCharFound = true;
+                    }    
                 }
             }
 
