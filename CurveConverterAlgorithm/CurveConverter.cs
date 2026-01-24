@@ -71,8 +71,10 @@ namespace CurveConverterAlgorithm
             var curve = new List<double>();
 
             var textStringWithoutQuotationMarks = inputString.Replace("\",\"", "\";\"").Replace(",", " ").Replace("\"", "");
-           
-            var textLines = textStringWithoutQuotationMarks.Split('\n').ToList();
+            var trimmedTextString = textStringWithoutQuotationMarks.TrimEnd(new[] { '\n', '\r', ' ', });
+
+            var textLines = trimmedTextString.Split('\n').Where(line => !string.IsNullOrEmpty(line)). ToList();
+
             textLines.RemoveAt(0);
 
             if (textLines[0].Split(new[] { ';', ',', ' ' })[0].Split('/').Length == 3)
@@ -80,8 +82,15 @@ namespace CurveConverterAlgorithm
 
             foreach (var textLine in textLines)
             {
-                var columns = textLine.Split(new[] { ';', ',', ' '});
-                
+                var trimArray = new[] { ',', ';', '\n', '\r', '\t', ' ' };
+
+                var textLineWithSemicolon = textLine.TrimStart(trimArray).TrimEnd(trimArray).Replace(' ', ';');
+
+                var columns = textLineWithSemicolon.Split(new[] { ';', ','});
+
+                if( (columns.Length < 2) || columns[0].Split('/').Length < 2)
+                    continue;
+
                 var dateArray = columns[0].Split('/');
                 var year = int.Parse(dateArray[dateArray.Length == 3 ? 2 : 1], CultureInfo.InvariantCulture);
                 var month = int.Parse(dateArray[0], CultureInfo.InvariantCulture);
