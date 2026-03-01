@@ -50,6 +50,8 @@ namespace CalculationAlgorithmWrapper
                 { "Val2Reg_rfloat", inputList => (inputList.Count == 3) ? Formula.LinearToBits(inputList[0], $"rfloat<{inputList[1]},{inputList[2]}>") : 0 },
                 { "Reg2Val_float", inputList => (inputList.Count == 3) ? Formula.BitsToLinear((uint)inputList[0], $"float<{inputList[1]},{inputList[2]}>") : 0 },
                 { "Val2Reg_float", inputList => (inputList.Count == 3) ? Formula.LinearToBits(inputList[0], $"float<{inputList[1]},{inputList[2]}>") : 0 },
+                { "Fix2Double", inputList => (inputList.Count == 3) ? Formula.BitsToLinear((uint)inputList[0], $"fix<{inputList[1]},{inputList[2]}>") : 0 },
+                { "Double2Fix", inputList => (inputList.Count == 3) ? Formula.LinearToBits(inputList[0], $"fix<{inputList[1]},{inputList[2]}>") : 0 },
                 { "Double2Bin", ArithmetricFunctions.Double2Bin },
                 { "Bin2Double", ArithmetricFunctions.Bin2Double },
                 { "sum", ArithmetricFunctions.Sum },
