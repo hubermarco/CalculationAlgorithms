@@ -138,6 +138,14 @@ namespace CalculationAlgorithmWrapperTests
         }
 
         [Test]
+        public void When_lienar_to_bits_is_calculated_then_corresponding_result_is_returned()
+        {
+            var stringResult = _calculator.CalculateAndReturnString("LinearToBits(258048,\"wfloat<13,6>\")");
+
+            Assert.AreEqual("LinearToBits(258048,\"wfloat<13,6>\")\n= 151488", stringResult);
+        }
+
+        [Test]
         public void When_eval_string_function_is_calculated_then_corresponding_result_is_returned()
         {
             var stringResult = _calculator.CalculateAndReturnString("eval(x+2+5)");

@@ -38,8 +38,6 @@ namespace CalculationAlgorithmWrapper
 
             string outputString = calculationString + "\n= " + resultString;
 
-            _calculationStringWrapper.ClearAll();
-
             return outputString;
         }
 

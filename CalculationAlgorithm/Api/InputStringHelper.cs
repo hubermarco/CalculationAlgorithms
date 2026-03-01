@@ -56,9 +56,10 @@ namespace CalculationAlgorithm
 
         public static string PrepareInputString(string inputString)
         {
-            var inputStringWithoutBlanks = inputString.Replace("\n", "").Replace("\r", "");
+            var lines = inputString.Split(new[] { "\r\n", "\r", "\n" }, 
+                StringSplitOptions.None).Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
-            return inputStringWithoutBlanks;
+            return (lines.Length) > 0 ? lines[0] : "";
         }
 
         public static bool DoesStringContainOperator(string inputString, string operatorString)

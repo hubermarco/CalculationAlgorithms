@@ -97,8 +97,6 @@ namespace CalculationAlgorithm
                 }
             }
 
-            CalcTreeHelper.RemovingUppermostBranchIfNotNeeded(ref calcTreeElementRoot);
-            
             return new CalcTreeResult(calcTreeElementRoot, variableDict);
         }
     }

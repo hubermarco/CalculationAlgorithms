@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\esw_Haloformula_Main\Source\HsmlFormula\HsmlFormula.csproj" />
     <ProjectReference Include="..\CalculationAlgorithm\CalculationAlgorithm.csproj" />
   </ItemGroup>
 

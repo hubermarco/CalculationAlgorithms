@@ -207,6 +207,18 @@ namespace CalculationAlgorithm
 
                     inputStringList.Add(currentString);
                 }
+                else if (IsStartOrEndOfAStringOperand(currentChar))
+                {
+                    var stringChar = inputString[++i];
+                    string stringOperand = "";
+                    while (!IsStartOrEndOfAStringOperand(stringChar))
+                    {
+                        stringOperand += stringChar;
+                        stringChar = inputString[++i];
+                    }
+                    inputStringList.Add(stringOperand);
+                    currentChar = inputString[i];
+                }
                 else
                 {
                     operationString += currentString;
@@ -271,6 +283,13 @@ namespace CalculationAlgorithm
                     retVal = true;
                     break;
             }
+            return retVal;
+        }
+
+        private static bool IsStartOrEndOfAStringOperand(char currentChar)
+        {
+            bool retVal = currentChar == '"';
+
             return retVal;
         }
 
