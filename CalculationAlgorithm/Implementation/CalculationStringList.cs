@@ -1,6 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace CalculationAlgorithm
 {
@@ -26,7 +27,11 @@ namespace CalculationAlgorithm
         {
             List<string> inputStringList;
 
-            var preparedInput = PrepareString(inputString);
+            var inputStringWithoutTabs = inputString.Replace("\t", " ");
+
+            var inuputStringWithComma = ReplaceNumbersInBracketsWithCommaSeparatedNumbers(inputStringWithoutTabs);
+
+            var preparedInput = PrepareString(inuputStringWithComma);
 
             if (IsOperatorOfListInInputString(preparedInput, _arithmetricStringOperatorList))
             {
@@ -38,6 +43,31 @@ namespace CalculationAlgorithm
             }
 
             return inputStringList;
+        }
+
+
+        private static string ReplaceNumbersInBracketsWithCommaSeparatedNumbers(string inputString)
+        {
+            string pattern = @"(\[[^\]]+\]|\([^\)]+\)|\{[^\}]+\})";
+
+            string result = Regex.Replace(inputString, pattern, match =>
+            {
+                string fullMatch = match.Value;
+                // Extrahiere den Inhalt ohne die äußeren Klammern
+                string content = fullMatch.Substring(1, fullMatch.Length - 2);
+
+                // Prüfe mit Regex.IsMatch, ob der Inhalt NUR aus Zahlen und Leerzeichen besteht
+                if (Regex.IsMatch(content, @"^[.\d\s]+$"))
+                {
+                    // Ersetzt ein oder mehrere Leerzeichen (\s+) durch ein Komma mit Leerzeichen
+                    string cleaned = Regex.Replace(content.Trim(), @"\s+", ", ");
+                      return $"{fullMatch[0]}{cleaned}{fullMatch[fullMatch.Length - 1]}";
+                }
+
+                return fullMatch; // Falls Text enthalten ist, nichts ändern
+            });
+
+            return result;
         }
 
         private static List<string> CreateFromOperatorList(
@@ -377,7 +407,7 @@ namespace CalculationAlgorithm
         {
             var preparedInput = InputStringHelper.PrepareInputString(inputString);
 
-            preparedInput = preparedInput.Replace(" ", "");
+            preparedInput = preparedInput.Replace(" ", "").Replace(";", ",");
 
             if ((preparedInput.Length > 0) && (preparedInput[0] == '-'))
             {
