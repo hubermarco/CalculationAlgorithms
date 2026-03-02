@@ -4,7 +4,7 @@
     {
         bool IsStringInput(string input);
 
-        double Calculate(string input);
+        string Calculate(string input);
 
         string CalculateString(string input);
 

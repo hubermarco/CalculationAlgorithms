@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-
+using System.Globalization;
 using Expr = MathNet.Symbolics.SymbolicExpression;
 
 namespace CalculationAlgorithmTests
@@ -99,7 +99,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("3+4");
 
-            Assert.AreEqual(7, result);
+            Assert.AreEqual(7, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -107,7 +107,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("3+4+1+2");
 
-            Assert.AreEqual(10, result);
+            Assert.AreEqual(10, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("cos(0)");
 
-            Assert.AreEqual(1, result);
+            Assert.AreEqual(1, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
 
@@ -124,7 +124,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("3*4");
 
-            Assert.AreEqual(12, result);
+            Assert.AreEqual(12, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("2^4");
 
-            Assert.AreEqual(16, result);
+            Assert.AreEqual(16, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -140,7 +140,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("3*4+2");
 
-            Assert.AreEqual(14, result);
+            Assert.AreEqual(14, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -148,7 +148,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("3+4*2");
 
-            Assert.AreEqual(11, result);
+            Assert.AreEqual(11, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("3^4+2");
 
-            Assert.AreEqual(83, result);
+            Assert.AreEqual(83, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -164,7 +164,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("3+4^2");
 
-            Assert.AreEqual(19, result);
+            Assert.AreEqual(19, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -172,7 +172,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("3+4^2*3");
 
-            Assert.AreEqual(51, result);
+            Assert.AreEqual(51, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -180,7 +180,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("(3+4)*2");
 
-            Assert.AreEqual(14, result);
+            Assert.AreEqual(14, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -188,7 +188,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("2*(3+4)");
 
-            Assert.AreEqual(14, result);
+            Assert.AreEqual(14, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -196,7 +196,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("2*(3+4)^2");
 
-            Assert.AreEqual(98, result);
+            Assert.AreEqual(98, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -204,7 +204,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("  3+4*  5+2 ");
 
-            Assert.AreEqual(25.0, result, _delta);
+            Assert.AreEqual(25.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -212,7 +212,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("(3+4)*5");
 
-            Assert.AreEqual(35.0, result, _delta);
+            Assert.AreEqual(35.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -220,7 +220,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("4*(5+1)");
 
-            Assert.AreEqual(24.0, result, _delta);
+            Assert.AreEqual(24.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -228,7 +228,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("(3+4)*(5+1)");
 
-            Assert.AreEqual(42.0, result, _delta);
+            Assert.AreEqual(42.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -236,7 +236,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("(3+4)*(5+1)");
 
-            Assert.AreEqual(42.0, result, _delta);
+            Assert.AreEqual(42.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -244,7 +244,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("(((3)))*(((5)))");
 
-            Assert.AreEqual(15.0, result, _delta);
+            Assert.AreEqual(15.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -252,7 +252,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("(3+(5+1))*(2+7)");
 
-            Assert.AreEqual(81.0, result, _delta);
+            Assert.AreEqual(81.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -260,7 +260,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("1.5+(2.2*4+6)-(8+9)*14+2-5*3");
 
-            Assert.AreEqual(-234.7, result, _delta);
+            Assert.AreEqual(-234.7, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -268,7 +268,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("1.5+(2.2*4+6)-(8+9)*14-5");
 
-            Assert.AreEqual(-226.7, result, _delta);
+            Assert.AreEqual(-226.7, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -276,7 +276,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("1-20-5");
 
-            Assert.AreEqual(-24, result, _delta);
+            Assert.AreEqual(-24, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -284,7 +284,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("1-4*5-5");
 
-            Assert.AreEqual(-24, result, _delta);
+            Assert.AreEqual(-24, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -292,7 +292,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("1-4*5-5*2");
 
-            Assert.AreEqual(-29, result, _delta);
+            Assert.AreEqual(-29, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -300,7 +300,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("1-4^5-2");
 
-            Assert.AreEqual(-1025, result, _delta);
+            Assert.AreEqual(-1025, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -308,7 +308,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("1-4^5*3-2");
 
-            Assert.AreEqual(-3073, result, _delta);
+            Assert.AreEqual(-3073, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -316,7 +316,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("1-4^5*2+2");
 
-            Assert.AreEqual(-2045, result, _delta);
+            Assert.AreEqual(-2045, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -324,7 +324,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("2*3*4-2");
 
-            Assert.AreEqual(22, result, _delta);
+            Assert.AreEqual(22, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
 
@@ -333,7 +333,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("5*(3-3)");
 
-            Assert.AreEqual(0.0, result, _delta);
+            Assert.AreEqual(0.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -341,7 +341,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("5^2");
 
-            Assert.AreEqual(25.0, result, _delta);
+            Assert.AreEqual(25.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -349,15 +349,15 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("(2+3)^2");
 
-            Assert.AreEqual(25.0, result, _delta);
+            Assert.AreEqual(25.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
         public void When_a_mathematical_operation_is_done_then_correct_result_is_calculated_12()
         {
-            double result = _calculationAlgorithm.Calculate("(6+3)^(1/2)");
+            var result = _calculationAlgorithm.Calculate("(6+3)^(1/2)");
 
-            Assert.AreEqual(3.0, result, _delta);
+            Assert.AreEqual(3.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -365,7 +365,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("2*(6+3)^(1/2)");
 
-            Assert.AreEqual(6.0, result, _delta);
+            Assert.AreEqual(6.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -373,7 +373,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("9^(1/2)*2");
 
-            Assert.AreEqual(6.0, result, _delta);
+            Assert.AreEqual(6.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -381,7 +381,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("(6+3)^(1/2)*2");
 
-            Assert.AreEqual(6.0, result, _delta);
+            Assert.AreEqual(6.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -389,7 +389,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("((6+3)^(1/2))*2");
 
-            Assert.AreEqual(6.0, result, _delta);
+            Assert.AreEqual(6.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -397,7 +397,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("9^0.5");
 
-            Assert.AreEqual(3.0, result, _delta);
+            Assert.AreEqual(3.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -405,7 +405,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("9^0.5*2");
 
-            Assert.AreEqual(6.0, result, _delta);
+            Assert.AreEqual(6.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -413,7 +413,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("9^0.5+2");
 
-            Assert.AreEqual(5.0, result, _delta);
+            Assert.AreEqual(5.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -421,7 +421,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("(3^2+4^2)^0.5");
 
-            Assert.AreEqual(5.0, result, _delta);
+            Assert.AreEqual(5.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -429,7 +429,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("(3^2+4^2)");
 
-            Assert.AreEqual(25.0, result, _delta);
+            Assert.AreEqual(25.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -437,7 +437,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("((((1*2)^3^2))");
 
-            Assert.AreEqual(64.0, result, _delta);
+            Assert.AreEqual(64.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -445,7 +445,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("3*2^4");
 
-            Assert.AreEqual(48.0, result, _delta);
+            Assert.AreEqual(48.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -453,7 +453,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("2*3+2^4");
 
-            Assert.AreEqual(22.0, result, _delta);
+            Assert.AreEqual(22.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -461,7 +461,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("3*2^(2*2)");
 
-            Assert.AreEqual(48.0, result, _delta);
+            Assert.AreEqual(48.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -469,7 +469,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("(3*2)^(2*2)");
 
-            Assert.AreEqual(1296, result, _delta);
+            Assert.AreEqual(1296, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -477,7 +477,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("(3*2+4*2)*0.5");
 
-            Assert.AreEqual(7.0, result, _delta);
+            Assert.AreEqual(7.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -485,7 +485,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("2^3-2");
 
-            Assert.AreEqual(6.0, result, _delta);
+            Assert.AreEqual(6.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -493,7 +493,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("(3+4)^2");
 
-            Assert.AreEqual(49.0, result, _delta);
+            Assert.AreEqual(49.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -501,7 +501,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("(3^2+4^2)^0.5*2");
 
-            Assert.AreEqual(10.0, result, _delta);
+            Assert.AreEqual(10.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -509,7 +509,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("log(1000*100)*2^3");
 
-            Assert.AreEqual(40.0, result, _delta);
+            Assert.AreEqual(40.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -517,7 +517,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("cos(5-5)*2");
 
-            Assert.AreEqual(2.0, result, _delta);
+            Assert.AreEqual(2.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -525,7 +525,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("plus(3,6)");
 
-            Assert.AreEqual(9.0, result, _delta);
+            Assert.AreEqual(9.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -533,7 +533,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("plus(2^2,6)");
 
-            Assert.AreEqual(10.0, result, _delta);
+            Assert.AreEqual(10.0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -541,7 +541,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("IsGreater(6,3)");
 
-            Assert.AreEqual(1, result, _delta);
+            Assert.AreEqual(1, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -549,7 +549,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("IsGreater(3,6)");
 
-            Assert.AreEqual(0, result, _delta);
+            Assert.AreEqual(0, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -557,7 +557,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("plusplus(1,2,3)");
 
-            Assert.AreEqual(6, result, _delta);
+            Assert.AreEqual(6, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -565,7 +565,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("plusplus(1,2,plus(1,2))");
 
-            Assert.AreEqual(6, result, _delta);
+            Assert.AreEqual(6, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -573,7 +573,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("2-plusplus(1,2,plus(1,2))*3");
 
-            Assert.AreEqual(-16, result, _delta);
+            Assert.AreEqual(-16, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -581,7 +581,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("0->1");
 
-            Assert.AreEqual(1, result, _delta);
+            Assert.AreEqual(1, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -589,7 +589,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("1&1");
 
-            Assert.AreEqual(1, result, _delta);
+            Assert.AreEqual(1, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -597,7 +597,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("sum(4,5)");
 
-            Assert.AreEqual(9, result, _delta);
+            Assert.AreEqual(9, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -605,7 +605,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("sum(2^2,5)");
 
-            Assert.AreEqual(9, result, _delta);
+            Assert.AreEqual(9, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]
@@ -613,7 +613,7 @@ namespace CalculationAlgorithmTests
         {
             var result = _calculationAlgorithm.Calculate("sum(4,5,6,7)");
 
-            Assert.AreEqual(22, result, _delta);
+            Assert.AreEqual(22, double.Parse(result, CultureInfo.InvariantCulture), _delta);
         }
 
         [Test]

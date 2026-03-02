@@ -1,5 +1,6 @@
 ﻿using CalculationAlgorithmWrapper;
 using NUnit.Framework;
+using System.Globalization;
 
 namespace CalculationAlgorithmWrapperTests
 {
@@ -46,7 +47,7 @@ namespace CalculationAlgorithmWrapperTests
         {
             var result = _calculator.Calculate("Fix2Double(Fix2Double(4+4,6,1),6,1");
 
-            Assert.AreEqual(2, result);
+            Assert.AreEqual(2, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -54,7 +55,7 @@ namespace CalculationAlgorithmWrapperTests
         {
             var result = _calculator.Calculate("Fix2Double(27,5)");
 
-            Assert.AreEqual(0, result);
+            Assert.AreEqual(0, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -62,7 +63,7 @@ namespace CalculationAlgorithmWrapperTests
         {
             var result = _calculator.Calculate("Double2Fix(Fix2Double(27,5,2),5,2)");
 
-            Assert.AreEqual(27, result);
+            Assert.AreEqual(27, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -70,7 +71,7 @@ namespace CalculationAlgorithmWrapperTests
         {
             var result = _calculator.Calculate("Fix2Double(Double2Fix(-1.25,5,2),5,2)");
 
-            Assert.AreEqual(-1.25, result);
+            Assert.AreEqual(-1.25, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -78,7 +79,7 @@ namespace CalculationAlgorithmWrapperTests
         {
             var result = _calculator.Calculate("Double2Fix(-1.25,5,2)");
 
-            Assert.AreEqual(27, result);
+            Assert.AreEqual(27, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -86,7 +87,7 @@ namespace CalculationAlgorithmWrapperTests
         {
             var result = _calculator.Calculate("Double2Bin(-1, 6, 0)");
 
-            Assert.AreEqual(111111, result);
+            Assert.AreEqual(111111, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -94,7 +95,7 @@ namespace CalculationAlgorithmWrapperTests
         {
             var result = _calculator.Calculate("Bin2Double(1111, 4, 1)");
 
-            Assert.AreEqual(-0.5, result);
+            Assert.AreEqual(-0.5, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -102,7 +103,7 @@ namespace CalculationAlgorithmWrapperTests
         {
             var result = _calculator.Calculate("Bin2Double(1111 1111 1111 1111, 16, 0)");
 
-            Assert.AreEqual(-1, result);
+            Assert.AreEqual(-1, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -110,7 +111,7 @@ namespace CalculationAlgorithmWrapperTests
         {
             var result = _calculator.Calculate("5+oo-7");
 
-            Assert.AreEqual(-2, result);
+            Assert.AreEqual(-2, double.Parse(result, CultureInfo.InvariantCulture));
         }
 
         [Test]

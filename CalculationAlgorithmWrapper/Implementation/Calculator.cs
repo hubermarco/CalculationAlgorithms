@@ -41,7 +41,7 @@ namespace CalculationAlgorithmWrapper
             return outputString;
         }
 
-        public double Calculate(string calculationString)
+        public string Calculate(string calculationString)
         {
             var result = _calculationAlgorithm.Calculate(calculationString);
             return result;

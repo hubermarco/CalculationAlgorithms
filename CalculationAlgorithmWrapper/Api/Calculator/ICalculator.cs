@@ -5,7 +5,7 @@ namespace CalculationAlgorithmWrapper
         string SetKey(string key);
         string ClearAll();
         string Delete();
-        double Calculate(string calculationString);
+        string Calculate(string calculationString);
         string CalculateString(string calculationString);
 
         // needed for Android Calculator
