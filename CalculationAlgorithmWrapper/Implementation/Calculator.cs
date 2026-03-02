@@ -57,28 +57,21 @@ namespace CalculationAlgorithmWrapper
         {
             string outputString;
 
-            if (_calculationStringWrapper.IsCalculationValid(calculationString) )
+            if(_calculationStringWrapper.IsStringInput(calculationString))
             {
-                if(_calculationStringWrapper.IsStringInput(calculationString))
-                {
-                    var resultString = _calculationAlgorithm.CalculateString(calculationString);
+                var resultString = _calculationAlgorithm.CalculateString(calculationString);
 
-                    outputString = calculationString + "\n= " + resultString;
-                }
-                else
-                {
-                    var result = _calculationAlgorithm.Calculate(calculationString);
-
-                    var resultString = $"{result}";
-
-                    outputString = calculationString + "\n= " + resultString;
-                }
+                outputString = calculationString + "\n= " + resultString;
             }
             else
             {
-                outputString = calculationString + "\n" + "INPUT IS NOT VALID";
-            }
+                var result = _calculationAlgorithm.Calculate(calculationString);
 
+                var resultString = $"{result}";
+
+                outputString = calculationString + "\n= " + resultString;
+            }
+           
             _calculationStringWrapper.ClearAll();
 
             return outputString;
