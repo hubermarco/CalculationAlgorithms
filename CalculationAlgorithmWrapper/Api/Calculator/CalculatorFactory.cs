@@ -69,11 +69,16 @@ namespace CalculationAlgorithmWrapper
                  { "LinearToBits", inputList => Formula.LinearToBits(double.Parse(inputList[0], CultureInfo.InvariantCulture), inputList[1]).ToString(CultureInfo.InvariantCulture) },
                  { "BitsToLinear", inputList => Formula.BitsToLinear(uint.Parse(inputList[0], CultureInfo.InvariantCulture), inputList[1]).ToString(CultureInfo.InvariantCulture) }
             };
-             
+
+            var variableList = new List<string> { "x", "y", "z" };
+
             var ruleSet = new RuleSet(
                 arithmetricOperators,
                 arithmetricFunctions,
-                arithmetricStringFunctions);
+                arithmetricStringFunctions,
+                stringFunctions: null,
+                stringOperators: null,
+                variableList);
 
             return ruleSet;
         }

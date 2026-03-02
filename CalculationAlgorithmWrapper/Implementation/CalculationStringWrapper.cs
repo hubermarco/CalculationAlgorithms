@@ -25,7 +25,7 @@ namespace CalculationAlgorithmWrapper
         {
             var calculationStringPrepared = InputStringHelper.PrepareInputString(calculationString);
 
-            if ( (calculationStringPrepared != "0") && !calculationStringPrepared.Contains("=") )
+            if (calculationStringPrepared != "0")
             {
                 _calculationString = calculationStringPrepared;
             }
