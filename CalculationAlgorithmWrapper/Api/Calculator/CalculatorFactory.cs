@@ -46,8 +46,14 @@ namespace CalculationAlgorithmWrapper
                 { "Val2Reg_ufix", inputList => (inputList.Count == 3) ? Formula.LinearToBits(inputList[0], $"ufix<{inputList[1]},{inputList[2]}>") : 0 },
                 { "Reg2Val_wfloat", inputList => (inputList.Count == 3) ? Formula.BitsToLinear((uint)inputList[0], $"wfloat<{inputList[1]},{inputList[2]}>") : 0 },
                 { "Val2Reg_wfloat", inputList => (inputList.Count == 3) ? Formula.LinearToBits(inputList[0], $"wfloat<{inputList[1]},{inputList[2]}>") : 0 },
-                { "Reg2Val_rfloat", inputList => (inputList.Count == 3) ? Formula.BitsToLinear((uint)inputList[0], $"rfloat<{inputList[1]},{inputList[2]}>") : 0 },
-                { "Val2Reg_rfloat", inputList => (inputList.Count == 3) ? Formula.LinearToBits(inputList[0], $"rfloat<{inputList[1]},{inputList[2]}>") : 0 },
+                { "Reg2Val_rfloat", inputList => (inputList.Count == 3) ?
+                    Formula.BitsToLinear((uint)inputList[0], $"rfloat<{inputList[1]},{inputList[2]}>") :
+                    (inputList.Count == 4 ) ?
+                    Formula.BitsToLinear((uint)inputList[0], $"rfloat<{inputList[1]},{inputList[2]},{inputList[3]}>") : 0 },
+                { "Val2Reg_rfloat", inputList => (inputList.Count == 3) ?
+                    Formula.LinearToBits(inputList[0], $"rfloat<{inputList[1]},{inputList[2]}>") :
+                    (inputList.Count == 4 ) ?
+                    Formula.LinearToBits(inputList[0], $"rfloat<{inputList[1]},{inputList[2]},{inputList[3]}>") : 0 },
                 { "Reg2Val_float", inputList => (inputList.Count == 3) ? Formula.BitsToLinear((uint)inputList[0], $"float<{inputList[1]},{inputList[2]}>") : 0 },
                 { "Val2Reg_float", inputList => (inputList.Count == 3) ? Formula.LinearToBits(inputList[0], $"float<{inputList[1]},{inputList[2]}>") : 0 },
                 { "Fix2Double", ArithmetricFunctions.Fix2Double },
