@@ -15,7 +15,7 @@ namespace CalculationAlgorithmWrapper
             var solutions = expr.Solve(inputList[1]).ToString();
             var solutionsWithoutBrackets = solutions.Replace("{", "").Replace("}", "");
             var solutionStringList = solutionsWithoutBrackets.Split(',').Select(s => s.Trim()).Where(x => !string.IsNullOrEmpty(x)).ToList();
-            var returnString = "\n";
+            var returnString = "";
 
             var complexNumberList = new List<Complex>();
             foreach (var solution in solutionStringList)
@@ -44,9 +44,9 @@ namespace CalculationAlgorithmWrapper
                  $"{roundedImag}" : (Math.Sign(roundedImag) > 0) ?
                  $"{roundedReal} + {Math.Abs(roundedImag)}i" : $"{roundedReal} + {Math.Abs(roundedImag)}i";
 
-                returnString += partSolutionString + "\n";
+                returnString += partSolutionString + ", ";
             }
-            return returnString.TrimEnd('\n');
+            return returnString.TrimEnd().TrimEnd(',');
         }
 
         internal static string Taylor(IList<string> inputList)
