@@ -64,11 +64,13 @@ namespace CalculationAlgorithmWrapper.Implementation
                 double roundedImag = Math.Round(partSolution.Imaginary, 8);
 
                 var partSolutionString = (roundedImag == 0) ?
-                 $"{roundedReal}" : (roundedReal == 0) ?
-                 $"{roundedImag}" : (Math.Sign(roundedImag) > 0) ?
+                 $"{roundedReal}" : (roundedReal == 0) ? 
+                 $"{roundedImag}i" : (Math.Sign(roundedImag) > 0) ?
                  $"{roundedReal} + {Math.Abs(roundedImag)}i" : $"{roundedReal} + {Math.Abs(roundedImag)}i";
 
-                returnString += partSolutionString + ", ";
+                var correctedPartSolutionString = partSolutionString.Replace("1i", "i");
+
+                returnString += correctedPartSolutionString + ", ";
             }
             return returnString.TrimEnd().TrimEnd(',');
         }
