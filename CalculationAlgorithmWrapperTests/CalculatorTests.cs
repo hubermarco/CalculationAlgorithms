@@ -161,5 +161,14 @@ namespace CalculationAlgorithmWrapperTests
 
             Assert.AreEqual("log(1000)\n= 3", stringResult);
         }
+
+        [Test]
+        public void When_solve_is_called_with_exponential_equation_then_corresponding_result_is_returned()
+        {
+            var stringResult = _calculator.CalculateString("solve(1.2^x=2,x)");
+
+            var result = double.Parse(stringResult, CultureInfo.InvariantCulture);
+            Assert.AreEqual(Math.Log(2) / Math.Log(1.2), result, 1e-6);
+        }
     }
 }

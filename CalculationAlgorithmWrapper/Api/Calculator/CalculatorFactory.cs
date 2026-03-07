@@ -1,5 +1,6 @@
-using AngouriMath;
+
 using CalculationAlgorithm;
+using CalculationAlgorithmWrapper.Implementation;
 using SHS.SAT.HsmlFormula;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,6 @@ namespace CalculationAlgorithmWrapper
     {
         public static ICalculator Create()
         {
-            Entity expr = " -(((-81i + sqrt(6669)) / 2) ^ (1/3) + (-3) / ((-81 + sqrt(6669)) / 2) ^ (1/3)) / 3";
-            var numerical = expr.EvalNumerical().ToString();
-
             RuleSet ruleSet = CreateRuleSet();
 
             var calculationAlgorithm = CalculationAlgorithmFactory.Create(ruleSet);
@@ -78,7 +76,7 @@ namespace CalculationAlgorithmWrapper
                  { "eval", inputList => Expr.Parse(inputList[0]).ToString() },
                  { "LinearToBits", inputList => Formula.LinearToBits(double.Parse(inputList[0], CultureInfo.InvariantCulture), inputList[1]).ToString(CultureInfo.InvariantCulture) },
                  { "BitsToLinear", inputList => Formula.BitsToLinear(uint.Parse(inputList[0], CultureInfo.InvariantCulture), inputList[1]).ToString(CultureInfo.InvariantCulture) },
-                 { "solve", ArithmetricStringFunctions.Solve }
+                 { "solve", EquationSolver.Solve }
             };
 
             var variableList = new List<string> { "x", "y", "z" };

@@ -1,54 +1,10 @@
-﻿using AngouriMath;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
+﻿using System.Collections.Generic;
 using Expr = MathNet.Symbolics.SymbolicExpression;
 
 namespace CalculationAlgorithmWrapper
 {
     internal class ArithmetricStringFunctions
     {
-        internal static string Solve(IList<string> inputList)
-        {
-            Entity expr = inputList[0];
-            var solutions = expr.Solve(inputList[1]).ToString();
-            var solutionsWithoutBrackets = solutions.Replace("{", "").Replace("}", "");
-            var solutionStringList = solutionsWithoutBrackets.Split(',').Select(s => s.Trim()).Where(x => !string.IsNullOrEmpty(x)).ToList();
-            var returnString = "";
-
-            var complexNumberList = new List<Complex>();
-            foreach (var solution in solutionStringList)
-            {
-                Entity solutionExpr = solution;
-
-                var partSolution = (Complex)solutionExpr.EvalNumerical();
-
-                double roundedReal = Math.Round(partSolution.Real, 8);
-                double roundedImag = Math.Round(partSolution.Imaginary, 8);
-
-                var complexNumber = new Complex(roundedReal, roundedImag);
-
-                complexNumberList.Add(complexNumber);
-            }
-
-            var complexNumberListWithoutDoubles = complexNumberList.Distinct();
-
-            foreach (var partSolution in complexNumberListWithoutDoubles)
-            {
-                double roundedReal = Math.Round(partSolution.Real, 8);
-                double roundedImag = Math.Round(partSolution.Imaginary, 8);
-
-                var partSolutionString = (roundedImag == 0) ?
-                 $"{roundedReal}" : (roundedReal == 0) ?
-                 $"{roundedImag}" : (Math.Sign(roundedImag) > 0) ?
-                 $"{roundedReal} + {Math.Abs(roundedImag)}i" : $"{roundedReal} + {Math.Abs(roundedImag)}i";
-
-                returnString += partSolutionString + ", ";
-            }
-            return returnString.TrimEnd().TrimEnd(',');
-        }
-
         internal static string Taylor(IList<string> inputList)
         {
             var returnValue = string.Empty;
