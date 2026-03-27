@@ -170,5 +170,23 @@ namespace CalculationAlgorithmWrapperTests
             var result = double.Parse(stringResult, CultureInfo.InvariantCulture);
             Assert.AreEqual(Math.Log(2) / Math.Log(1.2), result, 1e-6);
         }
+
+        [Test]
+        public void When_square_of_a_range_of_certain_values_is_calculated_then_result_is_as_expected()
+        {
+            var stringResultExpected = "x^2|x=0:10\n= 0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100";
+            var stringResult = _calculator.CalculateAndReturnString("x^2|x=0:10");
+
+            Assert.AreEqual(stringResultExpected, stringResult);
+        }
+
+        [Test]
+        public void When_square_of_a_range_of_certain_values_with_certain_stepsize_is_calculated_then_result_is_as_expected()
+        {
+            var stringResultExpected = "x^2|x=0:0.5:5\n= 0, 0.25, 1, 2.25, 4, 6.25, 9, 12.25, 16, 20.25, 25";
+            var stringResult = _calculator.CalculateAndReturnString("x^2|x=0:0.5:5");
+
+            Assert.AreEqual(stringResultExpected, stringResult);
+        }
     }
 }

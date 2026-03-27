@@ -82,8 +82,30 @@ namespace CalculationAlgorithm
             var variableValuesStringWithoutBracktes = variableValuesString.
                 Replace("[", "").Replace("]", "").Replace("(", "").Replace(")", "").Replace("{", "").Replace("}", "");
 
-            variableValues = variableValuesStringWithoutBracktes.Split(',', ' ', ';').
-                Select(s => s.Trim()).Where(x => !string.IsNullOrEmpty(x)).ToArray();
+            var loopValues = variableValuesStringWithoutBracktes.Split(':').Select(s => s.Trim()).ToArray();
+
+            if( loopValues.Length == 2)
+            {                 
+                var startValue = double.Parse(loopValues[0], CultureInfo.InvariantCulture);
+                var endValue = double.Parse(loopValues[1], CultureInfo.InvariantCulture);
+
+                variableValues = Enumerable.Range(0, (int)(endValue - startValue) + 1).
+                    Select(i => (startValue + i).ToString(CultureInfo.InvariantCulture)).ToArray();
+            }
+            else if(loopValues.Length == 3)
+            {
+                var startValue = double.Parse(loopValues[0], CultureInfo.InvariantCulture);
+                var stepValue = double.Parse(loopValues[1], CultureInfo.InvariantCulture);
+                var endValue = double.Parse(loopValues[2], CultureInfo.InvariantCulture);
+                
+                variableValues = Enumerable.Range(0, (int)((endValue - startValue) / stepValue) + 1).
+                    Select(i => (startValue + i * stepValue).ToString(CultureInfo.InvariantCulture)).ToArray();
+            }
+            else
+            {
+                variableValues = variableValuesStringWithoutBracktes.Split(',', ' ', ';').
+                    Select(s => s.Trim()).Where(x => !string.IsNullOrEmpty(x)).ToArray();
+            }    
         }
     }
 }
