@@ -29,10 +29,10 @@ namespace CalculationAlgorithmWrapper
             return _calculationStringWrapper.Delete();
         }
 
-        public string Calculate()
+        public string CalculateForArithmetricInputs()
         {
             var calculationString = _calculationStringWrapper.GetCalculationString();
-            var result = _calculationAlgorithm.Calculate(calculationString);
+            var result = _calculationAlgorithm.CalculateForArithmetricInputs(calculationString);
 
             var resultString = $"{result}";
 
@@ -41,31 +41,31 @@ namespace CalculationAlgorithmWrapper
             return outputString;
         }
 
-        public string Calculate(string calculationString)
+        public string CalculateForArithmetricInputs(string calculationString)
         {
-            var result = _calculationAlgorithm.Calculate(calculationString);
+            var result = _calculationAlgorithm.CalculateForArithmetricInputs(calculationString);
             return result;
         }
 
-        public string CalculateString(string calculationString)
+        public string CalculateForStringInputs(string calculationString)
         {
-            var resultString = _calculationAlgorithm.CalculateString(calculationString);
+            var resultString = _calculationAlgorithm.CalculateForStringInputs(calculationString);
             return resultString;
         }
 
-        public string CalculateAndReturnString(string calculationString)
+        public string CalculateForArithmetricOrStringInputs(string calculationString)
         {
             string outputString;
 
             if(_calculationStringWrapper.IsStringInput(calculationString))
             {
-                var resultString = _calculationAlgorithm.CalculateString(calculationString);
+                var resultString = _calculationAlgorithm.CalculateForStringInputs(calculationString);
 
                 outputString = calculationString + "\n= " + resultString;
             }
             else
             {
-                var result = _calculationAlgorithm.Calculate(calculationString);
+                var result = _calculationAlgorithm.CalculateForArithmetricInputs(calculationString);
 
                 var resultString = $"{result}";
 

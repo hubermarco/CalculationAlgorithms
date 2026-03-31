@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -21,7 +22,7 @@ namespace CalculationAlgorithm
             return isStringInput;
         }
 
-        public string Calculate(string input)
+        public string CalculateForArithmetricInputs(string input, int decimalPlaces = -1)
         {
             string result = "";
 
@@ -42,7 +43,7 @@ namespace CalculationAlgorithm
                     calcTreeResult.SetVariable(
                         variableNameString, double.Parse(variableValue, CultureInfo.InvariantCulture));
 
-                    result += $"{calcTreeResult.GetResult()}, ";
+                    result += $"{(decimalPlaces > 0 ? Math.Round(calcTreeResult.GetResult(), decimalPlaces) : calcTreeResult.GetResult())}, ";
                 }
 
                 result = result.Remove(result.Length - 2);
@@ -55,7 +56,7 @@ namespace CalculationAlgorithm
             return $"{result}";
         }
 
-        public string CalculateString(string input)
+        public string CalculateForStringInputs(string input)
         {
             var calcTreeResult = CreateCalcTreeResult(input);
 

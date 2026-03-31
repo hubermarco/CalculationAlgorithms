@@ -21,7 +21,7 @@ namespace CalculationAlgorithmWrapperTests
             _calculator.SetKey("3");
             _calculator.SetKey("*");
             _calculator.SetKey("4");
-            var resultString = _calculator.Calculate();
+            var resultString = _calculator.CalculateForArithmetricInputs();
 
             Assert.AreEqual("3*4\n= 12", resultString);
         }
@@ -37,7 +37,7 @@ namespace CalculationAlgorithmWrapperTests
             _calculator.SetKey("2");
             _calculator.SetKey(")");
 
-            var resultString = _calculator.Calculate();
+            var resultString = _calculator.CalculateForArithmetricInputs();
 
             Assert.AreEqual("Fix2Double(27,5,2)\n= -1.25", resultString);
         }
@@ -45,7 +45,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_fix_2_double_is_called_in_a_nested_way_then_corresponding_result_is_returned()
         {
-            var result = _calculator.Calculate("Fix2Double(Fix2Double(4+4,6,1),6,1");
+            var result = _calculator.CalculateForArithmetricInputs("Fix2Double(Fix2Double(4+4,6,1),6,1");
 
             Assert.AreEqual(2, double.Parse(result, CultureInfo.InvariantCulture));
         }
@@ -53,7 +53,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_fix_2_double_is_called_with_2_input_arguments_then_0_is_returned()
         {
-            var result = _calculator.Calculate("Fix2Double(27,5)");
+            var result = _calculator.CalculateForArithmetricInputs("Fix2Double(27,5)");
 
             Assert.AreEqual(0, double.Parse(result, CultureInfo.InvariantCulture));
         }
@@ -61,7 +61,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_double_2_fix_is_called_with_nested_fix_2_double_then_input_value_is_returned()
         {
-            var result = _calculator.Calculate("Double2Fix(Fix2Double(27,5,2),5,2)");
+            var result = _calculator.CalculateForArithmetricInputs("Double2Fix(Fix2Double(27,5,2),5,2)");
 
             Assert.AreEqual(27, double.Parse(result, CultureInfo.InvariantCulture));
         }
@@ -69,7 +69,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_fix_2_double_is_called_with_nested_doulbe_2_fix_then_input_value_is_returned()
         {
-            var result = _calculator.Calculate("Fix2Double(Double2Fix(-1.25,5,2),5,2)");
+            var result = _calculator.CalculateForArithmetricInputs("Fix2Double(Double2Fix(-1.25,5,2),5,2)");
 
             Assert.AreEqual(-1.25, double.Parse(result, CultureInfo.InvariantCulture));
         }
@@ -77,7 +77,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_double_2_fix_is_called_then_correct_value_is_returned()
         {
-            var result = _calculator.Calculate("Double2Fix(-1.25,5,2)");
+            var result = _calculator.CalculateForArithmetricInputs("Double2Fix(-1.25,5,2)");
 
             Assert.AreEqual(27, double.Parse(result, CultureInfo.InvariantCulture));
         }
@@ -85,7 +85,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_double_2_bool_is_called_then_correct_value_is_returned()
         {
-            var result = _calculator.Calculate("Double2Bin(-1, 6, 0)");
+            var result = _calculator.CalculateForArithmetricInputs("Double2Bin(-1, 6, 0)");
 
             Assert.AreEqual(111111, double.Parse(result, CultureInfo.InvariantCulture));
         }
@@ -93,7 +93,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_bool_2_double_is_called_then_correct_value_is_returned()
         {
-            var result = _calculator.Calculate("Bin2Double(1111, 4, 1)");
+            var result = _calculator.CalculateForArithmetricInputs("Bin2Double(1111, 4, 1)");
 
             Assert.AreEqual(-0.5, double.Parse(result, CultureInfo.InvariantCulture));
         }
@@ -101,7 +101,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_bool_2_double_is_called_for_a_number_with_16_digits_then_correct_value_is_returned()
         {
-            var result = _calculator.Calculate("Bin2Double(1111 1111 1111 1111, 16, 0)");
+            var result = _calculator.CalculateForArithmetricInputs("Bin2Double(1111 1111 1111 1111, 16, 0)");
 
             Assert.AreEqual(-1, double.Parse(result, CultureInfo.InvariantCulture));
         }
@@ -109,7 +109,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_calculcate_string_has_unknown_letters_then_they_are_ignored()
         {
-            var result = _calculator.Calculate("5+oo-7");
+            var result = _calculator.CalculateForArithmetricInputs("5+oo-7");
 
             Assert.AreEqual(-2, double.Parse(result, CultureInfo.InvariantCulture));
         }
@@ -117,7 +117,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_differentiate_is_performed_in_a_nested_way_then_corresponding_result_is_returned_3()
         {
-            var stringResult = _calculator.CalculateString("exp(d((x+4)^2,x)))");
+            var stringResult = _calculator.CalculateForStringInputs("exp(d((x+4)^2,x)))");
 
             Assert.AreEqual("8 + 2*x", stringResult);
         }
@@ -125,7 +125,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_calculate_and_return_string_method_is_called_with_string_function_then_corresponding_result_is_returned()
         {
-            var stringResult = _calculator.CalculateAndReturnString("exp(d((x + 4) ^ 2, x)))");
+            var stringResult = _calculator.CalculateForArithmetricOrStringInputs("exp(d((x + 4) ^ 2, x)))");
 
             Assert.AreEqual("exp(d((x + 4) ^ 2, x)))\n= 8 + 2*x", stringResult);
         }
@@ -133,7 +133,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_taylor_string_function_is_calculated_then_corresponding_result_is_returned()
         {
-            var stringResult = _calculator.CalculateAndReturnString("taylor(sin(x)+cos(x), x, 0, 4)");
+            var stringResult = _calculator.CalculateForArithmetricOrStringInputs("taylor(sin(x)+cos(x), x, 0, 4)");
 
             Assert.AreEqual("taylor(sin(x)+cos(x), x, 0, 4)\n= 1 + x - x^2/2 - x^3/6", stringResult);
         }
@@ -141,7 +141,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_lienar_to_bits_is_calculated_then_corresponding_result_is_returned()
         {
-            var stringResult = _calculator.CalculateAndReturnString("LinearToBits(258048,\"wfloat<13,6>\")");
+            var stringResult = _calculator.CalculateForArithmetricOrStringInputs("LinearToBits(258048,\"wfloat<13,6>\")");
 
             Assert.AreEqual("LinearToBits(258048,\"wfloat<13,6>\")\n= 151488", stringResult);
         }
@@ -149,7 +149,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_eval_string_function_is_calculated_then_corresponding_result_is_returned()
         {
-            var stringResult = _calculator.CalculateAndReturnString("eval(x+2+5)");
+            var stringResult = _calculator.CalculateForArithmetricOrStringInputs("eval(x+2+5)");
 
             Assert.AreEqual("eval(x+2+5)\n= 7 + x", stringResult);
         }
@@ -157,7 +157,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_calculate_and_return_string_method_is_called_with_arithmetric_function_then_corresponding_result_is_returned()
         {
-            var stringResult = _calculator.CalculateAndReturnString("log(1000)");
+            var stringResult = _calculator.CalculateForArithmetricOrStringInputs("log(1000)");
 
             Assert.AreEqual("log(1000)\n= 3", stringResult);
         }
@@ -165,7 +165,7 @@ namespace CalculationAlgorithmWrapperTests
         [Test]
         public void When_solve_is_called_with_exponential_equation_then_corresponding_result_is_returned()
         {
-            var stringResult = _calculator.CalculateString("solve(1.2^x=2,x)");
+            var stringResult = _calculator.CalculateForStringInputs("solve(1.2^x=2,x)");
 
             var result = double.Parse(stringResult, CultureInfo.InvariantCulture);
             Assert.AreEqual(Math.Log(2) / Math.Log(1.2), result, 1e-6);
@@ -175,7 +175,7 @@ namespace CalculationAlgorithmWrapperTests
         public void When_square_of_a_range_of_certain_values_is_calculated_then_result_is_as_expected()
         {
             var stringResultExpected = "x^2|x=0:10\n= 0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100";
-            var stringResult = _calculator.CalculateAndReturnString("x^2|x=0:10");
+            var stringResult = _calculator.CalculateForArithmetricOrStringInputs("x^2|x=0:10");
 
             Assert.AreEqual(stringResultExpected, stringResult);
         }
@@ -184,7 +184,7 @@ namespace CalculationAlgorithmWrapperTests
         public void When_square_of_a_range_of_certain_values_with_certain_stepsize_is_calculated_then_result_is_as_expected()
         {
             var stringResultExpected = "x^2|x=0:0.5:5\n= 0, 0.25, 1, 2.25, 4, 6.25, 9, 12.25, 16, 20.25, 25";
-            var stringResult = _calculator.CalculateAndReturnString("x^2|x=0:0.5:5");
+            var stringResult = _calculator.CalculateForArithmetricOrStringInputs("x^2|x=0:0.5:5");
 
             Assert.AreEqual(stringResultExpected, stringResult);
         }

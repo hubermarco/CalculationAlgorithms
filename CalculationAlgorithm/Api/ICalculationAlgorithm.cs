@@ -4,9 +4,9 @@
     {
         bool IsStringInput(string input);
 
-        string Calculate(string input);
+        string CalculateForArithmetricInputs(string input, int decimalPlaces = -1);
 
-        string CalculateString(string input);
+        string CalculateForStringInputs(string input);
 
         ICalcTreeResult CreateCalcTreeResult(string input);
     }
