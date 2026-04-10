@@ -407,7 +407,7 @@ namespace CalculationAlgorithm
         {
             var preparedInput = InputStringHelper.PrepareInputString(inputString);
 
-            preparedInput = preparedInput.Replace(" ", "").Replace(";", ",");
+            preparedInput = preparedInput.Replace(" ", "").Replace(";", ",").Replace(",-", ",0-");
 
             if ((preparedInput.Length > 0) && (preparedInput[0] == '-'))
             {

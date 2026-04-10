@@ -66,7 +66,7 @@ namespace CalculationAlgorithmWrapper.Implementation
                 var partSolutionString = (roundedImag == 0) ?
                  $"{roundedReal}" : (roundedReal == 0) ? 
                  $"{roundedImag}i" : (Math.Sign(roundedImag) > 0) ?
-                 $"{roundedReal} + {Math.Abs(roundedImag)}i" : $"{roundedReal} + {Math.Abs(roundedImag)}i";
+                 $"{roundedReal} + {Math.Abs(roundedImag)}i" : $"{roundedReal} - {Math.Abs(roundedImag)}i";
 
                 var correctedPartSolutionString = partSolutionString.Replace("1i", "i");
 
