@@ -63,15 +63,17 @@ namespace CalculationAlgorithmWrapper
                 { "Double2Bin", ArithmetricFunctions.Double2Bin },
                 { "Bin2Double", ArithmetricFunctions.Bin2Double },
                 { "sum", ArithmetricFunctions.Sum },
+                { "mean", ArithmetricFunctions.Mean },
                 { "sin", inputList => Math.Sin(inputList[0]) },
                 { "cos", inputList => Math.Cos(inputList[0]) },
-                { "log", inputList => Math.Log10(inputList[0]) }
+                { "log", inputList => Math.Log10(inputList[0]) },
+                { "exp", inputList => Math.Exp(inputList[0]) }
             };
 
             var arithmetricStringFunctions = new Dictionary<string, Func<IList<string>, string>>
             {
                  { "d", inputList => Expr.Parse(inputList[0]).Differentiate(Expr.Parse(inputList[1])).ToString() },
-                 { "exp", inputList => Expr.Parse(inputList[0]).Expand().ToString() },
+                 { "expand", inputList => Expr.Parse(inputList[0]).Expand().ToString() },
                  { "taylor", ArithmetricStringFunctions.Taylor },
                  { "eval", inputList => Expr.Parse(inputList[0]).ToString() },
                  { "LinearToBits", inputList => Formula.LinearToBits(double.Parse(inputList[0], CultureInfo.InvariantCulture), inputList[1]).ToString(CultureInfo.InvariantCulture) },
