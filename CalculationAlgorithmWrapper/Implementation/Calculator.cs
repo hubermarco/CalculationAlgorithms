@@ -53,7 +53,7 @@ namespace CalculationAlgorithmWrapper
             return resultString;
         }
 
-        public string CalculateForArithmetricOrStringInputs(string calculationString)
+        public string CalculateForArithmetricOrStringInputs(string calculationString, int decimalPlaces = -1)
         {
             string outputString;
 
@@ -65,7 +65,7 @@ namespace CalculationAlgorithmWrapper
             }
             else
             {
-                var result = _calculationAlgorithm.CalculateForArithmetricInputs(calculationString);
+                var result = _calculationAlgorithm.CalculateForArithmetricInputs(calculationString, decimalPlaces);
 
                 var resultString = $"{result}";
 

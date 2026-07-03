@@ -32,7 +32,12 @@ namespace CalculationAlgorithm
 
             var calcTreeResult = CreateCalcTreeResult(termString);
 
-            if(inputList.Count() > 1)
+            string RoundResult2DecimalPlaces(double value, int decimalPlacesTemp)
+            {
+                return decimalPlacesTemp > 0 ? Math.Round(value, decimalPlacesTemp).ToString(CultureInfo.InvariantCulture) : value.ToString(CultureInfo.InvariantCulture);
+            }
+
+            if (inputList.Count() > 1)
             {
                 var variableString = inputList[1];
 
@@ -43,14 +48,14 @@ namespace CalculationAlgorithm
                     calcTreeResult.SetVariable(
                         variableNameString, double.Parse(variableValue, CultureInfo.InvariantCulture));
 
-                    result += $"{(decimalPlaces > 0 ? Math.Round(calcTreeResult.GetResult(), decimalPlaces) : calcTreeResult.GetResult())}, ";
+                    result += $"{RoundResult2DecimalPlaces(calcTreeResult.GetResult(), decimalPlaces)}, ";
                 }
 
                 result = result.Remove(result.Length - 2);
             }
             else
             {
-                result = $"{calcTreeResult.GetResult()}";
+                result = $"{RoundResult2DecimalPlaces(calcTreeResult.GetResult(), decimalPlaces)}";
             } 
 
             return $"{result}";
