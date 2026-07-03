@@ -34,7 +34,7 @@ namespace CalculationAlgorithm
 
             string RoundResult2DecimalPlaces(double value, int decimalPlacesTemp)
             {
-                return decimalPlacesTemp > 0 ? Math.Round(value, decimalPlacesTemp).ToString(CultureInfo.InvariantCulture) : value.ToString(CultureInfo.InvariantCulture);
+                return decimalPlacesTemp > -1 ? Math.Round(value, decimalPlacesTemp).ToString(CultureInfo.InvariantCulture) : value.ToString(CultureInfo.InvariantCulture);
             }
 
             if (inputList.Count() > 1)
