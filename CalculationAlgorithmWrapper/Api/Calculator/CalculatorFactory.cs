@@ -69,6 +69,12 @@ namespace CalculationAlgorithmWrapper
                 { "min", inputList => inputList.Min() },
                 { "sin", inputList => Math.Sin(inputList[0]) },
                 { "cos", inputList => Math.Cos(inputList[0]) },
+                { "tan", inputList => Math.Tan(inputList[0]) },
+                { "sinh", inputList => Math.Sinh(inputList[0]) },
+                { "cosh", inputList => Math.Cosh(inputList[0]) },
+                { "tanh", inputList => Math.Tanh(inputList[0]) },
+                { "abs", inputList => Math.Abs(inputList[0]) },
+                { "round", inputList => (inputList.Count == 2) ? Math.Round(inputList[0], (int)inputList[1]) : Math.Round(inputList[0]) },
                 { "log", inputList => Math.Log10(inputList[0]) },
                 { "exp", inputList => Math.Exp(inputList[0]) }
             };
