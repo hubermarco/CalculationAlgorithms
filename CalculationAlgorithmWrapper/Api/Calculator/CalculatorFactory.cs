@@ -5,6 +5,7 @@ using SHS.SAT.HsmlFormula;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Expr = MathNet.Symbolics.SymbolicExpression;
 
 namespace CalculationAlgorithmWrapper
@@ -64,6 +65,8 @@ namespace CalculationAlgorithmWrapper
                 { "Bin2Double", ArithmetricFunctions.Bin2Double },
                 { "sum", ArithmetricFunctions.Sum },
                 { "mean", ArithmetricFunctions.Mean },
+                { "max", inputList => inputList.Max() },
+                { "min", inputList => inputList.Min() },
                 { "sin", inputList => Math.Sin(inputList[0]) },
                 { "cos", inputList => Math.Cos(inputList[0]) },
                 { "log", inputList => Math.Log10(inputList[0]) },
