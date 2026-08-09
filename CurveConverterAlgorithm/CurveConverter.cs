@@ -132,21 +132,18 @@ namespace CurveConverterAlgorithm
             foreach (var fileLine in debuggerLinesFiltered)
             {
                 var columns = fileLine.Split('\t');
+                var columnsFiltered = columns.Where(
+                    column => !column.Contains("=") && !Regex.IsMatch(column, @"\[\d+\]") && column.Any(char.IsDigit)).ToArray();
+                var numberString = columnsFiltered.FirstOrDefault() ?? string.Empty;
 
-                var numberString = (columns.Length >= 4) ? columns[3] : string.Empty;
                 numberString = numberString.Replace(" ", "");
 
-                var splittedSubStringList = numberString.Split(new[] { ':', ',', '{', '}', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
+                var splittedSubStringList = numberString.Split(new[] { ':', ',', '{', '}', '[', ']', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
 
                 string numberSubString;
                 string gridString;
 
-                if (splittedSubStringList.Length == 4)
-                {
-                    gridString = splittedSubStringList[1];
-                    numberSubString = splittedSubStringList[3];
-                }
-                else if (splittedSubStringList.Length == 2)
+                if (splittedSubStringList.Length == 2)
                 {
                     gridString = splittedSubStringList[0];
                     numberSubString = splittedSubStringList[1];
