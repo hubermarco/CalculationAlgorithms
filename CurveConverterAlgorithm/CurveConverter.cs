@@ -148,6 +148,11 @@ namespace CurveConverterAlgorithm
                     gridString = splittedSubStringList[0];
                     numberSubString = splittedSubStringList[1];
                 }
+                else if(splittedSubStringList.Length == 1)
+                {
+                    gridString = string.Empty;
+                    numberSubString = splittedSubStringList[0];
+                }
                 else
                 {
                     gridString = string.Empty;
