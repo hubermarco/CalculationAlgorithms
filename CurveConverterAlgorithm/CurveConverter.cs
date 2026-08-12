@@ -136,8 +136,9 @@ namespace CurveConverterAlgorithm
                     column => !column.Contains("=") && !Regex.IsMatch(column, @"\[\d+\]") && column.Any(char.IsDigit)).ToArray();
                 var numberString = columnsFiltered.FirstOrDefault() ?? string.Empty;
 
-                var splittedSubStringList = numberString.Split(new[] { ':', ',', '{', '}', '[', ']', '(', ')', ' ', ';', '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] SplitString(string str) => str.Split(new[] { ':', ',', '{', '}', '[', ']', '(', ')', ' ', ';', '/', '\\', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
+                var splittedSubStringList = SplitString(numberString);
                 string numberSubString;
                 string gridString;
 
@@ -148,8 +149,16 @@ namespace CurveConverterAlgorithm
                 }
                 else if(splittedSubStringList.Length == 1)
                 {
-                    gridString = string.Empty;
-                    numberSubString = splittedSubStringList[0];
+                    if(columnsFiltered.Length > 1)
+                    {
+                        gridString = splittedSubStringList[0];
+                        numberSubString = SplitString(columnsFiltered[1]).First();
+                    }
+                    else
+                    {
+                        gridString = string.Empty;
+                        numberSubString = splittedSubStringList[0];
+                    }      
                 }
                 else
                 {
