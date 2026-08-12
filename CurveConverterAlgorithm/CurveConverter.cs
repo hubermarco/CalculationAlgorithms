@@ -136,8 +136,6 @@ namespace CurveConverterAlgorithm
                     column => !column.Contains("=") && !Regex.IsMatch(column, @"\[\d+\]") && column.Any(char.IsDigit)).ToArray();
                 var numberString = columnsFiltered.FirstOrDefault() ?? string.Empty;
 
-                string[] SplitString(string str) => str.Split(new[] { ':', ',', '{', '}', '[', ']', '(', ')', ' ', ';', '/', '\\', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-
                 var splittedSubStringList = SplitString(numberString);
                 string numberSubString;
                 string gridString;
@@ -189,48 +187,33 @@ namespace CurveConverterAlgorithm
             var curve = new List<double>();
 
             // E must not be replaced because it's part of a number as exponent (1.2246063538223773E-15)
-            var textStringWithoutLetters = Regex.Replace(textString, "[a-df-zA-DF-Z\n\r]", " ");
+            var textStringWithoutLetters = Regex.Replace(textString, "[a-df-zA-DF-Z\t\r]", " ");
             var textStringWithSingleSpaces = Regex.Replace(textStringWithoutLetters, " {2,}", " ");
-            textStringWithSingleSpaces = !Regex.Match(textStringWithSingleSpaces, "[0-9]").Success
-                ? string.Empty : textStringWithSingleSpaces;
 
-            if (textStringWithSingleSpaces.Length != 0)
+            var textStringLines = textStringWithSingleSpaces.Split(
+                new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries).
+                Where(line => line.Any(char.IsDigit)).ToList();
+
+            if (textStringLines.Count >= 2)
             {
-                string valueString;
-
-                if (GetStartAndEndChar(textStringWithSingleSpaces, out char startChar, out char endChar, out int positionOfEndChar))
-                {
-                    var tempValueString = ConvertTextStringToValueStringWithStartCharAndStopChar(
-                        textStringWithSingleSpaces, startChar, endChar);
-
-                    var newTextStringWithSingleSpaces = textStringWithSingleSpaces.Substring(
-                        startIndex: positionOfEndChar + 1,
-                        length: textStringWithSingleSpaces.Length - (positionOfEndChar + 1));
-
-                    if (GetStartAndEndChar(newTextStringWithSingleSpaces, out char startChar2, out char endChar2, out _))
-                    {
-                        valueString = ConvertTextStringToValueStringWithStartCharAndStopChar(
-                            newTextStringWithSingleSpaces, startChar2, endChar2);
-
-                        grid = ConvertValueStringToCurve(tempValueString, ' ');
-                    }
-                    else
-                    {
-                        valueString = tempValueString;
-                    }
-                }
-                else
-                {
-                    valueString = ConvertTextStringToValueStringSearchingForNumbers(textStringWithSingleSpaces);
-                }
-
-                curve = ConvertValueStringToCurve(valueString, ' ');
+                grid = SplitString(textStringLines[0]).Select(gridString => double.Parse(gridString, CultureInfo.InvariantCulture)).ToList();
+                curve = SplitString(textStringLines[1]).Select(valueString => double.Parse(valueString, CultureInfo.InvariantCulture)).ToList();
+            }
+            else
+            {
+                curve = SplitString(textStringLines.FirstOrDefault() ?? string.Empty).
+                    Select(valueString => double.Parse(valueString, CultureInfo.InvariantCulture)).ToList();
             }
 
             return new CurveConverterValues(
                curve: curve,
                grid: grid);
         }
+
+     
+        private static string[] SplitString(string str) => 
+            str.Split(new[] { ':', ',', '{', '}', '[', ']', '(', ')', ' ', ';', '/', '\\', '\r' }, StringSplitOptions.RemoveEmptyEntries).
+            Where(line => line.Any(char.IsDigit)).ToArray();
 
         private static InputFormat GetUsedInputFormat(string inputString, InputFormat inputFormat)
         {
@@ -247,89 +230,6 @@ namespace CurveConverterAlgorithm
                     InputFormat.Text;
             }
             return usedInputFormat;
-        }
-
-        private static bool GetStartAndEndChar(string textString, out char startChar, out char endChar, out int positionOfEndChar)
-        {
-            var startAndEndCharFound = false;
-            startChar = ' ';
-            endChar = ' ';
-            positionOfEndChar = -1;
-            var positionOfStartChar = textString.Length;
-            var startStopCharList = new List<(char startChar, char endChar)> { ( '[', ']' ) , ( '{', '}' ), ( '(', ')' )};
-
-            foreach (var startStopCharTuple in startStopCharList)
-            {
-                if(textString.Contains(startStopCharTuple.startChar) && textString.Contains(startStopCharTuple.endChar))
-                {
-                    if (textString.IndexOf(startStopCharTuple.startChar) < positionOfStartChar)
-                    {
-                        startChar = startStopCharTuple.startChar;
-                        endChar = startStopCharTuple.endChar;
-                        positionOfStartChar = textString.IndexOf(startChar);
-                        positionOfEndChar = textString.IndexOf(endChar);
-                        startAndEndCharFound = true;
-                    }    
-                }
-            }
-
-            return startAndEndCharFound;
-        }
-
-        private static string ConvertTextStringToValueStringWithStartCharAndStopChar(string textString, char startChar, char endChar)
-        {
-            var textLines = textString.Split('\n');
-
-            var textLinesFiltered = textLines.
-                Where(line => (line != "\r") && (line != "") && (line != "\t\t\r")).ToArray();
-
-            var relevantLineString = textLinesFiltered.First(x => x.Contains(startChar));
-            var startIndex = relevantLineString.IndexOf(startChar) + 1;
-            var subStringLength = relevantLineString.IndexOf(endChar) - startIndex;
-
-            var valueStringLine = relevantLineString.Substring(startIndex: startIndex, length: subStringLength);
-
-            var valueStringFiltered = valueStringLine.
-                Replace(",", " ").Replace(";", " ").Replace("(", "").Replace(")", "").
-                Replace("[", "").Replace("]", "").Replace("{", "").Replace("}", "");
-
-            return valueStringFiltered;
-        }
-
-        private static string ConvertTextStringToValueStringSearchingForNumbers(string textString)
-        {
-            var textLines = textString.Split('\n');
-
-            var textLinesFiltered = textLines.
-                Where(line => (line != "\r") && (line != "") && (line != "\t\t\r")).ToArray();
-
-            var relevantLineString = textLinesFiltered.First(
-                x => x.ToCharArray().FirstOrDefault(c => Char.IsDigit(c)) != default(char));
-
-            var startIndex = relevantLineString.IndexOfAny(new[] { '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' });
-            var stopIndex = relevantLineString.LastIndexOfAny(new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' });
-
-            var valueStringLine = relevantLineString.Substring(startIndex: startIndex, length: stopIndex + 1 - startIndex);
-
-            var valueStringFiltered = valueStringLine.Replace(",", " ").Replace(";", " ");
-
-            return valueStringFiltered;
-        }
-
-        private static List<double> ConvertValueStringToCurve(string valueString, char splitChar)
-        {
-            var curve = new List<double>();
-
-            var valueStringList = valueString.Split(splitChar);
-
-            foreach (var valueStringEntry in valueStringList)
-            {
-                if (double.TryParse(valueStringEntry, out _))
-                {
-                    curve.Add(double.Parse(valueStringEntry, CultureInfo.InvariantCulture));
-                }
-            }
-            return curve;
         }
     }
 }
