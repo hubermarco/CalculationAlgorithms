@@ -136,7 +136,7 @@ namespace CurveConverterAlgorithm
                     column => !column.Contains("=") && !Regex.IsMatch(column, @"\[\d+\]") && column.Any(char.IsDigit)).ToArray();
                 var numberString = columnsFiltered.FirstOrDefault() ?? string.Empty;
 
-                var splittedSubStringList = numberString.Split(new[] { ':', ',', '{', '}', '[', ']', '(', ')', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                var splittedSubStringList = numberString.Split(new[] { ':', ',', '{', '}', '[', ']', '(', ')', ' ', ';', '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
 
                 string numberSubString;
                 string gridString;
