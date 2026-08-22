@@ -70,6 +70,27 @@ namespace CurveConverterAlgorithm
             return decimalPlacesLimited;
         }
 
+        public static InputFormat GetUsedInputFormat(string inputString, InputFormat inputFormat)
+        {
+            var usedInputFormat = inputFormat;
+            var isInputStringDebugString = inputString.Contains("\t");
+            var isInvestmentString = inputString.Contains("Date");
+            // RegexOptions.IgnoreCase ignoriert die Groß- und Kleinschreibung von x, y, z
+            var isArithmetricString = Regex.Matches(inputString, @"\|\s*[xyz]\s*=\s*\d+", RegexOptions.IgnoreCase).Count > 0;
+
+            if (inputFormat == InputFormat.Automatic)
+            {
+                usedInputFormat = isInvestmentString ?
+                    InputFormat.Invest :
+                    isInputStringDebugString ?
+                    InputFormat.Debug :
+                    isArithmetricString ?
+                    InputFormat.Arithmetic :
+                    InputFormat.Text;
+            }
+            return usedInputFormat;
+        }
+
         private static CurveConverterValues ConvertInvestmentString(string inputString)
         {
             var grid = new List<double>();
@@ -237,26 +258,5 @@ namespace CurveConverterAlgorithm
         private static string[] SplitString(string str) => 
             str.Split(new[] { ':', ',', '{', '}', '[', ']', '(', ')', ' ', ';', '/', '\\', '\r' }, StringSplitOptions.RemoveEmptyEntries).
             Where(line => line.Any(char.IsDigit)).ToArray();
-
-        private static InputFormat GetUsedInputFormat(string inputString, InputFormat inputFormat)
-        {
-            var usedInputFormat = inputFormat;
-            var isInputStringDebugString = inputString.Contains("\t");
-            var isInvestmentString = inputString.Contains("Date");
-            // RegexOptions.IgnoreCase ignoriert die Groß- und Kleinschreibung von x, y, z
-            var isArithmetricString  = Regex.Matches(inputString, @"\|\s*[xyz]\s*=\s*\d+", RegexOptions.IgnoreCase).Count > 0;
-           
-            if (inputFormat == InputFormat.Automatic)
-            {
-                usedInputFormat = isInvestmentString ? 
-                    InputFormat.Invest : 
-                    isInputStringDebugString ? 
-                    InputFormat.Debug :
-                    isArithmetricString ?
-                    InputFormat.Arithmetic :
-                    InputFormat.Text;
-            }
-            return usedInputFormat;
-        }
     }
 }
