@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CalculationAlgorithmWrapper;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -22,6 +23,10 @@ namespace CurveConverterAlgorithm
             else if (usedInputFormat == InputFormat.Debug)
             {
                 curveConverterValues = ConvertDebuggerString(inputString);
+            }
+            else if (usedInputFormat == InputFormat.Arithmetic)
+            {
+                curveConverterValues = ConvertArithmetricString(inputString);
             }
             else if(usedInputFormat == InputFormat.Text)
             {
@@ -211,6 +216,24 @@ namespace CurveConverterAlgorithm
         }
 
      
+        private static CurveConverterValues ConvertArithmetricString(
+            string arithmetricString)
+        {
+            var calculator = CalculatorFactory.Create();
+
+            var result = calculator.CalculateForArithmetricInputsWithRange(arithmetricString, decimalPlaces: -1);
+
+            var grid = result.Input.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).
+                Where(value => value.Any(char.IsDigit)).Select(line => double.Parse(line, CultureInfo.InvariantCulture)).ToList();
+
+            var curve = result.Output.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).
+                Where(value => value.Any(char.IsDigit)).Select(line => double.Parse(line, CultureInfo.InvariantCulture)).ToList();
+
+            return new CurveConverterValues(
+               curve: curve,
+               grid: grid);
+        }
+
         private static string[] SplitString(string str) => 
             str.Split(new[] { ':', ',', '{', '}', '[', ']', '(', ')', ' ', ';', '/', '\\', '\r' }, StringSplitOptions.RemoveEmptyEntries).
             Where(line => line.Any(char.IsDigit)).ToArray();
@@ -220,13 +243,17 @@ namespace CurveConverterAlgorithm
             var usedInputFormat = inputFormat;
             var isInputStringDebugString = inputString.Contains("\t");
             var isInvestmentString = inputString.Contains("Date");
-     
+            // RegexOptions.IgnoreCase ignoriert die Groß- und Kleinschreibung von x, y, z
+            var isArithmetricString  = Regex.Matches(inputString, @"\|\s*[xyz]\s*=\s*\d+", RegexOptions.IgnoreCase).Count > 0;
+           
             if (inputFormat == InputFormat.Automatic)
             {
                 usedInputFormat = isInvestmentString ? 
                     InputFormat.Invest : 
                     isInputStringDebugString ? 
-                    InputFormat.Debug : 
+                    InputFormat.Debug :
+                    isArithmetricString ?
+                    InputFormat.Arithmetic :
                     InputFormat.Text;
             }
             return usedInputFormat;

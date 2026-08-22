@@ -7,5 +7,6 @@ namespace CurveConverterAlgorithm
         Debug,
         Text,
         Invest,
+        Arithmetic
     }
 }

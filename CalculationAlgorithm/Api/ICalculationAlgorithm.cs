@@ -6,6 +6,8 @@
 
         string CalculateForArithmetricInputs(string input, int decimalPlaces = -1);
 
+        (string Input, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1);
+
         string CalculateForStringInputs(string input);
 
         ICalcTreeResult CreateCalcTreeResult(string input);

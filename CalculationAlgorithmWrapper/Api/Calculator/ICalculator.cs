@@ -14,5 +14,7 @@ namespace CalculationAlgorithmWrapper
         // needed for WebApplication
         string SetCalculationString(string calculationString);
         string CalculateForArithmetricOrStringInputs(string calculationString, int decimalPlaces = -1);
+
+        (string Input, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1);
     }
 }

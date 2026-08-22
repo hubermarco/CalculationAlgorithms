@@ -24,7 +24,15 @@ namespace CalculationAlgorithm
 
         public string CalculateForArithmetricInputs(string input, int decimalPlaces = -1)
         {
+            var result = CalculateForArithmetricInputsWithRange(input, decimalPlaces).Output;
+
+            return result;
+        }
+
+        public (string Input, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1)
+        {
             string result = "";
+            string variableValuesUsed = "";
 
             var inputList = input.Split('|').Select(s => s.Trim()).ToArray();
 
@@ -42,8 +50,10 @@ namespace CalculationAlgorithm
                 var variableString = inputList[1];
 
                 GetVariableNameAndValues(variableString, out var variableNameString, out var variableValues);
-              
-                foreach(var variableValue in variableValues)
+
+                variableValuesUsed = variableValues.Aggregate((total, next) => total + ", " + next);
+
+                foreach (var variableValue in variableValues)
                 {
                     calcTreeResult.SetVariable(
                         variableNameString, double.Parse(variableValue, CultureInfo.InvariantCulture));
@@ -56,9 +66,9 @@ namespace CalculationAlgorithm
             else
             {
                 result = $"{RoundResult2DecimalPlaces(calcTreeResult.GetResult(), decimalPlaces)}";
-            } 
+            }
 
-            return $"{result}";
+            return (Input:variableValuesUsed, Output:result);
         }
 
         public string CalculateForStringInputs(string input)
