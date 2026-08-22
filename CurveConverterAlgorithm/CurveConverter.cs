@@ -76,7 +76,7 @@ namespace CurveConverterAlgorithm
             var isInputStringDebugString = inputString.Contains("\t");
             var isInvestmentString = inputString.Contains("Date");
             // RegexOptions.IgnoreCase ignoriert die Groß- und Kleinschreibung von x, y, z
-            var isArithmetricString = Regex.Matches(inputString, @"\|\s*[xyz]\s*=\s*\d+", RegexOptions.IgnoreCase).Count > 0;
+            var isArithmetricString = Regex.Matches(inputString, @"\|\s*[xyz]\s*=\s*", RegexOptions.IgnoreCase).Count > 0;
 
             if (inputFormat == InputFormat.Automatic)
             {
