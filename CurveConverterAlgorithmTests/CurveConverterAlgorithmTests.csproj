@@ -23,6 +23,7 @@
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy &quot;$(ProjectDir)\*.txt&quot; &quot;$(TargetDir)&quot;" />
+    <Exec Command="copy &quot;$(ProjectDir)\*.csv&quot; &quot;$(TargetDir)&quot;" />
   </Target>
 
 </Project>

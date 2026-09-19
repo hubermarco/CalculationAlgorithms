@@ -1,8 +1,6 @@
 ﻿using CurveConverterAlgorithm;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.IO;
+using Parlot.Fluent;
 
 namespace CalculationAlgorithmWrapperTests
 {
@@ -18,7 +16,7 @@ namespace CalculationAlgorithmWrapperTests
 
             var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: debuggerString,
-                inputFormat: InputFormat.Debug);
+                inputFormat: InputFormat.Automatic);
 
             Assert.AreEqual(228, curveConverterValues.Curve.Count);
             Assert.AreEqual(228, curveConverterValues.Grid.Count);
@@ -33,7 +31,7 @@ namespace CalculationAlgorithmWrapperTests
 
             var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: debuggerString,
-                inputFormat: InputFormat.Debug);
+                inputFormat: InputFormat.Automatic);
 
             Assert.AreEqual(1000, curveConverterValues.Curve.Count);
             Assert.AreEqual(0, curveConverterValues.Grid.Count);
@@ -48,7 +46,7 @@ namespace CalculationAlgorithmWrapperTests
 
             var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: debuggerString,
-                inputFormat: InputFormat.Debug);
+                inputFormat: InputFormat.Automatic);
 
             Assert.AreEqual(300, curveConverterValues.Curve.Count);
             Assert.AreEqual(300, curveConverterValues.Grid.Count);
@@ -63,7 +61,7 @@ namespace CalculationAlgorithmWrapperTests
 
             var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: inputString,
-                inputFormat: InputFormat.Text);
+                inputFormat: InputFormat.Automatic);
 
             Assert.AreEqual(228, curveConverterValues.Curve.Count, "curve.Count");
             Assert.AreEqual(0, curveConverterValues.Grid.Count, "grid.Count");
@@ -93,7 +91,7 @@ namespace CalculationAlgorithmWrapperTests
 
             var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: inputString,
-                inputFormat: InputFormat.Text);
+                inputFormat: InputFormat.Automatic);
 
             var expectedCurve = new List<double> { 45, 45, 56, 56, 66, 77 };
 
@@ -108,7 +106,7 @@ namespace CalculationAlgorithmWrapperTests
 
             var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: inputString,
-                inputFormat: InputFormat.Text);
+                inputFormat: InputFormat.Automatic);
 
             Assert.AreEqual(0, curveConverterValues.Curve.Count, "curve.Count");
         }
@@ -120,7 +118,7 @@ namespace CalculationAlgorithmWrapperTests
 
             var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: inputString,
-                inputFormat: InputFormat.Text);
+                inputFormat: InputFormat.Automatic);
 
             var expectedCurve = new List<double> { 45, 45, 56, 56, 66, 77 };
 
@@ -139,7 +137,7 @@ namespace CalculationAlgorithmWrapperTests
 
             var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: inputString,
-                inputFormat: InputFormat.Text);
+                inputFormat: InputFormat.Automatic);
 
             var expectedCurve = new List<double> { 45, 45, 56, 56, 66, 77 };
 
@@ -158,7 +156,7 @@ namespace CalculationAlgorithmWrapperTests
 
             var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: inputString,
-                inputFormat: InputFormat.Text);
+                inputFormat: InputFormat.Automatic);
 
             var expectedCurve = new List<double> { -4, 5, 7, 8, 9, 10 };
 
@@ -177,10 +175,55 @@ namespace CalculationAlgorithmWrapperTests
 
             var curveConverterValues = CurveConverter.ConvertInputString(
                 inputString: inputString,
-                inputFormat: InputFormat.Text);
+                inputFormat: InputFormat.Automatic);
 
             Assert.AreEqual(64, curveConverterValues.Curve.Count, "curve.Count");
             Assert.AreEqual("x = [];", curveConverterValues.GetMatlabGridString("x"));
+        }
+
+        [Test]
+        public void When_investment_string_containing_curve_values_is_converted_then_corresponding_result_is_returned()
+        {
+            var currentDirectory = GetCurrentDirectory();
+            var inputPath = currentDirectory + "\\" + "InvestmentInput.txt";
+            var debuggerString = File.ReadAllText(inputPath);
+
+            var curveConverterValues = CurveConverter.ConvertInputString(
+                inputString: debuggerString,
+                inputFormat: InputFormat.Automatic);
+
+            Assert.AreEqual(93, curveConverterValues.Curve.Count);
+            Assert.AreEqual(93, curveConverterValues.Grid.Count);
+        }
+
+        [Test]
+        public void When_investment_string_containing_curve_values_is_converted_then_corresponding_result_is_returned_2()
+        {
+            var currentDirectory = GetCurrentDirectory();
+            var inputPath = currentDirectory + "\\" + "MSCI World Historical Data - Monthly.csv";
+            var debuggerString = File.ReadAllText(inputPath);
+
+            var curveConverterValues = CurveConverter.ConvertInputString(
+                inputString: debuggerString,
+                inputFormat: InputFormat.Automatic);
+
+            Assert.AreEqual(245, curveConverterValues.Curve.Count);
+            Assert.AreEqual(245, curveConverterValues.Grid.Count);
+        }
+
+        [Test]
+        public void When_investment_string_containing_curve_values_is_converted_then_corresponding_result_is_returned_3()
+        {
+            var currentDirectory = GetCurrentDirectory();
+            var inputPath = currentDirectory + "\\" + "Amundi Core MSCI World Swap UCITS ETF Dist (LU2572257124).csv";
+            var debuggerString = File.ReadAllText(inputPath);
+
+            var curveConverterValues = CurveConverter.ConvertInputString(
+                inputString: debuggerString,
+                inputFormat: InputFormat.Automatic);
+
+            Assert.AreEqual(680, curveConverterValues.Curve.Count);
+            Assert.AreEqual(680, curveConverterValues.Grid.Count);
         }
 
         private static string GetCurrentDirectory()
