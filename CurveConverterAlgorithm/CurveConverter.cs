@@ -100,7 +100,10 @@ namespace CurveConverterAlgorithm
             var grid = new List<double>();
             var curve = new List<double>();
 
-            var textStringWithoutQuotationMarks = inputString.Replace("\",\"", "\";\"").Replace(",", " ").Replace("\"", "");
+            var textStringWithoutQuotationMarks = inputString.Contains("\",\"") ? 
+                inputString.Replace("\",\"", ";").Replace(",", "").Replace("\"", "") :
+                inputString.Replace(",", ";");
+
             var trimmedTextString = textStringWithoutQuotationMarks.TrimEnd(new[] { '\n', '\r', ' ', });
 
             var textLines = trimmedTextString.Split('\n').Where(line => !string.IsNullOrEmpty(line)).ToList();
