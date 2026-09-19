@@ -118,10 +118,10 @@ namespace CurveConverterAlgorithm
             var columnTrimChars = new[] { ';', ',', '\t' };
             var dateTrimChars = new[] { '/', '\\', '.' };
 
-            var europeanDateFormat =  textLines.Any(
+            var americanDateFormat =  textLines.Any(
                 line => int.Parse(line.TrimStart(lineTrimChars).
                 Split(columnTrimChars)[0].
-                Split(dateTrimChars)[0], CultureInfo.InvariantCulture) > 12);
+                Split(dateTrimChars)[1], CultureInfo.InvariantCulture) > 12);
 
             foreach (var textLine in textLines)
             {
@@ -137,8 +137,8 @@ namespace CurveConverterAlgorithm
                 var dateArray = columns[0].Split(dateTrimChars);
                 var year = int.Parse(dateArray[dateArray.Length == 3 ? 2 : 1], CultureInfo.InvariantCulture);
 
-                var monthIndex = europeanDateFormat ? 1 : 0;
-                var dayIndex = europeanDateFormat ? 0 : 1;
+                var monthIndex = americanDateFormat ? 0 : 1;
+                var dayIndex = americanDateFormat ? 1 : 0;
 
                 var month = int.Parse(dateArray[monthIndex], CultureInfo.InvariantCulture);
                 var day = (dateArray.Length == 3) ? int.Parse(dateArray[dayIndex], CultureInfo.InvariantCulture) : (int?)null;
