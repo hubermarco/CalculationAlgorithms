@@ -9,6 +9,8 @@ namespace CurveConverterAlgorithm
 {
     public class CurveConverter
     {
+        private static readonly string _datePattern = @"\b\d{2}([/.\\])\d{2}\1\d{4}\b|\b\d{2}/\d{4}\b";
+
         public static CurveConverterValues ConvertInputString(
             string inputString,
             InputFormat inputFormat)
@@ -74,7 +76,9 @@ namespace CurveConverterAlgorithm
         {
             var usedInputFormat = inputFormat;
             var isInputStringDebugString = inputString.Contains("\t");
-            var isInvestmentString = inputString.Contains("Date");
+            var isInvestmentString = inputString.Contains("Date") ||
+                (Regex.Matches(inputString, _datePattern).Count > 0);
+          
             // RegexOptions.IgnoreCase ignoriert die Groß- und Kleinschreibung von x, y, z
             var isArithmetricString = Regex.Matches(inputString, @"\|\s*[xyz]\s*=\s*", RegexOptions.IgnoreCase).Count > 0;
 
@@ -99,28 +103,42 @@ namespace CurveConverterAlgorithm
             var textStringWithoutQuotationMarks = inputString.Replace("\",\"", "\";\"").Replace(",", " ").Replace("\"", "");
             var trimmedTextString = textStringWithoutQuotationMarks.TrimEnd(new[] { '\n', '\r', ' ', });
 
-            var textLines = trimmedTextString.Split('\n').Where(line => !string.IsNullOrEmpty(line)). ToList();
+            var textLines = trimmedTextString.Split('\n').Where(line => !string.IsNullOrEmpty(line)).ToList();
 
-            textLines.RemoveAt(0);
+            if (!(Regex.Matches(textLines[0], _datePattern).Count > 0))
+                textLines.RemoveAt(0);
 
             if (textLines[0].Split(new[] { ';', ',', ' ' })[0].Split('/').Length == 3)
                 textLines.Reverse();
+
+            var lineTrimChars = new[] { ',', ';', '\n', '\r', '\t', ' ' };
+            var columnTrimChars = new[] { ';', ',', '\t' };
+            var dateTrimChars = new[] { '/', '\\', '.' };
+
+            var europeanDateFormat =  textLines.Any(
+                line => int.Parse(line.TrimStart(lineTrimChars).
+                Split(columnTrimChars)[0].
+                Split(dateTrimChars)[0], CultureInfo.InvariantCulture) > 12);
 
             foreach (var textLine in textLines)
             {
                 var trimArray = new[] { ',', ';', '\n', '\r', '\t', ' ' };
 
-                var textLineWithSemicolon = textLine.TrimStart(trimArray).TrimEnd(trimArray).Replace(' ', ';');
+                var textLineWithSemicolon = textLine.TrimStart(lineTrimChars).TrimEnd(lineTrimChars).Replace(' ', ';');
 
-                var columns = textLineWithSemicolon.Split(new[] { ';', ','});
+                var columns = textLineWithSemicolon.Split(columnTrimChars);
 
-                if( (columns.Length < 2) || columns[0].Split('/').Length < 2)
+                if( (columns.Length < 2) || columns[0].Split(dateTrimChars).Length < 2)
                     continue;
 
-                var dateArray = columns[0].Split('/');
+                var dateArray = columns[0].Split(dateTrimChars);
                 var year = int.Parse(dateArray[dateArray.Length == 3 ? 2 : 1], CultureInfo.InvariantCulture);
-                var month = int.Parse(dateArray[0], CultureInfo.InvariantCulture);
-                var day = (dateArray.Length == 3) ? int.Parse(dateArray[1], CultureInfo.InvariantCulture) : (int?)null;
+
+                var monthIndex = europeanDateFormat ? 1 : 0;
+                var dayIndex = europeanDateFormat ? 0 : 1;
+
+                var month = int.Parse(dateArray[monthIndex], CultureInfo.InvariantCulture);
+                var day = (dateArray.Length == 3) ? int.Parse(dateArray[dayIndex], CultureInfo.InvariantCulture) : (int?)null;
 
                 var dateTime = new DateTime(year, month, (day != null) ? day.Value : 1);
                 var dateTimeBeginningOfTheYear = new DateTime(year, month: 1, day: 1);
