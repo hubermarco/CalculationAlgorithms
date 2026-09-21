@@ -182,7 +182,7 @@ namespace CalculationAlgorithmWrapperTests
         }
 
         [Test]
-        public void When_investment_string_containing_curve_values_is_converted_then_corresponding_result_is_returned()
+        public void When_investment_string_is_converted_then_corresponding_result_is_returned()
         {
             var currentDirectory = GetCurrentDirectory();
             var inputPath = currentDirectory + "\\" + "InvestmentInput.txt";
@@ -197,7 +197,7 @@ namespace CalculationAlgorithmWrapperTests
         }
 
         [Test]
-        public void When_investment_string_containing_curve_values_is_converted_then_corresponding_result_is_returned_2()
+        public void When_investment_string_is_converted_then_corresponding_result_is_returned_2()
         {
             var currentDirectory = GetCurrentDirectory();
             var inputPath = currentDirectory + "\\" + "MSCI World Historical Data - Monthly.csv";
@@ -212,7 +212,7 @@ namespace CalculationAlgorithmWrapperTests
         }
 
         [Test]
-        public void When_investment_string_containing_curve_values_is_converted_then_corresponding_result_is_returned_3()
+        public void When_investment_string_is_converted_then_corresponding_result_is_returned_3()
         {
             var currentDirectory = GetCurrentDirectory();
             var inputPath = currentDirectory + "\\" + "Amundi Core MSCI World Swap UCITS ETF Dist (LU2572257124).csv";
@@ -226,10 +226,41 @@ namespace CalculationAlgorithmWrapperTests
             Assert.AreEqual(680, curveConverterValues.Grid.Count);
         }
 
+        [Test]
+        public void When_arithmetric_string_is_converted_then_corresponding_result_is_returned()
+        {
+            var curveConverterValues = CurveConverter.ConvertInputString(
+                inputString: "x|x=-10:0.01:10",
+                inputFormat: InputFormat.Automatic);
+
+            Assert.That(curveConverterValues.Curve.Count, Is.EqualTo(2001));
+            Assert.That(curveConverterValues.Grid.Count, Is.EqualTo(2001));
+            Assert.That(curveConverterValues.Curve[0], Is.EqualTo(-10));
+            Assert.That(curveConverterValues.Curve[2000], Is.EqualTo(10));
+            Assert.That(curveConverterValues.Grid[0], Is.EqualTo(-10));
+            Assert.That(curveConverterValues.Grid[2000], Is.EqualTo(10));
+        }
+
+        [Test]
+        public void When_arithmetric_string_is_converted_then_corresponding_result_is_returned_2()
+        {
+            var curveConverterValues = CurveConverter.ConvertInputString(
+                inputString: "x^2|x=-10:0.01:10",
+                inputFormat: InputFormat.Automatic);
+
+            Assert.That(curveConverterValues.Curve.Count, Is.EqualTo(2001));
+            Assert.That(curveConverterValues.Grid.Count, Is.EqualTo(2001));
+            Assert.That(curveConverterValues.Curve[0], Is.EqualTo(100));
+            Assert.That(curveConverterValues.Curve[2000], Is.EqualTo(100));
+            Assert.That(curveConverterValues.Grid[0], Is.EqualTo(-10));
+            Assert.That(curveConverterValues.Grid[2000], Is.EqualTo(10));
+        }
+
         private static string GetCurrentDirectory()
         {
             var executionDirectory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
             return executionDirectory;
         }
     }
+
 }

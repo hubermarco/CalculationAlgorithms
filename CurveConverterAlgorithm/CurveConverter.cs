@@ -95,7 +95,8 @@ namespace CurveConverterAlgorithm
             return usedInputFormat;
         }
 
-        private static CurveConverterValues ConvertInvestmentString(string inputString)
+        private static CurveConverterValues ConvertInvestmentString(
+            string inputString)
         {
             var grid = new List<double>();
             var curve = new List<double>();
@@ -257,7 +258,6 @@ namespace CurveConverterAlgorithm
                grid: grid);
         }
 
-     
         private static CurveConverterValues ConvertArithmetricString(
             string arithmetricString)
         {
