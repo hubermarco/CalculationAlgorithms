@@ -9,7 +9,10 @@ namespace CurveConverterAlgorithm
 {
     public class CurveConverter
     {
-        private static readonly string _datePattern = @"\b\d{2}([/.\\])\d{2}\1\d{4}\b|\b\d{2}/\d{4}\b";
+        private static readonly string _datePattern =
+            @"\b(?:0[1-9]|[12]\d|3[01])([/.\\-])(?:0[1-9]|1[0-2])\1\d{4}\b"   // dd?MM?yyyy
+          + @"|\b\d{4}([/.\\-])(?:0[1-9]|1[0-2])\2(?:0[1-9]|[12]\d|3[01])\b"  // yyyy?MM?dd
+          + @"|\b(?:0[1-9]|1[0-2])/\d{4}\b";                                  // MM/yyyy
 
         public static CurveConverterValues ConvertInputString(
             string inputString,
@@ -115,12 +118,12 @@ namespace CurveConverterAlgorithm
             if (textLines[0].Split(new[] { ';', ',', ' ' })[0].Split('/').Length == 3)
                 textLines.Reverse();
 
-            var lineTrimChars = new[] { ',', ';', '\n', '\r', '\t', ' ' };
-            var columnTrimChars = new[] { ';', ',', '\t' };
-            var dateTrimChars = new[] { '/', '\\', '.' };
+            var lineTrimChars = new[] { ',', ';', '\n', '\r', '\t'};
+            var columnTrimChars = new[] { ';', ',', '\t', ' ' };
+            var dateTrimChars = new[] { '/', '\\', '.', '-' };
 
             var americanDateFormat =  textLines.Any(
-                line => int.Parse(line.TrimStart(lineTrimChars).
+                line => int.Parse(line.
                 Split(columnTrimChars)[0].
                 Split(dateTrimChars)[1], CultureInfo.InvariantCulture) > 12);
 
@@ -135,14 +138,17 @@ namespace CurveConverterAlgorithm
                 if( (columns.Length < 2) || columns[0].Split(dateTrimChars).Length < 2)
                     continue;
 
-                var dateArray = columns[0].Split(dateTrimChars);
-                var year = int.Parse(dateArray[dateArray.Length == 3 ? 2 : 1], CultureInfo.InvariantCulture);
+                var dateArray = columns[0].
+                    Split(dateTrimChars).
+                    Select(dateToken => int.Parse(dateToken, CultureInfo.InvariantCulture)).ToList();
 
-                var monthIndex = americanDateFormat ? 0 : 1;
-                var dayIndex = americanDateFormat ? 1 : 0;
+                var yearIndex = dateArray.FindIndex(dateToken => dateToken > 31);
+                var monthIndex = (yearIndex == 0) ? 1  : (americanDateFormat ? 0 : 1);
+                var dayIndex = (yearIndex == 0) ? 2 : (americanDateFormat ? 1 : 0);
 
-                var month = int.Parse(dateArray[monthIndex], CultureInfo.InvariantCulture);
-                var day = (dateArray.Length == 3) ? int.Parse(dateArray[dayIndex], CultureInfo.InvariantCulture) : (int?)null;
+                var year = dateArray[yearIndex];
+                var month = dateArray[monthIndex];
+                var day = (dateArray.Count == 3) ? dateArray[dayIndex] : (int?)null;
 
                 var dateTime = new DateTime(year, month, (day != null) ? day.Value : 1);
                 var dateTimeBeginningOfTheYear = new DateTime(year, month: 1, day: 1);

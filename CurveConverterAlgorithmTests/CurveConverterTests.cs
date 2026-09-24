@@ -186,10 +186,10 @@ namespace CalculationAlgorithmWrapperTests
         {
             var currentDirectory = GetCurrentDirectory();
             var inputPath = currentDirectory + "\\" + "InvestmentInput.txt";
-            var debuggerString = File.ReadAllText(inputPath);
+            var inputString = File.ReadAllText(inputPath);
 
             var curveConverterValues = CurveConverter.ConvertInputString(
-                inputString: debuggerString,
+                inputString: inputString,
                 inputFormat: InputFormat.Automatic);
 
             Assert.AreEqual(93, curveConverterValues.Curve.Count);
@@ -201,10 +201,10 @@ namespace CalculationAlgorithmWrapperTests
         {
             var currentDirectory = GetCurrentDirectory();
             var inputPath = currentDirectory + "\\" + "MSCI World Historical Data - Monthly.csv";
-            var debuggerString = File.ReadAllText(inputPath);
+            var inputString = File.ReadAllText(inputPath);
 
             var curveConverterValues = CurveConverter.ConvertInputString(
-                inputString: debuggerString,
+                inputString: inputString,
                 inputFormat: InputFormat.Automatic);
 
             Assert.AreEqual(245, curveConverterValues.Curve.Count);
@@ -216,14 +216,46 @@ namespace CalculationAlgorithmWrapperTests
         {
             var currentDirectory = GetCurrentDirectory();
             var inputPath = currentDirectory + "\\" + "Amundi Core MSCI World Swap UCITS ETF Dist (LU2572257124).csv";
-            var debuggerString = File.ReadAllText(inputPath);
+            var inputString = File.ReadAllText(inputPath);
 
             var curveConverterValues = CurveConverter.ConvertInputString(
-                inputString: debuggerString,
+                inputString: inputString,
                 inputFormat: InputFormat.Automatic);
 
             Assert.AreEqual(680, curveConverterValues.Curve.Count);
             Assert.AreEqual(680, curveConverterValues.Grid.Count);
+        }
+
+        [Test]
+        public void When_investment_string_is_converted_then_corresponding_result_is_returned_4()
+        {
+            var inputString = "2025-03-20 10\n2026-06-23 20";
+
+            var curveConverterValues = CurveConverter.ConvertInputString(
+                inputString: inputString,
+                inputFormat: InputFormat.Automatic);
+
+            Assert.AreEqual(2, curveConverterValues.Curve.Count);
+            Assert.AreEqual(2, curveConverterValues.Grid.Count);
+
+            Assert.AreEqual(10, curveConverterValues.Curve[0]);
+            Assert.AreEqual(20, curveConverterValues.Curve[1]);
+        }
+
+        [Test]
+        public void When_investment_string_is_converted_then_corresponding_result_is_returned_5()
+        {
+            var inputString = "20.06.2025 10\n23.06.2026 20";
+
+            var curveConverterValues = CurveConverter.ConvertInputString(
+                inputString: inputString,
+                inputFormat: InputFormat.Automatic);
+
+            Assert.AreEqual(2, curveConverterValues.Curve.Count);
+            Assert.AreEqual(2, curveConverterValues.Grid.Count);
+
+            Assert.AreEqual(10, curveConverterValues.Curve[0]);
+            Assert.AreEqual(20, curveConverterValues.Curve[1]);
         }
 
         [Test]
