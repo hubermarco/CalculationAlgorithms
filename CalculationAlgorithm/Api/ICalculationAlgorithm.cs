@@ -1,4 +1,6 @@
-﻿namespace CalculationAlgorithm
+﻿using System.Collections.Generic;
+
+namespace CalculationAlgorithm
 {
     public interface ICalculationAlgorithm
     {
@@ -6,7 +8,7 @@
 
         string CalculateForArithmetricInputs(string input, int decimalPlaces = -1);
 
-        (string Input, string Input2, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1);
+        (IList<string> VariableNameList, List<string[]> VariableValuesList, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1);
 
         string CalculateForStringInputs(string input);
 

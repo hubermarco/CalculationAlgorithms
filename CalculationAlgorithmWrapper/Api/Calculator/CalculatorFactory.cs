@@ -93,7 +93,7 @@ namespace CalculationAlgorithmWrapper
                  { "solve", EquationSolver.Solve }
             };
 
-            var variableList = new List<string> { "x", "y", "z" };
+            var variableList = new List<string> { "u", "v", "w", "x", "y", "z" };
 
             var ruleSet = new RuleSet(
                 arithmetricOperators,

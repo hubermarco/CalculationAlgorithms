@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace CalculationAlgorithmWrapper
 {
     public interface ICalculator
@@ -15,6 +17,6 @@ namespace CalculationAlgorithmWrapper
         string SetCalculationString(string calculationString);
         string CalculateForArithmetricOrStringInputs(string calculationString, int decimalPlaces = -1);
 
-        (string Input, string Input2, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1);
+        (IList<string> VariableNameList, List<string[]> VariableValuesList, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1);
     }
 }

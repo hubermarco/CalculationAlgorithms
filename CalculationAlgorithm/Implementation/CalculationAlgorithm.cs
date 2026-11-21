@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
+using System.Collections.Generic;
 using System.Linq;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CalculationAlgorithm
 {
@@ -29,11 +29,12 @@ namespace CalculationAlgorithm
             return result;
         }
 
-        public (string Input, string Input2, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1)
+        public (IList<string> VariableNameList, List<string[]> VariableValuesList, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1)
         {
             string result = "";
-            string variableValuesUsed = "";
-            string variableValuesUsed2 = "";
+            var variableValuesUsedList = new List<string>();
+            var variableNameList = new List<string>();
+            var variableValuesList = new List<string[]>();
 
             var inputList = input.Split('|').Select(s => s.Trim()).ToArray();
 
@@ -48,33 +49,30 @@ namespace CalculationAlgorithm
 
             if (inputList.Count() > 1)
             {
-                var variableString = inputList[1];
-                GetVariableNameAndValues(variableString, out var variableNameString, out var variableValues);
-                variableValuesUsed = variableValues.Aggregate((total, next) => total + ", " + next);
-
-                var variableString2 = string.Empty;
-                var variableNameString2 = string.Empty;
-                string [] variableValues2 = Array.Empty<string>(); 
-
-                if (inputList.Length > 2)
+                var variableStringList = inputList.Where((x,index) => index > 0).ToList();
+                
+                for (var i = 0; i < variableStringList.Count; i++)
                 {
-                    variableString2 = inputList[2];
-                    GetVariableNameAndValues(variableString2, out variableNameString2, out variableValues2);
-                    variableValuesUsed2 = variableValues.Aggregate((total, next) => total + ", " + next);
-
-                    if( variableValues.Length != variableValues2.Length)
-                        throw new ArgumentException("The number of values for the two variable arrays must be the same.");
+                    GetVariableNameAndValues(variableStringList[i], out var variableNameString, out var variableValues);
+                    variableValuesUsedList.Add(variableValues.Aggregate((total, next) => total + ", " + next));
+                    variableNameList.Add(variableNameString);
+                    variableValuesList.Add(variableValues);
                 }
-                   
-                for (var i = 0; i < variableValues.Length; i++)
+
+                for (var i = 1; i < variableValuesList.Count; i++)
                 {
-                    calcTreeResult.SetVariable(
-                        variableNameString, double.Parse(variableValues[i], CultureInfo.InvariantCulture));
-
-                    if (inputList.Length > 2)
+                    if (variableValuesList[0].Length != variableValuesList[i].Length)
+                        throw new ArgumentException($"The number of values of {variableNameList[0]} has " +
+                            $"{variableValuesList[0].Length} values but {variableNameList[i]} has {variableValuesList[i].Length} values.");
+                }
+                
+                for (var i = 0; i < variableValuesList[0].Length; i++)
+                {
+                    for (var k = 0; k < variableValuesList.Count; k++)
+                    {
                         calcTreeResult.SetVariable(
-                            variableNameString2, double.Parse(variableValues2[i], CultureInfo.InvariantCulture));
-
+                            variableNameList[k], double.Parse(variableValuesList[k][i], CultureInfo.InvariantCulture));
+                    }
                     result += $"{RoundResult2DecimalPlaces(calcTreeResult.GetResult(), decimalPlaces)}, ";
                 }
 
@@ -85,7 +83,7 @@ namespace CalculationAlgorithm
                 result = $"{RoundResult2DecimalPlaces(calcTreeResult.GetResult(), decimalPlaces)}";
             }
 
-            return (Input:variableValuesUsed, Input2: variableValuesUsed2, Output:result);
+            return (VariableNameList: variableNameList, VariableValuesList: variableValuesList, Output:result);
         }
 
         public string CalculateForStringInputs(string input)
