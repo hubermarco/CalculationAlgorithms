@@ -29,10 +29,11 @@ namespace CalculationAlgorithm
             return result;
         }
 
-        public (string Input, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1)
+        public (string Input, string Input2, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1)
         {
             string result = "";
             string variableValuesUsed = "";
+            string variableValuesUsed2 = "";
 
             var inputList = input.Split('|').Select(s => s.Trim()).ToArray();
 
@@ -48,15 +49,31 @@ namespace CalculationAlgorithm
             if (inputList.Count() > 1)
             {
                 var variableString = inputList[1];
-
                 GetVariableNameAndValues(variableString, out var variableNameString, out var variableValues);
-
                 variableValuesUsed = variableValues.Aggregate((total, next) => total + ", " + next);
 
-                foreach (var variableValue in variableValues)
+                var variableString2 = string.Empty;
+                var variableNameString2 = string.Empty;
+                string [] variableValues2 = Array.Empty<string>(); 
+
+                if (inputList.Length > 2)
+                {
+                    variableString2 = inputList[2];
+                    GetVariableNameAndValues(variableString2, out variableNameString2, out variableValues2);
+                    variableValuesUsed2 = variableValues.Aggregate((total, next) => total + ", " + next);
+
+                    if( variableValues.Length != variableValues2.Length)
+                        throw new ArgumentException("The number of values for the two variable arrays must be the same.");
+                }
+                   
+                for (var i = 0; i < variableValues.Length; i++)
                 {
                     calcTreeResult.SetVariable(
-                        variableNameString, double.Parse(variableValue, CultureInfo.InvariantCulture));
+                        variableNameString, double.Parse(variableValues[i], CultureInfo.InvariantCulture));
+
+                    if (inputList.Length > 2)
+                        calcTreeResult.SetVariable(
+                            variableNameString2, double.Parse(variableValues2[i], CultureInfo.InvariantCulture));
 
                     result += $"{RoundResult2DecimalPlaces(calcTreeResult.GetResult(), decimalPlaces)}, ";
                 }
@@ -68,7 +85,7 @@ namespace CalculationAlgorithm
                 result = $"{RoundResult2DecimalPlaces(calcTreeResult.GetResult(), decimalPlaces)}";
             }
 
-            return (Input:variableValuesUsed, Output:result);
+            return (Input:variableValuesUsed, Input2: variableValuesUsed2, Output:result);
         }
 
         public string CalculateForStringInputs(string input)

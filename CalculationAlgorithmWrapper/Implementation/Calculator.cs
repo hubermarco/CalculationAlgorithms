@@ -47,7 +47,7 @@ namespace CalculationAlgorithmWrapper
             return result;
         }
 
-        public (string Input, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1)
+        public (string Input, string Input2, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1)
         {
             var result = _calculationAlgorithm.CalculateForArithmetricInputsWithRange(input, decimalPlaces);
             return result;

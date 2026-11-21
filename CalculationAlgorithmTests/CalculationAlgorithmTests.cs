@@ -633,6 +633,14 @@ namespace CalculationAlgorithmTests
         }
 
         [Test]
+        public void When_a_calculation_is_done_with_2_variableS_with_range_then_the_result_is_as_expected()
+        {
+            var stringResult = _calculationAlgorithm.CalculateForArithmetricInputs("x+y|x=1:3|y=2:4");
+
+            Assert.AreEqual("3, 5, 7", stringResult);
+        }
+
+        [Test]
         public void When_string_method_is_performed_then_corresponding_result_is_returned()
         {
             var stringResult = _calculationAlgorithm.CalculateForStringInputs("StringTest(Marco)");

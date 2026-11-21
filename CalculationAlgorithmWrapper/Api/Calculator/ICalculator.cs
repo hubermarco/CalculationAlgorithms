@@ -15,6 +15,6 @@ namespace CalculationAlgorithmWrapper
         string SetCalculationString(string calculationString);
         string CalculateForArithmetricOrStringInputs(string calculationString, int decimalPlaces = -1);
 
-        (string Input, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1);
+        (string Input, string Input2, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1);
     }
 }
