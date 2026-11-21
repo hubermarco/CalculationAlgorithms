@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CalculationAlgorithmWrapper\CalculationAlgorithmWrapper.csproj" />
     <ProjectReference Include="..\CalculationAlgorithm\CalculationAlgorithm.csproj" />
+    <ProjectReference Include="..\CurveChartImageCreator\CurveChartImageCreator.csproj" />
     <ProjectReference Include="..\CurveConverterAlgorithm\CurveConverterAlgorithm.csproj" />
   </ItemGroup>
 

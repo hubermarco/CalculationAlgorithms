@@ -29,7 +29,7 @@ namespace CalculationAlgorithm
             return result;
         }
 
-        public (IList<string> VariableNameList, List<string[]> VariableValuesList, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1)
+        public (IList<string> VariableNameList, List<string> VariableValuesUsedList, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1)
         {
             string result = "";
             var variableValuesUsedList = new List<string>();
@@ -83,7 +83,7 @@ namespace CalculationAlgorithm
                 result = $"{RoundResult2DecimalPlaces(calcTreeResult.GetResult(), decimalPlaces)}";
             }
 
-            return (VariableNameList: variableNameList, VariableValuesList: variableValuesList, Output:result);
+            return (VariableNameList: variableNameList, VariableValuesUsedList: variableValuesUsedList, Output:result);
         }
 
         public string CalculateForStringInputs(string input)

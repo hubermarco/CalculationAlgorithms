@@ -8,7 +8,7 @@ namespace CalculationAlgorithm
 
         string CalculateForArithmetricInputs(string input, int decimalPlaces = -1);
 
-        (IList<string> VariableNameList, List<string[]> VariableValuesList, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1);
+        (IList<string> VariableNameList, List<string> VariableValuesUsedList, string Output) CalculateForArithmetricInputsWithRange(string input, int decimalPlaces = -1);
 
         string CalculateForStringInputs(string input);
 

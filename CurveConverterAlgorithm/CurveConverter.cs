@@ -271,7 +271,7 @@ namespace CurveConverterAlgorithm
 
             var result = calculator.CalculateForArithmetricInputsWithRange(arithmetricString, decimalPlaces: -1);
 
-            var grid = result.Input.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).
+            var grid = result.VariableValuesUsedList[0].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).
                 Where(value => value.Any(char.IsDigit)).Select(line => double.Parse(line, CultureInfo.InvariantCulture)).ToList();
 
             var curve = result.Output.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).
