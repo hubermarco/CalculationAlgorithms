@@ -1,7 +1,5 @@
 ﻿using CalculationAlgorithm;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using Expr = MathNet.Symbolics.SymbolicExpression;
 
@@ -633,11 +631,19 @@ namespace CalculationAlgorithmTests
         }
 
         [Test]
-        public void When_a_calculation_is_done_with_2_variableS_with_range_then_the_result_is_as_expected()
+        public void When_a_calculation_is_done_with_2_variables_with_range_then_the_result_is_as_expected()
         {
             var stringResult = _calculationAlgorithm.CalculateForArithmetricInputs("x+y|x=1:3|y=2:4");
 
             Assert.AreEqual("3, 5, 7", stringResult);
+        }
+
+        [Test]
+        public void When_a_calculation_is_done_with_3_variables_with_range_then_the_result_is_as_expected()
+        {
+            var stringResult = _calculationAlgorithm.CalculateForArithmetricInputs("x+y*z|x=3 4|y=4 5|z=5 6");
+
+            Assert.AreEqual("23, 34", stringResult);
         }
 
         [Test]
