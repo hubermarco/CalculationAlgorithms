@@ -81,13 +81,19 @@ namespace CalculationAlgorithmTests
 
             var variableList = new List<string> { "x", "y", "z" };
 
+            var constantsDictionary = new Dictionary<string, double>
+            {
+                {"pi", 3.14159265358979323846 }
+            };
+
             var ruleSet = new RuleSet(
                 arithmetricOperators,
                 arithmetricFunctions,
                 arithmetricStringFunctions,
                 stringFunctions,
                 stringOperators,
-                variableList);
+                variableList,
+                constantsDictionary);
 
             _calculationAlgorithm = CalculationAlgorithmFactory.Create(ruleSet);
         }
@@ -644,6 +650,14 @@ namespace CalculationAlgorithmTests
             var stringResult = _calculationAlgorithm.CalculateForArithmetricInputs("x+y*z|x=3 4|y=4 5|z=5 6");
 
             Assert.AreEqual("23, 34", stringResult);
+        }
+
+        [Test]
+        public void When_a_calculation_is_done_with_constant_then_the_result_is_as_expected()
+        {
+            var stringResult = _calculationAlgorithm.CalculateForArithmetricInputs("cos(pi)");
+
+            Assert.AreEqual("-1", stringResult);
         }
 
         [Test]

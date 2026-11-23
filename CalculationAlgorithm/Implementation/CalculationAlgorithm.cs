@@ -44,7 +44,11 @@ namespace CalculationAlgorithm
 
             string RoundResult2DecimalPlaces(double value, int decimalPlacesTemp)
             {
-                return decimalPlacesTemp > -1 ? Math.Round(value, decimalPlacesTemp).ToString(CultureInfo.InvariantCulture) : value.ToString(CultureInfo.InvariantCulture);
+                var roundedResult = (decimalPlacesTemp > -1) ? 
+                    Math.Round(value, decimalPlacesTemp).ToString(CultureInfo.InvariantCulture) : 
+                    value.ToString(CultureInfo.InvariantCulture);
+
+                return (roundedResult == "-0") ? "0" : roundedResult;
             }
 
             if (inputList.Count() > 1)

@@ -188,5 +188,14 @@ namespace CalculationAlgorithmWrapperTests
 
             Assert.AreEqual(stringResultExpected, stringResult);
         }
+        
+        [Test]
+        public void When_cosinus_is_calulated_with_pi_then_result_is_as_expected()
+        {
+            var stringResultExpected = "cos(x*pi)|x=2\n= 1";
+            var stringResult = _calculator.CalculateForArithmetricOrStringInputs("cos(x*pi)|x=2");
+
+            Assert.AreEqual(stringResultExpected, stringResult);
+        }
     }
 }

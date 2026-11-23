@@ -95,13 +95,19 @@ namespace CalculationAlgorithmWrapper
 
             var variableList = new List<string> { "u", "v", "w", "x", "y", "z" };
 
+            var constantsDictionary = new Dictionary<string, double>
+            {
+                {"pi", 3.14159265358979323846 }
+            };
+
             var ruleSet = new RuleSet(
                 arithmetricOperators,
                 arithmetricFunctions,
                 arithmetricStringFunctions,
                 stringFunctions: null,
                 stringOperators: null,
-                variableList);
+                variableList,
+                constantsDictionary);
 
             return ruleSet;
         }

@@ -11,14 +11,17 @@ namespace CalculationAlgorithm
                        IDictionary<string, Func<IList<string>, string>> arithmetricStringFunctions = null,
                        IDictionary<string, Func<IList<string>, string>> stringFunctions = null,
                        IDictionary<string, Tuple<int, Func<string, string, string>>> stringOperators = null,
-                       IList<string> variableList = null )
+                       IList<string> variableList = null,
+                       IDictionary<string, double> constantsDictionary = null)
         {
             ArithmetricOperators = arithmetricOperators;
             ArithmetricFunctions = arithmetricFunctions;
             ArithmetricStringFunctions = arithmetricStringFunctions;
             StringFunctions = stringFunctions;
             StringOperators = stringOperators;
-            VariableList = variableList;
+            VariableList = ((variableList != null) && (constantsDictionary != null)) ?
+                variableList.Concat(constantsDictionary.Keys).ToList() : variableList.ToList() ?? constantsDictionary.Keys.ToList();
+            ConstantsDictionary = constantsDictionary;
         }
         public IDictionary<string, Tuple<int, Func<double, double, double>>> ArithmetricOperators { get; set; }
         public IDictionary<string, Func<IList<double>, double>> ArithmetricFunctions { get; set; }
@@ -26,6 +29,7 @@ namespace CalculationAlgorithm
         public IDictionary<string, Func<IList<string>, string>> StringFunctions { get; set; }
         public IDictionary<string, Tuple<int, Func<string, string, string>>> StringOperators { get; set; }
         public IList<string> VariableList { get; }
+        public IDictionary<string, double> ConstantsDictionary { get; }
 
         public IList<string> GetOperatorList()
         {

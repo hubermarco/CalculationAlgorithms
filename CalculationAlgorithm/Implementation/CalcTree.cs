@@ -97,7 +97,7 @@ namespace CalculationAlgorithm
                 }
             }
 
-            return new CalcTreeResult(calcTreeElementRoot, variableDict);
+            return new CalcTreeResult(calcTreeElementRoot, variableDict, _ruleSet.ConstantsDictionary);
         }
     }
 }
