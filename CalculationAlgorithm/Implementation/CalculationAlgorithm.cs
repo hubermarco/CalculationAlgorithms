@@ -62,8 +62,8 @@ namespace CalculationAlgorithm
                 for (var i = 1; i < variableValuesList.Count; i++)
                 {
                     if (variableValuesList[0].Length != variableValuesList[i].Length)
-                        throw new ArgumentException($"The number of values of {variableNameList[0]} has " +
-                            $"{variableValuesList[0].Length} values but {variableNameList[i]} has {variableValuesList[i].Length} values.");
+                        throw new ArgumentException($"The number of values of {variableNameList[0]} is" +
+                            $"{variableValuesList[0].Length} but {variableNameList[i]} has {variableValuesList[i].Length} values.");
                 }
                 
                 for (var i = 0; i < variableValuesList[0].Length; i++)
