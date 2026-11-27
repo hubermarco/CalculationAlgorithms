@@ -37,28 +37,33 @@ namespace CalculationAlgorithmWrapper
                 { "*", new Tuple<int, Func<double, double, double>>(1, (x, y) => x * y) },
                 { "/", new Tuple<int, Func<double, double, double>>(1, (x, y) => x / y) },
                 { "^", new Tuple<int, Func<double, double, double>>(2, (x, y) => Math.Pow(x,y)) },
-                { "->", new Tuple<int, Func<double, double, double>>(0, (x, y) => (x==0) || (y==1) ? 1 : 0) },
-                { "&", new Tuple<int, Func<double, double, double>>(0, (x, y) => (x==1) && (y==1) ? 1 : 0) }
+                { "->", new Tuple<int, Func<double, double, double>>(0, (x, y) => x == 0 || y >= 1 ? 1 : 0) },
+                { "&", new Tuple<int, Func<double, double, double>>(0, (x, y) => x >= 1 &&  y >=1 ? 1 : 0) },
+                { ">", new Tuple<int, Func<double, double, double>>(0, (x, y) => x > y ? 1 : 0) },
+                { ">=", new Tuple<int, Func<double, double, double>>(0, (x, y) => x >= y ? 1 : 0) },
+                { "<", new Tuple<int, Func<double, double, double>>(0, (x, y) => x < y ? 1 : 0) },
+                { "<=", new Tuple<int, Func<double, double, double>>(0, (x, y) => x <= y ? 1 : 0) },
+                { "==", new Tuple<int, Func<double, double, double>>(0, (x, y) => x == y ? 1 : 0) }
             };
 
             var arithmetricFunctions = new Dictionary<string, Func<IList<double>, double>>
             {
-                { "Reg2Val_fix", inputList => (inputList.Count == 3) ? Formula.BitsToLinear((uint)inputList[0], $"fix<{inputList[1]},{inputList[2]}>") : 0 },
-                { "Val2Reg_fix", inputList => (inputList.Count == 3) ? Formula.LinearToBits(inputList[0], $"fix<{inputList[1]},{inputList[2]}>") : 0 },
-                { "Reg2Val_ufix", inputList => (inputList.Count == 3) ? Formula.BitsToLinear((uint)inputList[0], $"ufix<{inputList[1]},{inputList[2]}>") : 0 },
-                { "Val2Reg_ufix", inputList => (inputList.Count == 3) ? Formula.LinearToBits(inputList[0], $"ufix<{inputList[1]},{inputList[2]}>") : 0 },
-                { "Reg2Val_wfloat", inputList => (inputList.Count == 3) ? Formula.BitsToLinear((uint)inputList[0], $"wfloat<{inputList[1]},{inputList[2]}>") : 0 },
-                { "Val2Reg_wfloat", inputList => (inputList.Count == 3) ? Formula.LinearToBits(inputList[0], $"wfloat<{inputList[1]},{inputList[2]}>") : 0 },
-                { "Reg2Val_rfloat", inputList => (inputList.Count == 3) ?
+                { "Reg2Val_fix", inputList => inputList.Count == 3 ? Formula.BitsToLinear((uint)inputList[0], $"fix<{inputList[1]},{inputList[2]}>") : 0 },
+                { "Val2Reg_fix", inputList => inputList.Count == 3 ? Formula.LinearToBits(inputList[0], $"fix<{inputList[1]},{inputList[2]}>") : 0 },
+                { "Reg2Val_ufix", inputList => inputList.Count == 3 ? Formula.BitsToLinear((uint)inputList[0], $"ufix<{inputList[1]},{inputList[2]}>") : 0 },
+                { "Val2Reg_ufix", inputList => inputList.Count == 3 ? Formula.LinearToBits(inputList[0], $"ufix<{inputList[1]},{inputList[2]}>") : 0 },
+                { "Reg2Val_wfloat", inputList => inputList.Count == 3 ? Formula.BitsToLinear((uint)inputList[0], $"wfloat<{inputList[1]},{inputList[2]}>") : 0 },
+                { "Val2Reg_wfloat", inputList => inputList.Count == 3 ? Formula.LinearToBits(inputList[0], $"wfloat<{inputList[1]},{inputList[2]}>") : 0 },
+                { "Reg2Val_rfloat", inputList => inputList.Count == 3 ?
                     Formula.BitsToLinear((uint)inputList[0], $"rfloat<{inputList[1]},{inputList[2]}>") :
-                    (inputList.Count == 4 ) ?
+                    inputList.Count == 4  ?
                     Formula.BitsToLinear((uint)inputList[0], $"rfloat<{inputList[1]},{inputList[2]},{inputList[3]}>") : 0 },
-                { "Val2Reg_rfloat", inputList => (inputList.Count == 3) ?
+                { "Val2Reg_rfloat", inputList => inputList.Count == 3 ?
                     Formula.LinearToBits(inputList[0], $"rfloat<{inputList[1]},{inputList[2]}>") :
-                    (inputList.Count == 4 ) ?
+                    inputList.Count == 4  ?
                     Formula.LinearToBits(inputList[0], $"rfloat<{inputList[1]},{inputList[2]},{inputList[3]}>") : 0 },
-                { "Reg2Val_float", inputList => (inputList.Count == 3) ? Formula.BitsToLinear((uint)inputList[0], $"float<{inputList[1]},{inputList[2]}>") : 0 },
-                { "Val2Reg_float", inputList => (inputList.Count == 3) ? Formula.LinearToBits(inputList[0], $"float<{inputList[1]},{inputList[2]}>") : 0 },
+                { "Reg2Val_float", inputList => inputList.Count == 3 ? Formula.BitsToLinear((uint)inputList[0], $"float<{inputList[1]},{inputList[2]}>") : 0 },
+                { "Val2Reg_float", inputList => inputList.Count == 3 ? Formula.LinearToBits(inputList[0], $"float<{inputList[1]},{inputList[2]}>") : 0 },
                 { "Fix2Double", ArithmetricFunctions.Fix2Double },
                 { "Double2Fix", ArithmetricFunctions.Double2Fix },
                 { "Double2Bin", ArithmetricFunctions.Double2Bin },
@@ -77,9 +82,10 @@ namespace CalculationAlgorithmWrapper
                 { "cosh", inputList => Math.Cosh(inputList[0]) },
                 { "tanh", inputList => Math.Tanh(inputList[0]) },
                 { "abs", inputList => Math.Abs(inputList[0]) },
-                { "round", inputList => (inputList.Count == 2) ? Math.Round(inputList[0], (int)inputList[1]) : Math.Round(inputList[0]) },
+                { "round", inputList => inputList.Count == 2 ? Math.Round(inputList[0], (int)inputList[1]) : Math.Round(inputList[0]) },
                 { "log", inputList => Math.Log10(inputList[0]) },
-                { "exp", inputList => Math.Exp(inputList[0]) }
+                { "exp", inputList => Math.Exp(inputList[0]) },
+                { "sign", inputList => Math.Sign(inputList[0]) }
             };
 
             var arithmetricStringFunctions = new Dictionary<string, Func<IList<string>, string>>
@@ -93,7 +99,7 @@ namespace CalculationAlgorithmWrapper
                  { "solve", EquationSolver.Solve }
             };
 
-            var variableList = new List<string> { "u", "v", "w", "x", "y", "z" };
+            var variableList = new List<string> { "t", "u", "v", "w", "x", "y", "z" };
 
             var constantsDictionary = new Dictionary<string, double>
             {
